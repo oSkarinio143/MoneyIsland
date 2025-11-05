@@ -1,0 +1,54 @@
+//package pl.oskarinio.moneyisland.auth.app.technology.db;
+//
+//import lombok.extern.slf4j.Slf4j;
+//import org.springframework.security.crypto.password.PasswordEncoder;
+//import pl.oskarinio.moneyisland.auth.domain.model.user.Role;
+//import pl.oskarinio.moneyisland.auth.domain.model.user.User;
+//import pl.oskarinio.moneyisland.auth.domain.port.out.UserRepository;
+//
+//import java.time.Clock;
+//import java.time.Instant;
+//
+//@Slf4j
+//public class MySQLAdminInitializer implements ProfileInitializer {
+//
+//    private final UserRepository userRepository;
+//    private final PasswordEncoder passwordEncoder;
+//    private final Clock clock;
+//    private final String adminUsername;
+//    private final String adminPassword;
+//
+//    public MySQLAdminInitializer(UserRepository userRepository,
+//                                 PasswordEncoder passwordEncoder,
+//                                 Clock clock,
+//                                 String adminUsername,
+//                                 String adminPassword) {
+//        this.userRepository = userRepository;
+//        this.passwordEncoder = passwordEncoder;
+//        this.clock = clock;
+//        this.adminUsername = adminUsername;
+//        this.adminPassword = adminPassword;
+//    }
+//
+//    @Override
+//    public void initializeProfile() {
+//        log.info("Inicjalizuję profil MySQL...");
+//        if (adminUsername == null || adminUsername.isBlank() || adminPassword == null || adminPassword.isBlank()) {
+//            log.warn("Brak danych administratora – pomijam inicjalizację.");
+//            return;
+//        }
+//        if (userRepository.findByUsername(adminUsername).isEmpty()) {
+//            log.info("Tworzę konto administratora. Nazwa = {}", adminUsername);
+//            User adminUser = new User();
+//            adminUser.setUsername(adminUsername);
+//            adminUser.setPassword(passwordEncoder.encode(adminPassword));
+//            adminUser.setRegistrationDate(Instant.now(clock));
+//            adminUser.addRole(Role.ROLE_USER);
+//            adminUser.addRole(Role.ROLE_ADMIN);
+//            userRepository.save(adminUser);
+//            log.info("Konto administratora utworzone. Nazwa = {}", adminUsername);
+//        } else {
+//            log.debug("Konto administratora już istnieje. Nazwa = {}", adminUsername);
+//        }
+//    }
+//}
