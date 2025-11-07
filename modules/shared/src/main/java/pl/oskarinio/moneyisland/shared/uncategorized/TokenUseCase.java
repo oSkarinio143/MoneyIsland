@@ -1,0 +1,67 @@
+package pl.oskarinio.moneyisland.shared.uncategorized;
+
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+
+import javax.crypto.SecretKey;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Base64;
+import java.util.Date;
+
+public class TokenUseCase {
+    private final SecretKey secretKey;
+    private final Clock clock;
+
+    public TokenUseCase(String secretKeyString, Clock clock){
+        this.secretKey = Keys.hmacShaKeyFor(Base64.getDecoder().decode(secretKeyString));
+        this.clock = clock;
+    }
+
+    public String generateToken(UserServiceData loginServiceData, long seconds) {
+        Instant now = Instant.now(clock);
+        Date issuedAt = Date.from(now);
+        Date expiration = Date.from(now.plus(seconds, ChronoUnit.SECONDS));
+        return Jwts.builder()
+                .setSubject(loginServiceData.getUsername())
+                .claim("roles", loginServiceData.getRoles())
+                .setIssuedAt(issuedAt)
+                .setExpiration(expiration)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String extractUsername(String token) {
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
+
+    public boolean isTokenExpiredSafe(String token){
+        boolean isTokenExpired = true;
+        try{
+            isTokenExpired = isTokenExpired(token);
+        }catch (ExpiredJwtException | IllegalArgumentException ignored){}
+        return isTokenExpired;
+    }
+
+    private boolean isTokenExpired(String token) {
+        Instant now = Instant.now(clock);
+        Date expirationDate = Date.from(now);
+        Date expiration = Jwts.parser()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getExpiration();
+        return expiration.before(expirationDate);
+    }
+}
+
