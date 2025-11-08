@@ -5,6 +5,10 @@
     <file url="file://$PROJECT_DIR$/modules/auth/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/modules/gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/modules/gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/refresh/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/refresh/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/refresh2/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/refresh2/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/modules/shared/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/modules/shared/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/modules/src/main/java" charset="UTF-8" />

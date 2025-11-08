@@ -15,7 +15,7 @@
         <module>modules/auth</module>
         <module>modules/gateway</module>
         <module>modules/shared</module>
-        <module>refresh</module>
+        <module>modules/refresh</module>
     </modules>
 
     <properties>

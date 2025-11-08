@@ -7,9 +7,12 @@
         <groupId>pl.oskarinio.moneyisland</groupId>
         <artifactId>moneyisland-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>refresh</artifactId>
+    <name>refresh</name>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
