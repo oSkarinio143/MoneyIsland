@@ -11,9 +11,29 @@ public class GatewayRoutes {
     @Bean
     public RouteLocator authRoutes(RouteLocatorBuilder builder){
         return builder.routes()
-                .route("main", r -> r
-                        .path("/login/**", "/user/**", "/battle/**")
-                        .filters(f -> f.stripPrefix(1))
-                        .uri("http://localhost:8081")).build();
+                .route("auth", r -> r
+                        .path("/oskarinio143/MoneyIsland/login/**",
+                                "/oskarinio143/MoneyIsland/register/**",
+                                "/oskarinio143/MoneyIsland/logout/**")
+                        .filters(f -> f.stripPrefix(0))
+                        .uri("http://localhost:8082"))
+
+                .route("finance", r -> r
+                        .path("/oskarinio143/MoneyIsland")
+                        .filters(f -> f.stripPrefix(0))
+                        .uri("http://localhost:8083"))
+                .build();
+
     }
+
+    @Bean
+    public RouteLocator financeRoutes(RouteLocatorBuilder builder){
+        return builder.routes()
+                .route("finance", r -> r
+                        .path("/oskarinio143/MoneyIsland")
+                        .filters(f -> f.stripPrefix(0))
+                        .uri("http://localhost:8083")).build();
+    }
+
+
 }

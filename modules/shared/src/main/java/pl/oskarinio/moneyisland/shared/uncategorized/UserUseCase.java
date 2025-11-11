@@ -1,7 +1,7 @@
 package pl.oskarinio.moneyisland.shared.uncategorized;
 
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -42,8 +42,9 @@ public class UserUseCase {
     }
 
     public User getUserByUsernameOrThrow(String username){
-        return userRepository.findByUsername(username)
-                .orElseThrow(() ->new UsernameNotFoundException(username));
+//        return userRepository.findByUsername(username)
+//                .orElseThrow(() ->new UsernameNotFoundException(username));
+        return new User();
     }
 
     public void deleteToken(String username){

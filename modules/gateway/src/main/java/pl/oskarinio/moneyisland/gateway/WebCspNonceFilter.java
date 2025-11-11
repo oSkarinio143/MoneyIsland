@@ -1,6 +1,6 @@
 package pl.oskarinio.moneyisland.gateway;
 
-import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
@@ -25,15 +25,26 @@ public class WebCspNonceFilter implements WebFilter {
 
         exchange.getAttributes().put(CSP_NONCE_ATTRIBUTE, nonce);
 
-        return chain.filter(exchange)
-                .doOnSuccess(aVoid -> {
-                    ServerHttpResponse response = exchange.getResponse();
-                    String cspHeader = response.getHeaders().getFirst("Content-Security-Policy");
+        ServerWebExchange modifiedExchange = exchange.mutate()
+                .request(builder -> builder.header("X-CSP-Nonce", nonce))
+                .build();
 
-                    if(cspHeader != null){
-                        final String finalCsp = cspHeader.replace("{nonce}", nonce);
-                        response.getHeaders().set("Content-Security-Policy",finalCsp);
-                    }
-                });
+        // Rejestrujemy akcję, która wykona się tuż przed wysłaniem odpowiedzi
+        exchange.getResponse().beforeCommit(() -> {
+            // W tym momencie inne filtry już mogły dodać nagłówek CSP z placeholderem
+            HttpHeaders headers = exchange.getResponse().getHeaders();
+            String cspHeader = headers.getFirst("Content-Security-Policy");
+
+            if (cspHeader != null && cspHeader.contains("{nonce}")) {
+                final String finalCsp = cspHeader.replace("{nonce}", nonce);
+                // Ta modyfikacja jest teraz bezpieczna!
+                headers.set("Content-Security-Policy", finalCsp);
+            }
+
+            // beforeCommit musi zwrócić Mono<Void>
+            return Mono.empty();
+        });
+        // Przekazujemy żądanie dalej w łańcuchu
+        return chain.filter(modifiedExchange);
     }
 }

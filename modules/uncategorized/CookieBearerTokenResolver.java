@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class CookieBearerTokenResolver implements BearerTokenResolver {
 
-    private final String COOKIE_ACCESS_TOKEN = "accessToken";
+    private static final String COOKIE_ACCESS_TOKEN = "accessToken";
     private static final List<String> PUBLIC_PATHS = List.of(
             Route.MAIN + Route.REGISTER,
             Route.MAIN + Route.LOGIN);

@@ -21,7 +21,7 @@ import java.util.Base64;
 
 @Configuration
 @EnableWebFluxSecurity
-public class NewSecurityConfig {
+public class WebSecurityConfig {
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http,
@@ -29,23 +29,27 @@ public class NewSecurityConfig {
                                                          ReactiveCookieAuthenticationConverter reactiveCookieAuthenticationConverter,
                                                          ReactiveAuthenticationEntryPoint reactiveAuthenticationEntryPoint,
                                                          ReactiveAccessDeniedHandler reactiveAccessDeniedHandler,
-                                                         WebCspNonceFilter webCspNonceFilter
-                                                         ) throws Exception {
+                                                         WebCspNonceFilter webCspNonceFilter,
+                                                         WebExpiredTokenFilter webExpiredTokenFilter
+                                                         ){
         http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/favicon.ico").permitAll()
                         .pathMatchers(Route.MAIN + Route.LOGIN,
-                                Route.MAIN + Route.REGISTER).permitAll()
+                                Route.MAIN + Route.REGISTER,
+                                Route.MAIN).permitAll()
                         .pathMatchers(Route.MAIN + Route.USER + "/**").hasRole("USER")
                         .pathMatchers(Route.MAIN + Route.ADMIN + "/**").hasRole("ADMIN")
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtDecoder(reactiveJwtDecoder))
+                        .bearerTokenConverter(reactiveCookieAuthenticationConverter)
                         .accessDeniedHandler(reactiveAccessDeniedHandler)
                         .authenticationEntryPoint(reactiveAuthenticationEntryPoint)
                 )
+                .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                 .headers(headers -> headers
                         .contentSecurityPolicy(csp -> csp
                                 .policyDirectives("default-src 'self'; " +
@@ -58,7 +62,14 @@ public class NewSecurityConfig {
                                         "object-src 'none';")
                         )
                         .contentTypeOptions(Customizer.withDefaults())
+                        .frameOptions(ServerHttpSecurity.HeaderSpec.FrameOptionsSpec::disable)
+                        .hsts(hstsSpec -> hstsSpec
+                                .maxAge(java.time.Duration.ofDays(365))
+                                .includeSubdomains(true)
+                                .preload(true)
+                        )
                 )
+                .addFilterBefore(webExpiredTokenFilter, SecurityWebFiltersOrder.FIRST)
                 .addFilterBefore(webCspNonceFilter, SecurityWebFiltersOrder.HTTP_HEADERS_WRITER);
         return http.build();
     }
@@ -77,6 +88,7 @@ public class NewSecurityConfig {
         };
     }
 
+    //To chyba do zmiany
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter(){
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();

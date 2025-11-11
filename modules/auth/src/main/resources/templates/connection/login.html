@@ -272,7 +272,7 @@
 
     <div class="login-block">
         <h2>Logowanie</h2>
-        <form>
+        <form th:action="@{/oskarinio143/MoneyIsland/login}" method="post">
             <div class="form-group">
                 <label for="username">Nazwa użytkownika</label>
                 <input type="text" id="username" placeholder="Wprowadź nazwę użytkownika" required>
@@ -282,10 +282,14 @@
                 <input type="password" id="password" placeholder="Wprowadź hasło" required>
             </div>
             <button type="submit" class="login-button">Zaloguj się</button>
+
+
             <div class="register-link">
-                Nie masz konta? <a href="#">Zarejestruj się</a>
+                Nie masz konta? <a th:href="@{/oskarinio143/MoneyIsland/register}">Zarejestruj się</a>
             </div>
         </form>
+
+
     </div>
 </div>
 </body>

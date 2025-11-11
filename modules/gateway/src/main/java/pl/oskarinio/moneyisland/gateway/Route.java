@@ -42,4 +42,5 @@ public class Route {
     public static final String GRANT = "/grant";
     public static final String ERROR = "/error";
     public static final String USERS_LIST = "users";
+    public static final String REFRESH ="/refresh";
 }

@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,13 +34,20 @@ public class UserController {
         this.cookieHelper = cookieHelper;
         this.mapper = mapper;
     }
-
     @GetMapping(Route.LOGIN)
     public String loginView(Model model,
-                            @RequestParam(name = "logout", required = false) String logoutType){
+                            @RequestParam(name = "logout", required = false) String logoutType,
+                            @RequestHeader(value = "X-CSP-Nonce", required = false) String nonce){
+
+//            if (nonce != null) {
+//                model.addAttribute("cspNonce", nonce);
+//            }
+
 
         log.info("Uzytkownik w formularzu logowania");
+        System.out.println("LoginGet");
         if(logoutType != null && logoutType.equals("auto")) {
+            System.out.println("W if");
             model.addAttribute("autoLogoutMessage", "Zostałeś automatycznie wylogowany z powodu braku aktywności");
         }
         return Route.PACKAGE_CONNECTION + Route.LOGIN;
@@ -54,19 +60,21 @@ public class UserController {
                         HttpServletResponse response) {
 
         log.info("Uzytkownik rozpoczyna logowanie");
-        if (bindingResult.hasErrors()){
-            log.warn("Logowanie nie udane, wprowadzono niepoprawne dane");
-            List<String> errorMessages = bindingResult.getAllErrors()
-                            .stream()
-                            .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                            .toList();
-            redirectAttributes.addFlashAttribute("errorMessage", userManagement.prepareErrorMessage(errorMessages));
-            return Route.REDIRECT + Route.LOGIN;
-        }
-        UserServiceData userServiceData = login.loginUser(mapper.toLoginForm(loginFormRequest));
-        cookieHelper.setCookieTokens(userServiceData, response);
-        redirectAttributes.addFlashAttribute("welcomeUserMessage","Udało się poprawnie zalogować użytkownika");
-        log.info("Uzytkownik zostal zalogowany");
+        System.out.println("LoginPost");
+//        if (bindingResult.hasErrors()){
+//            log.warn("Logowanie nie udane, wprowadzono niepoprawne dane");
+//            List<String> errorMessages = bindingResult.getAllErrors()
+//                            .stream()
+//                            .map(DefaultMessageSourceResolvable::getDefaultMessage)
+//                            .toList();
+//            redirectAttributes.addFlashAttribute("errorMessage", userManagement.prepareErrorMessage(errorMessages));
+//            return Route.REDIRECT + Route.LOGIN;
+//        }
+//        UserServiceData userServiceData = login.loginUser(mapper.toLoginForm(loginFormRequest));
+//        cookieHelper.setCookieTokens(userServiceData, response);
+//        redirectAttributes.addFlashAttribute("welcomeUserMessage","Udało się poprawnie zalogować użytkownika");
+//        log.info("Uzytkownik zostal zalogowany");
+        System.out.println(Route.REDIRECT);
         return Route.REDIRECT;
     }
 

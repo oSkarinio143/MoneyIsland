@@ -3,13 +3,13 @@ package pl.oskarinio.moneyisland.gateway;
 import org.springframework.http.HttpCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthenticationToken;
-import org.springframework.security.web.server.authentication.ServerAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.web.server.authentication.ServerBearerTokenAuthenticationConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Component
-public class ReactiveCookieAuthenticationConverter implements ServerAuthenticationConverter {
+public class ReactiveCookieAuthenticationConverter extends ServerBearerTokenAuthenticationConverter {
     private final String COOKIE_ACCESS_TOKEN = "accessToken";
 
     @Override
