@@ -1,0 +1,47 @@
+services:
+  gateway:
+    build:
+      context: ../modules/gateway
+      dockerfile: docker/Dockerfile
+    restart: unless-stopped
+    container_name: "gateway"
+    environment:
+      - JWT_SECRET_BASE64=${SECRET_KEY}
+    ports:
+      - "8080:8080"
+    networks:
+      - moneyisland-network
+
+  auth:
+    build:
+      context: ../modules/auth
+      dockerfile: docker/Dockerfile
+    restart: unless-stopped
+    container_name: "auth"
+    environment:
+      - JWT_SECRET_BASE64=${SECRET_KEY}
+    ports:
+      - "8082:8082"
+    networks:
+      - moneyisland-network
+
+  finance:
+    build:
+      context: ../modules/finance
+      dockerfile: docker/Dockerfile
+    restart: unless-stopped
+    container_name: "finance"
+    environment:
+      - JWT_SECRET_BASE64=${SECRET_KEY}
+    ports:
+      - "8083:8083"
+    networks:
+      - moneyisland-network
+
+networks:
+  moneyisland-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
