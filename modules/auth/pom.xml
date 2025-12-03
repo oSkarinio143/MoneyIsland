@@ -47,7 +47,7 @@
 	<repositories>
 		<repository>
 			<id>MoneyIsland-snapshots</id>
-			<url>http://host.docker.internal:8081/repository/MoneyIsland/</url>
+			<url>https://host.docker.internal:8444/repository/MoneyIsland/</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
