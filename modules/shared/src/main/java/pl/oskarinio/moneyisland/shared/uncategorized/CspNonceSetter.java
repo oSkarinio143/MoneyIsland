@@ -11,6 +11,7 @@ public class CspNonceSetter {
     public void addNonce(HttpServletRequest req, Model model) {
         System.out.println("setCsp");
         String nonce = req.getHeader("X-CSP-Nonce");
+        System.out.println("nonce " + nonce);
         if (nonce!=null) model.addAttribute("cspNonce", nonce);
     }
 }

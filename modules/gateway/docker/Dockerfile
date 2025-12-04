@@ -1,10 +1,23 @@
 FROM maven:3.9.9-eclipse-temurin-21 AS builder
-WORKDIR /build
-COPY pom.xml .
-COPY src ./src
-RUN mvn clean package -DskipTests
+WORKDIR /gateway
+
+COPY certs/nexus.cer nexus.cer
+RUN keytool -import -trustcacerts \
+    -keystore /opt/java/openjdk/lib/security/cacerts \
+    -storepass password \
+    -noprompt \
+    -alias my-local-nexus \
+    -file nexus.cer
+
+COPY /modules/gateway/pom.xml pom.xml
+COPY /modules/gateway/src src
+
+RUN mvn clean package -DskipTests \
+    -Dmaven.resolver.transport=wagon \
+    -Dmaven.wagon.http.ssl.insecure=true \
+    -Dmaven.wagon.http.ssl.allowall=true
 
 FROM eclipse-temurin:21-jre
-WORKDIR /app
-COPY --from=builder /build/modules/gateway/target/*.jar app.jar
-ENTRYPOINT ["java","-jar","app.jar"]
+WORKDIR /gateway
+COPY --from=builder /gateway/target/*.jar gateway.jar
+ENTRYPOINT ["java","-jar","gateway.jar"]
