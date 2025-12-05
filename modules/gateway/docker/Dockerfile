@@ -9,8 +9,8 @@ RUN keytool -import -trustcacerts \
     -alias my-local-nexus \
     -file nexus.cer
 
-COPY /modules/gateway/pom.xml pom.xml
-COPY /modules/gateway/src src
+COPY /modules/gateway/pom.xml .
+COPY /modules/gateway/src ./src
 
 RUN mvn clean package -DskipTests \
     -Dmaven.resolver.transport=wagon \
