@@ -1,7 +1,7 @@
-package pl.oskarinio.moneyisland.shared.uncategorized;
+package pl.oskarinio.moneyisland.auth.user;
 
 
-
+import pl.oskarinio.moneyisland.shared.uncategorized.User;
 
 import java.time.Instant;
 import java.util.List;

@@ -1,9 +1,10 @@
-package pl.oskarinio.moneyisland.auth;
+package pl.oskarinio.moneyisland.auth.admin;
 
 
+import pl.oskarinio.moneyisland.auth.UsernameNotFoundException;
+import pl.oskarinio.moneyisland.auth.user.UserRepository;
 import pl.oskarinio.moneyisland.shared.uncategorized.Role;
 import pl.oskarinio.moneyisland.shared.uncategorized.User;
-import pl.oskarinio.moneyisland.shared.uncategorized.UserRepository;
 
 import java.util.Arrays;
 import java.util.List;

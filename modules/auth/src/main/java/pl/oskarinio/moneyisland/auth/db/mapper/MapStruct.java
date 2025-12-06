@@ -1,18 +1,15 @@
-package pl.oskarinio.yourturnhomm.infrastructure.db.mapper;
+package pl.oskarinio.moneyisland.auth.db.mapper;
 
 import org.mapstruct.Mapper;
-import pl.oskarinio.yourturnhomm.domain.model.form.DuelForm;
-import pl.oskarinio.yourturnhomm.domain.model.form.LoginForm;
-import pl.oskarinio.yourturnhomm.domain.model.form.RegisterForm;
-import pl.oskarinio.yourturnhomm.infrastructure.adapter.in.model.DuelFormRequest;
-import pl.oskarinio.yourturnhomm.infrastructure.adapter.in.model.LoginFormRequest;
-import pl.oskarinio.yourturnhomm.infrastructure.adapter.in.model.RegisterFormRequest;
+import pl.oskarinio.moneyisland.auth.auth.LoginForm;
+import pl.oskarinio.moneyisland.auth.auth.LoginFormRequest;
+import pl.oskarinio.moneyisland.auth.auth.RegisterForm;
+import pl.oskarinio.moneyisland.auth.auth.RegisterFormRequest;
 
 @Mapper(componentModel = "spring")
 public interface MapStruct {
 
     LoginForm toLoginForm(LoginFormRequest loginFormRequest);
     RegisterForm toRegisterForm(RegisterFormRequest registerFormRequest);
-    DuelForm toDuelForm(DuelFormRequest duelFormRequest);
 
 }

@@ -1,11 +1,11 @@
-package pl.oskarinio.yourturnhomm.infrastructure.db.entity;
+package pl.oskarinio.moneyisland.auth.db.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import pl.oskarinio.yourturnhomm.domain.model.user.Role;
+import pl.oskarinio.moneyisland.shared.uncategorized.Role;
 
 import java.time.Instant;
 import java.util.HashSet;

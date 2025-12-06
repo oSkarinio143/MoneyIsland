@@ -1,7 +1,12 @@
-package pl.oskarinio.moneyisland.shared.uncategorized;
+package pl.oskarinio.moneyisland.auth.user;
 
 
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import pl.oskarinio.moneyisland.shared.uncategorized.RefreshToken;
+import pl.oskarinio.moneyisland.shared.uncategorized.Token;
+import pl.oskarinio.moneyisland.shared.uncategorized.User;
+import pl.oskarinio.moneyisland.shared.uncategorized.UserServiceData;
 
 import java.time.Clock;
 import java.time.Instant;

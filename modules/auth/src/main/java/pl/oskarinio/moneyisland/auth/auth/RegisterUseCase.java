@@ -1,6 +1,9 @@
-package pl.oskarinio.moneyisland.auth;
+package pl.oskarinio.moneyisland.auth.auth;
 
 
+import pl.oskarinio.moneyisland.auth.PasswordEncoderPort;
+import pl.oskarinio.moneyisland.auth.user.UserManagement;
+import pl.oskarinio.moneyisland.auth.user.UserRepository;
 import pl.oskarinio.moneyisland.shared.uncategorized.*;
 
 import java.time.Clock;

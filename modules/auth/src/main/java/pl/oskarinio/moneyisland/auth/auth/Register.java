@@ -1,4 +1,4 @@
-package pl.oskarinio.moneyisland.auth;
+package pl.oskarinio.moneyisland.auth.auth;
 
 import pl.oskarinio.moneyisland.shared.uncategorized.UserServiceData;
 

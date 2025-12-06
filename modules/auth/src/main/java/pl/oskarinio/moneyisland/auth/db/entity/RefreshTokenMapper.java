@@ -1,6 +1,7 @@
-package pl.oskarinio.moneyisland.shared.uncategorized;
+package pl.oskarinio.moneyisland.auth.db.entity;
 
 
+import pl.oskarinio.moneyisland.shared.uncategorized.RefreshToken;
 
 class RefreshTokenMapper {
     private RefreshTokenMapper(){}

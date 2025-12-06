@@ -1,4 +1,4 @@
-package pl.oskarinio.moneyisland.auth;
+package pl.oskarinio.moneyisland.auth.user;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,7 +16,6 @@ import pl.oskarinio.moneyisland.auth.auth.RegisterFormRequest;
 import pl.oskarinio.moneyisland.auth.db.mapper.MapStruct;
 import pl.oskarinio.moneyisland.shared.uncategorized.CookieHelper;
 import pl.oskarinio.moneyisland.shared.uncategorized.Route;
-import pl.oskarinio.moneyisland.shared.uncategorized.UserManagement;
 import pl.oskarinio.moneyisland.shared.uncategorized.UserServiceData;
 
 import java.util.List;

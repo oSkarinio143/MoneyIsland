@@ -1,7 +1,8 @@
-package pl.oskarinio.moneyisland.shared.uncategorized;
+package pl.oskarinio.moneyisland.auth.auth;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import pl.oskarinio.moneyisland.auth.RefreshTokenRepositoryUseCase;
 
 import java.time.Instant;
 

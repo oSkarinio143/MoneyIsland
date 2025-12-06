@@ -1,4 +1,4 @@
-package pl.oskarinio.moneyisland.shared.uncategorized;
+package pl.oskarinio.moneyisland.auth.auth;
 
 import java.time.Instant;
 

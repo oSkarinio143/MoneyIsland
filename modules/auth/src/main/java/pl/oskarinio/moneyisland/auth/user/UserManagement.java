@@ -1,7 +1,9 @@
-package pl.oskarinio.moneyisland.shared.uncategorized;
+package pl.oskarinio.moneyisland.auth.user;
 
 
-
+import pl.oskarinio.moneyisland.shared.uncategorized.RefreshToken;
+import pl.oskarinio.moneyisland.shared.uncategorized.User;
+import pl.oskarinio.moneyisland.shared.uncategorized.UserServiceData;
 
 import java.util.List;
 

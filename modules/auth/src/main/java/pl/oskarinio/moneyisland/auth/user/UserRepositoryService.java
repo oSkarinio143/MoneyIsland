@@ -1,8 +1,11 @@
-package pl.oskarinio.moneyisland.shared.uncategorized;
+package pl.oskarinio.moneyisland.auth.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.oskarinio.moneyisland.auth.db.entity.UserEntity;
+import pl.oskarinio.moneyisland.auth.db.mapper.UserMapper;
+import pl.oskarinio.moneyisland.shared.uncategorized.User;
 
 import java.time.Instant;
 import java.util.List;

@@ -1,7 +1,8 @@
-package pl.oskarinio.yourturnhomm.infrastructure.db.mapper;
+package pl.oskarinio.moneyisland.auth.db.mapper;
 
-import pl.oskarinio.yourturnhomm.domain.model.user.RefreshToken;
-import pl.oskarinio.yourturnhomm.infrastructure.db.entity.RefreshTokenEntity;
+
+import pl.oskarinio.moneyisland.auth.db.entity.RefreshTokenEntity;
+import pl.oskarinio.moneyisland.shared.uncategorized.RefreshToken;
 
 class RefreshTokenMapper {
     private RefreshTokenMapper(){}

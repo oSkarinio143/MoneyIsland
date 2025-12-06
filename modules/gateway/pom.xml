@@ -4,18 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
             http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-<!--    <parent>-->
-<!--        <groupId>pl.oskarinio.moneyisland</groupId>-->
-<!--        <artifactId>moneyisland-parent</artifactId>-->
-<!--        <version>0.0.1-SNAPSHOT</version>-->
-<!--        <relativePath>../../pom.xml</relativePath>-->
-<!--    </parent>-->
+
+    <parent>
+        <groupId>pl.oskarinio.moneyisland</groupId>
+        <artifactId>moneyisland-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
 
     <artifactId>gateway</artifactId>
     <name>gateway</name>
     <packaging>jar</packaging>
-    <groupId>pl.oskarinio.moneyisland</groupId>
-    <version>0.0.1-SNAPSHOT</version>
 
     <properties>
         <java.version>21</java.version>

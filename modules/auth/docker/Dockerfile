@@ -1,5 +1,5 @@
 FROM maven:3.9.9-eclipse-temurin-21 AS builder
-WORKDIR /auth
+WORKDIR /app
 
 COPY certs/nexus.cer nexus.cer
 RUN keytool -import -trustcacerts \
@@ -9,15 +9,28 @@ RUN keytool -import -trustcacerts \
     -alias my-local-nexus \
     -file nexus.cer
 
-COPY /modules/auth/pom.xml pom.xml
-COPY /modules/auth/src src
+COPY pom.xml .
 
-RUN mvn clean package -DskipTests \
+RUN mvn -N install \
+    -Dmaven.resolver.transport=wagon \
+    -Dmaven.wagon.http.ssl.insecure=true \
+    -Dmaven.wagon.http.ssl.allowall=true
+
+COPY /modules/auth/pom.xml ./modules/auth/pom.xml
+
+RUN mvn -f modules/auth/pom.xml dependency:resolve-plugins \
+    -Dmaven.resolver.transport=wagon \
+    -Dmaven.wagon.http.ssl.insecure=true \
+    -Dmaven.wagon.http.ssl.allowall=true
+
+COPY /modules/auth/src ./modules/auth/src
+
+RUN mvn -f modules/auth/pom.xml clean package -DskipTests \
     -Dmaven.resolver.transport=wagon \
     -Dmaven.wagon.http.ssl.insecure=true \
     -Dmaven.wagon.http.ssl.allowall=true
 
 FROM eclipse-temurin:21-jre
-WORKDIR /auth
-COPY --from=builder /auth/target/*.jar auth.jar
+WORKDIR /app
+COPY --from=builder /app/modules/auth/target/*.jar auth.jar
 ENTRYPOINT ["java","-jar","auth.jar"]

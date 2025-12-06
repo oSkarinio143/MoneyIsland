@@ -1,7 +1,8 @@
-package pl.oskarinio.yourturnhomm.infrastructure.db.mapper;
+package pl.oskarinio.moneyisland.auth.db.mapper;
 
-import pl.oskarinio.yourturnhomm.domain.model.user.User;
-import pl.oskarinio.yourturnhomm.infrastructure.db.entity.UserEntity;
+
+import pl.oskarinio.moneyisland.auth.db.entity.UserEntity;
+import pl.oskarinio.moneyisland.shared.uncategorized.User;
 
 public class UserMapper {
     private UserMapper(){}

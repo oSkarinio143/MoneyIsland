@@ -1,9 +1,9 @@
-package pl.oskarinio.moneyisland.auth;
+package pl.oskarinio.moneyisland.auth.admin;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import pl.oskarinio.moneyisland.shared.uncategorized.UserRepository;
+import pl.oskarinio.moneyisland.auth.user.UserRepository;
 import pl.oskarinio.moneyisland.shared.uncategorized.User;
 
 import java.util.List;
