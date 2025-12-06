@@ -1,4 +1,4 @@
-package pl.oskarinio.moneyisland.shared.uncategorized;
+package pl.oskarinio.moneyisland.auth.db.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
