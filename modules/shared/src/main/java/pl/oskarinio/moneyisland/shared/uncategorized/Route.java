@@ -21,7 +21,7 @@ public class Route {
     public static final String VIEW_MODE = "mode";
 
 
-    public static final String REDIRECT = "redirect:/oskarinio143/MoneyIsland";
+    public static final String REDIRECT = "redirect:http://localhost:8080/oskarinio143/MoneyIsland";
     public static final String MAIN = "/oskarinio143/MoneyIsland";
     public static final String FAVICON = "/favicon.ico";
     public static final String USER = "/user";

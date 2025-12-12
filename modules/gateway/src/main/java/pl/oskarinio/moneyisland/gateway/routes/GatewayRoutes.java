@@ -17,6 +17,7 @@ public class GatewayRoutes {
 
     @Bean
     public RouteLocator authRoutes(RouteLocatorBuilder builder){
+        System.out.println("przekierowanie panie");
         return builder.routes()
                 .route("auth", r -> r
                         .path("/oskarinio143/MoneyIsland/login/**",

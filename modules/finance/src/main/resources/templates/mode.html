@@ -171,33 +171,58 @@
             border: 60px solid #000000;
             border-radius: 50%;
         }
+        .nav-block-logout {
+            background-color: #dc3545 !important;
+        }
+
+        .logout-button {
+            width: 100%;
+            height: 100%;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: inherit;
+            font-family: inherit;
+        }
+
+        .logout-button:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
     <div class="page-wrapper">
-        <div class="sidebar">
-            <div class="nav-blocks-container">
-                <div class="nav-block">
-                    <div class="block-number">01</div>
-                    <div class="block-text">Hello</div>
-                </div>
-                <div class="nav-block">
-                    <div class="block-number">02</div>
-                    <div class="block-text">Finances</div>
-                </div>
-                <div class="nav-block">
-                    <div class="block-number">03</div>
-                    <div class="block-text">Invest</div>
-                </div>
-                <div class="nav-block">
-                    <div class="block-number">04</div>
-                    <div class="block-text">Stock</div>
-                </div>
-                <div class="nav-block">
-                    <div class="block-number">05</div>
-                    <div class="block-text">Content</div>
-                </div>
+        <div class="sidebar"><div class="nav-blocks-container">
+            <div class="nav-block">
+                <div class="block-number">01</div>
+                <div class="block-text">Hello</div>
             </div>
+            <div class="nav-block">
+                <div class="block-number">02</div>
+                <div class="block-text">Finances</div>
+            </div>
+            <div class="nav-block">
+                <div class="block-number">03</div>
+                <div class="block-text">Invest</div>
+            </div>
+            <div class="nav-block">
+                <div class="block-number">04</div>
+                <div class="block-text">Stock</div>
+            </div>
+            <div class="nav-block nav-block-logout">
+                <form method="POST" action="/oskarinio143/MoneyIsland/logout" style="width: 100%; height: 100%;">
+                    <button type="submit" class="logout-button">
+                        <div class="block-number">05</div>
+                        <div class="block-text">Wyloguj</div>
+                    </button>
+                </form>
+            </div>
+        </div>
         </div>
 
         <div class="main-container">

@@ -16,6 +16,8 @@ public class UserServiceData {
     @NonNull
     private String username;
     @NonNull
+    private String email;
+    @NonNull
     private String password;
     private Set<Role> roles = new HashSet<>();
     private String accessToken;

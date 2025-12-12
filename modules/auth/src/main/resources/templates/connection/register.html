@@ -277,22 +277,22 @@
 
     <div class="register-block" id="registerBlock">
         <h2>Rejestracja</h2>
-        <form th:action="@{/oskarinio143/MoneyIsland}">
+        <form th:action="@{/oskarinio143/MoneyIsland/register}" method="post">
             <div class="form-group">
                 <label for="username">Nazwa użytkownika</label>
-                <input type="text" id="username" placeholder="Wprowadź nazwę użytkownika" required>
+                <input type="text" name="username" id="username" placeholder="Wprowadź nazwę użytkownika" required>
             </div>
             <div class="form-group">
                 <label for="email">Adres e-mail</label>
-                <input type="email" id="email" placeholder="Wprowadź adres e-mail">
+                <input type="email" name="email" id="email" placeholder="Wprowadź adres e-mail">
             </div>
             <div class="form-group">
                 <label for="password">Hasło</label>
-                <input type="password" id="password" placeholder="Wprowadź hasło" required>
+                <input type="password" name="password" id="password" placeholder="Wprowadź hasło" required>
             </div>
             <div class="form-group">
                 <label for="confirm-password">Powtórz hasło</label>
-                <input type="password" id="confirm-password" placeholder="Powtórz hasło" required>
+                <input type="password" name="confirmPassword" id="confirm-password" placeholder="Powtórz hasło" required>
             </div>
             <button type="submit" class="register-button">Zarejestruj się</button>
             <div class="login-link">

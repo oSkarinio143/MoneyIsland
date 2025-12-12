@@ -15,6 +15,8 @@ public class User {
     @NonNull
     private String username;
     @NonNull
+    private String email;
+    @NonNull
     private String password;
     @NonNull
     private Instant registrationDate;
