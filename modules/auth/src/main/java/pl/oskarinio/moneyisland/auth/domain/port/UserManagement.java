@@ -1,9 +1,9 @@
 package pl.oskarinio.moneyisland.auth.domain.port;
 
 
-import pl.oskarinio.moneyisland.shared.uncategorized.RefreshToken;
-import pl.oskarinio.moneyisland.shared.uncategorized.User;
-import pl.oskarinio.moneyisland.shared.uncategorized.UserServiceData;
+import pl.oskarinio.moneyisland.auth.domain.dto.User;
+import pl.oskarinio.moneyisland.auth.domain.dto.UserServiceData;
+import pl.oskarinio.moneyisland.auth.domain.dto.RefreshToken;
 
 import java.util.List;
 

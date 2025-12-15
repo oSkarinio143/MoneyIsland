@@ -1,13 +1,13 @@
 package pl.oskarinio.moneyisland.auth.domain.service;
 
 
-import pl.oskarinio.moneyisland.auth.domain.port.PasswordEncoderPort;
+import pl.oskarinio.moneyisland.auth.domain.dto.User;
+import pl.oskarinio.moneyisland.auth.domain.dto.UserServiceData;
 import pl.oskarinio.moneyisland.auth.domain.dto.form.LoginForm;
-import pl.oskarinio.moneyisland.auth.infrastructure.exception.UsernameNotMatchingPassword;
+import pl.oskarinio.moneyisland.auth.domain.port.PasswordEncoderPort;
 import pl.oskarinio.moneyisland.auth.domain.port.UserManagement;
-import pl.oskarinio.moneyisland.shared.uncategorized.RefreshToken;
-import pl.oskarinio.moneyisland.shared.uncategorized.User;
-import pl.oskarinio.moneyisland.shared.uncategorized.UserServiceData;
+import pl.oskarinio.moneyisland.auth.domain.dto.RefreshToken;
+import pl.oskarinio.moneyisland.shared.exception.UsernameNotMatchingPassword;
 
 public class LoginDomainService {
 

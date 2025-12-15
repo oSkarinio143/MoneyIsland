@@ -1,7 +1,7 @@
 package pl.oskarinio.moneyisland.auth.domain.port;
 
 
-import pl.oskarinio.moneyisland.shared.uncategorized.User;
+import pl.oskarinio.moneyisland.auth.domain.dto.User;
 
 import java.time.Instant;
 import java.util.List;

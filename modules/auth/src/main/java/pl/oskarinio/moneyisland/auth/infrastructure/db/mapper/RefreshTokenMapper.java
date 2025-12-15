@@ -1,8 +1,8 @@
 package pl.oskarinio.moneyisland.auth.infrastructure.db.mapper;
 
 
+import pl.oskarinio.moneyisland.auth.domain.dto.RefreshToken;
 import pl.oskarinio.moneyisland.auth.infrastructure.db.entity.RefreshTokenEntity;
-import pl.oskarinio.moneyisland.shared.uncategorized.RefreshToken;
 
 class RefreshTokenMapper {
     private RefreshTokenMapper(){}

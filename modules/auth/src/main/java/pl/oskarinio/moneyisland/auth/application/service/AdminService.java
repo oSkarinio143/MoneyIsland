@@ -4,11 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.oskarinio.moneyisland.auth.application.port.DeleteUserUseCase;
-import pl.oskarinio.moneyisland.auth.application.port.GrantAdminRoleUseCase;
 import pl.oskarinio.moneyisland.auth.application.port.GetUserListUseCase;
+import pl.oskarinio.moneyisland.auth.application.port.GrantAdminRoleUseCase;
+import pl.oskarinio.moneyisland.auth.domain.dto.User;
 import pl.oskarinio.moneyisland.auth.domain.port.UserRepository;
 import pl.oskarinio.moneyisland.auth.domain.service.AdminDomainService;
-import pl.oskarinio.moneyisland.shared.uncategorized.User;
 
 import java.util.List;
 

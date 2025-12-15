@@ -1,10 +1,10 @@
 package pl.oskarinio.moneyisland.auth.domain.service;
 
 
-import pl.oskarinio.moneyisland.auth.infrastructure.exception.UsernameNotFoundException;
+import pl.oskarinio.moneyisland.auth.domain.dto.User;
 import pl.oskarinio.moneyisland.auth.domain.port.UserRepository;
+import pl.oskarinio.moneyisland.shared.exception.UsernameNotFoundException;
 import pl.oskarinio.moneyisland.shared.config.Role;
-import pl.oskarinio.moneyisland.shared.uncategorized.User;
 
 import java.util.Arrays;
 import java.util.List;

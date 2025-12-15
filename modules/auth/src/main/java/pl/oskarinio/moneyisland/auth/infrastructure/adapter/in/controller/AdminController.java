@@ -7,11 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.oskarinio.moneyisland.auth.application.port.DeleteUserUseCase;
-import pl.oskarinio.moneyisland.auth.application.port.GrantAdminRoleUseCase;
 import pl.oskarinio.moneyisland.auth.application.port.GetUserListUseCase;
+import pl.oskarinio.moneyisland.auth.application.port.GrantAdminRoleUseCase;
+import pl.oskarinio.moneyisland.auth.domain.dto.User;
+import pl.oskarinio.moneyisland.auth.infrastructure.service.CookieManager;
 import pl.oskarinio.moneyisland.shared.config.Route;
-import pl.oskarinio.moneyisland.shared.uncategorized.CookieHelper;
-import pl.oskarinio.moneyisland.shared.uncategorized.User;
 
 import java.util.List;
 
@@ -22,16 +22,16 @@ public class AdminController {
     private final GetUserListUseCase showUserList;
     private final GrantAdminRoleUseCase grantAdminRole;
     private final DeleteUserUseCase deleteUser;
-    private final CookieHelper cookieHelper;
+    private final CookieManager cookieManager;
 
     @Value("${app.security.admin-username:}")
     private String adminUsername;
 
-    public AdminController(GetUserListUseCase showUserList, GrantAdminRoleUseCase grantAdminRole, DeleteUserUseCase deleteUserUseCase, CookieHelper cookieHelper) {
+    public AdminController(GetUserListUseCase showUserList, GrantAdminRoleUseCase grantAdminRole, DeleteUserUseCase deleteUserUseCase, CookieManager cookieManager) {
         this.showUserList = showUserList;
         this.grantAdminRole = grantAdminRole;
         this.deleteUser = deleteUserUseCase;
-        this.cookieHelper = cookieHelper;
+        this.cookieManager = cookieManager;
     }
 
     //Dostarcza liste uzytkownikow kazdej metodzie w klasie
@@ -57,7 +57,7 @@ public class AdminController {
     public String deleteUserView(Model model, HttpServletRequest request){
         log.info("Admin wybiera uzytkownika do usuniecia");
         model.addAttribute("adminUsername", adminUsername);
-        model.addAttribute("thisUsername", cookieHelper.getUsernameFromCookie(request));
+        model.addAttribute("thisUsername", cookieManager.getUsernameFromCookie(request));
         return Route.PACKAGE_ADMIN + Route.VIEW_DELETE_USER;
     }
 

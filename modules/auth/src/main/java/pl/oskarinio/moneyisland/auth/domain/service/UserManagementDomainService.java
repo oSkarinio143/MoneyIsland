@@ -3,12 +3,12 @@ package pl.oskarinio.moneyisland.auth.domain.service;
 
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import pl.oskarinio.moneyisland.auth.infrastructure.exception.UsernameNotFoundException;
-import pl.oskarinio.moneyisland.shared.uncategorized.RefreshToken;
-import pl.oskarinio.moneyisland.shared.uncategorized.Token;
-import pl.oskarinio.moneyisland.shared.uncategorized.User;
-import pl.oskarinio.moneyisland.shared.uncategorized.UserServiceData;
+import pl.oskarinio.moneyisland.auth.domain.dto.User;
+import pl.oskarinio.moneyisland.auth.domain.dto.UserServiceData;
+import pl.oskarinio.moneyisland.auth.domain.port.Token;
 import pl.oskarinio.moneyisland.auth.domain.port.UserRepository;
+import pl.oskarinio.moneyisland.auth.domain.dto.RefreshToken;
+import pl.oskarinio.moneyisland.shared.exception.UsernameNotFoundException;
 
 import java.time.Clock;
 import java.time.Instant;

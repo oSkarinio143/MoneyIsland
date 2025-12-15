@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import pl.oskarinio.moneyisland.auth.domain.dto.User;
 import pl.oskarinio.moneyisland.auth.domain.port.UserRepository;
-import pl.oskarinio.moneyisland.shared.uncategorized.User;
 
 import java.util.Optional;
 

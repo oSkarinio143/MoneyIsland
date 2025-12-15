@@ -1,14 +1,14 @@
 package pl.oskarinio.moneyisland.auth.domain.service;
 
 
+import pl.oskarinio.moneyisland.auth.domain.dto.User;
+import pl.oskarinio.moneyisland.auth.domain.dto.UserServiceData;
+import pl.oskarinio.moneyisland.auth.domain.dto.form.RegisterForm;
 import pl.oskarinio.moneyisland.auth.domain.port.PasswordEncoderPort;
 import pl.oskarinio.moneyisland.auth.domain.port.UserManagement;
-import pl.oskarinio.moneyisland.auth.domain.dto.form.RegisterForm;
 import pl.oskarinio.moneyisland.auth.domain.port.UserRepository;
-import pl.oskarinio.moneyisland.shared.uncategorized.RefreshToken;
+import pl.oskarinio.moneyisland.auth.domain.dto.RefreshToken;
 import pl.oskarinio.moneyisland.shared.config.Role;
-import pl.oskarinio.moneyisland.shared.uncategorized.User;
-import pl.oskarinio.moneyisland.shared.uncategorized.UserServiceData;
 
 import java.time.Clock;
 import java.time.Instant;

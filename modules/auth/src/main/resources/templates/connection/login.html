@@ -66,7 +66,7 @@
             0 0 0 3px rgba(60, 232, 94, 0.4);
         }
 
-        .loginUseCase-block {
+        .login-block {
             position: absolute;
             right: -50px;
             top: 50%;
@@ -83,7 +83,7 @@
             z-index: 10;
         }
 
-        .loginUseCase-block:hover {
+        .login-block:hover {
             transform: translateY(-50%) translateY(-5px);
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2),
             0 0 0 3px rgba(235, 227, 201, 0.7);
@@ -129,7 +129,7 @@
             font-size: 1.3em;
         }
 
-        .loginUseCase-block h2 {
+        .login-block h2 {
             font-size: 1.9em;
             color: #333;
             margin-bottom: 30px;
@@ -166,7 +166,7 @@
             box-shadow: 0 0 20px rgba(60, 232, 94, 0.2);
         }
 
-        .loginUseCase-button {
+        .login-button {
             width: 100%;
             padding: 16px;
             background: linear-gradient(135deg, #3CE85E, #2dc653);
@@ -181,36 +181,36 @@
             box-shadow: 0 10px 25px rgba(60, 232, 94, 0.3);
         }
 
-        .loginUseCase-button:hover {
+        .login-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 15px 35px rgba(60, 232, 94, 0.4);
             background: linear-gradient(135deg, #2dc653, #3CE85E);
         }
 
-        .loginUseCase-button:active {
+        .login-button:active {
             transform: translateY(0);
         }
 
-        .registerUseCase-link {
+        .register-link {
             text-align: center;
             margin-top: 20px;
             color: #666;
             font-size: 0.9em;
         }
 
-        .registerUseCase-link a {
+        .register-link a {
             color: #2a9944;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s ease;
         }
 
-        .registerUseCase-link a:hover {
+        .register-link a:hover {
             color: #3CE85E;
         }
 
         @media (max-width: 1024px) {
-            .loginUseCase-block {
+            .login-block {
                 position: relative;
                 right: auto;
                 top: auto;
@@ -219,7 +219,7 @@
                 max-width: 420px;
             }
 
-            .loginUseCase-block:hover {
+            .login-block:hover {
                 transform: translateY(-5px);
             }
 
@@ -246,7 +246,7 @@
                 font-size: 1em;
             }
 
-            .loginUseCase-block {
+            .login-block {
                 width: 100%;
                 padding: 35px;
             }
@@ -270,9 +270,9 @@
         </ul>
     </div>
 
-    <div class="loginUseCase-block">
+    <div class="login-block">
         <h2>Logowanie</h2>
-        <form th:action="@{/oskarinio143/MoneyIsland/loginUseCase}" method="post">
+        <form th:action="@{/oskarinio143/MoneyIsland/login}" method="post">
             <div class="form-group">
                 <label for="username">Nazwa użytkownika</label>
                 <input type="text" name="username" id="username" placeholder="Wprowadź nazwę użytkownika" required>
@@ -281,11 +281,11 @@
                 <label for="password">Hasło</label>
                 <input type="password" name="password" id="password" placeholder="Wprowadź hasło" required>
             </div>
-            <button type="submit" class="loginUseCase-button">Zaloguj się</button>
+            <button type="submit" class="login-button">Zaloguj się</button>
 
 
-            <div class="registerUseCase-link">
-                Nie masz konta? <a th:href="@{/oskarinio143/MoneyIsland/registerUseCase}">Zarejestruj się</a>
+            <div class="register-link">
+                Nie masz konta? <a th:href="@{/oskarinio143/MoneyIsland/register}">Zarejestruj się</a>
             </div>
         </form>
     </div>

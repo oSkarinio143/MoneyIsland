@@ -4,13 +4,13 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import pl.oskarinio.moneyisland.auth.domain.dto.User;
+import pl.oskarinio.moneyisland.auth.domain.dto.UserServiceData;
+import pl.oskarinio.moneyisland.auth.domain.port.Token;
 import pl.oskarinio.moneyisland.auth.domain.port.UserManagement;
-import pl.oskarinio.moneyisland.auth.domain.service.UserManagementDomainService;
-import pl.oskarinio.moneyisland.shared.uncategorized.RefreshToken;
-import pl.oskarinio.moneyisland.shared.uncategorized.Token;
-import pl.oskarinio.moneyisland.shared.uncategorized.User;
-import pl.oskarinio.moneyisland.shared.uncategorized.UserServiceData;
 import pl.oskarinio.moneyisland.auth.domain.port.UserRepository;
+import pl.oskarinio.moneyisland.auth.domain.service.UserManagementDomainService;
+import pl.oskarinio.moneyisland.auth.domain.dto.RefreshToken;
 
 import java.time.Clock;
 import java.util.List;

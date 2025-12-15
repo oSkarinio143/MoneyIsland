@@ -11,14 +11,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.oskarinio.moneyisland.auth.application.port.LoginUseCase;
+import pl.oskarinio.moneyisland.auth.application.port.RegisterUseCase;
+import pl.oskarinio.moneyisland.auth.domain.dto.UserServiceData;
 import pl.oskarinio.moneyisland.auth.domain.port.UserManagement;
 import pl.oskarinio.moneyisland.auth.infrastructure.adapter.in.model.LoginFormRequest;
-import pl.oskarinio.moneyisland.auth.application.port.RegisterUseCase;
 import pl.oskarinio.moneyisland.auth.infrastructure.adapter.in.model.RegisterFormRequest;
 import pl.oskarinio.moneyisland.auth.infrastructure.db.mapper.MapStruct;
-import pl.oskarinio.moneyisland.shared.uncategorized.CookieHelper;
+import pl.oskarinio.moneyisland.auth.infrastructure.service.CookieManager;
 import pl.oskarinio.moneyisland.shared.config.Route;
-import pl.oskarinio.moneyisland.shared.uncategorized.UserServiceData;
 
 import java.util.List;
 
@@ -30,14 +30,14 @@ public class UserController {
     private final UserManagement userManagement;
     private final RegisterUseCase registerUseCase;
     private final LoginUseCase loginUseCase;
-    private final CookieHelper cookieHelper;
+    private final CookieManager cookieManager;
     private final MapStruct mapper;
 
-    public UserController(UserManagement userManagement, RegisterUseCase registerUseCase, LoginUseCase loginUseCase, CookieHelper cookieHelper, MapStruct mapper) {
+    public UserController(UserManagement userManagement, RegisterUseCase registerUseCase, LoginUseCase loginUseCase, CookieManager cookieManager, MapStruct mapper) {
         this.userManagement = userManagement;
         this.registerUseCase = registerUseCase;
         this.loginUseCase = loginUseCase;
-        this.cookieHelper = cookieHelper;
+        this.cookieManager = cookieManager;
         this.mapper = mapper;
     }
     @GetMapping(Route.LOGIN)
@@ -70,7 +70,7 @@ public class UserController {
             return Route.REDIRECT + Route.LOGIN;
         }
         UserServiceData userServiceData = loginUseCase.loginUser(mapper.toLoginForm(loginFormRequest));
-        cookieHelper.setCookieTokens(userServiceData, response);
+        cookieManager.setCookieTokens(userServiceData, response);
         redirectAttributes.addFlashAttribute("welcomeUserMessage","Udało się poprawnie zalogować użytkownika");
         log.info("Uzytkownik zostal zalogowany");
         return Route.REDIRECT;
@@ -98,8 +98,10 @@ public class UserController {
             redirectAttributes.addFlashAttribute("errorMessage", userManagement.prepareErrorMessage(errorMessages));
             return Route.REDIRECT + Route.REGISTER;
         }
+        System.out.println("Bez bledu");
         UserServiceData userServiceData = registerUseCase.registerUser(mapper.toRegisterForm(registerFormRequest));
-        cookieHelper.setCookieTokens(userServiceData, response);
+        System.out.println("reg udany");
+        cookieManager.setCookieTokens(userServiceData, response);
         redirectAttributes.addFlashAttribute("welcomeUserMessage", "Udało się zarejestrować użytkownika");
         log.info("Uzytkownik zostal zarejestrowany");
         return Route.REDIRECT;
@@ -112,9 +114,9 @@ public class UserController {
 
         log.info("Uzytkownik rozpoczyna wylogowanie");
 
-        String username = cookieHelper.getUsernameFromCookie(request);
-        cookieHelper.removeAccessCookie(response);
-        cookieHelper.removeRefreshCookie(response);
+        String username = cookieManager.getUsernameFromCookie(request);
+        cookieManager.removeAccessCookie(response);
+        cookieManager.removeRefreshCookie(response);
         userManagement.deleteToken(username);
 
         redirectAttributes.addFlashAttribute("logoutMessage", "Użytkownik został wylogowany");

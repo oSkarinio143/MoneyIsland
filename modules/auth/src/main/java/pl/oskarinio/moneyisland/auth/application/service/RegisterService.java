@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.oskarinio.moneyisland.auth.application.port.RegisterUseCase;
-import pl.oskarinio.moneyisland.auth.domain.port.PasswordEncoderPort;
-import pl.oskarinio.moneyisland.auth.domain.service.RegisterDomainService;
+import pl.oskarinio.moneyisland.auth.domain.dto.UserServiceData;
 import pl.oskarinio.moneyisland.auth.domain.dto.form.RegisterForm;
-import pl.oskarinio.moneyisland.auth.infrastructure.kafka.KafkaEventPublisher;
+import pl.oskarinio.moneyisland.auth.domain.port.PasswordEncoderPort;
 import pl.oskarinio.moneyisland.auth.domain.port.UserManagement;
 import pl.oskarinio.moneyisland.auth.domain.port.UserRepository;
-import pl.oskarinio.moneyisland.shared.uncategorized.UserServiceData;
+import pl.oskarinio.moneyisland.auth.domain.service.RegisterDomainService;
+import pl.oskarinio.moneyisland.auth.infrastructure.kafka.KafkaEventPublisher;
 
 import java.time.Clock;
 

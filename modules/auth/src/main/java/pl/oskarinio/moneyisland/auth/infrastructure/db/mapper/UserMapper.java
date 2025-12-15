@@ -1,8 +1,8 @@
 package pl.oskarinio.moneyisland.auth.infrastructure.db.mapper;
 
 
+import pl.oskarinio.moneyisland.auth.domain.dto.User;
 import pl.oskarinio.moneyisland.auth.infrastructure.db.entity.UserEntity;
-import pl.oskarinio.moneyisland.shared.uncategorized.User;
 
 public class UserMapper {
     private UserMapper(){}
