@@ -3,37 +3,38 @@ package pl.oskarinio.moneyisland.auth.application.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import pl.oskarinio.moneyisland.auth.application.port.Admin;
-import pl.oskarinio.moneyisland.auth.domain.service.AdminUseCase;
+import pl.oskarinio.moneyisland.auth.application.port.DeleteUserUseCase;
+import pl.oskarinio.moneyisland.auth.application.port.GrantAdminRoleUseCase;
+import pl.oskarinio.moneyisland.auth.application.port.GetUserListUseCase;
 import pl.oskarinio.moneyisland.auth.domain.port.UserRepository;
+import pl.oskarinio.moneyisland.auth.domain.service.AdminDomainService;
 import pl.oskarinio.moneyisland.shared.uncategorized.User;
 
 import java.util.List;
 
 @Service
 @Slf4j
-public class AdminService implements Admin {
-    private final AdminUseCase adminUseCase;
+public class AdminService implements GetUserListUseCase, GrantAdminRoleUseCase, DeleteUserUseCase {
+    private final AdminDomainService adminDomainService;
 
     public AdminService(UserRepository userRepository, @Value("${spring.profiles.active:}") String[] activeProfiles) {
-        this.adminUseCase = new AdminUseCase(userRepository, activeProfiles);
+        this.adminDomainService = new AdminDomainService(userRepository, activeProfiles);
     }
 
     @Override
-    public List<User> getUserList() {
+    public List<User> getUsersList() {
         log.trace("Zwracam listę użytkowników");
-        return adminUseCase.getUserList();
+        return adminDomainService.getUserList();
     }
 
-    @Override
     public void deleteUser(String username) {
         log.debug("Usuwanie użytkownika. Nazwa = {}", username);
-        adminUseCase.deleteUser(username);
+        adminDomainService.deleteUser(username);
     }
 
     @Override
     public void grantAdminRole(String username) {
         log.debug("Nadawanie roli administratora użytkownikowi. Nazwa = {}", username);
-        adminUseCase.grantAdminRole(username);
+        adminDomainService.grantAdminRole(username);
     }
 }

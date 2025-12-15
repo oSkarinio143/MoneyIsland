@@ -72,7 +72,7 @@
             0 0 0 3px rgba(235, 227, 201, 0.5);
         }
 
-        .register-block {
+        .registerUseCase-block {
             position: absolute;
             right: -50px;
             top: 50%;
@@ -89,13 +89,13 @@
             z-index: 10;
         }
 
-        .register-block:hover {
+        .registerUseCase-block:hover {
             transform: translateY(-50%) translateY(-5px);
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2),
             0 0 0 3px rgba(235, 227, 201, 0.7);
         }
 
-        .register-block.swap-border {
+        .registerUseCase-block.swap-border {
             border-color: rgba(33, 95, 0, 0.4);
             box-shadow: 0 25px 70px rgba(0, 0, 0, 0.15),
             0 0 0 3px rgba(33, 95, 0, 0.3);
@@ -141,7 +141,7 @@
             font-size: 1.3em;
         }
 
-        .register-block h2 {
+        .registerUseCase-block h2 {
             font-size: 1.9em;
             color: #333;
             margin-bottom: 30px;
@@ -178,7 +178,7 @@
             box-shadow: 0 0 20px rgba(42, 122, 26, 0.2);
         }
 
-        .register-button {
+        .registerUseCase-button {
             width: 100%;
             padding: 16px;
             background: linear-gradient(135deg, #2a7a1a, #215f00);
@@ -193,36 +193,36 @@
             box-shadow: 0 10px 25px rgba(42, 122, 26, 0.3);
         }
 
-        .register-button:hover {
+        .registerUseCase-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 15px 35px rgba(42, 122, 26, 0.4);
             background: linear-gradient(135deg, #215f00, #2a7a1a);
         }
 
-        .register-button:active {
+        .registerUseCase-button:active {
             transform: translateY(0);
         }
 
-        .login-link {
+        .loginUseCase-link {
             text-align: center;
             margin-top: 20px;
             color: #666;
             font-size: 0.9em;
         }
 
-        .login-link a {
+        .loginUseCase-link a {
             color: #215f00;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s ease;
         }
 
-        .login-link a:hover {
+        .loginUseCase-link a:hover {
             color: #2a7a1a;
         }
 
         @media (max-width: 1024px) {
-            .register-block {
+            .registerUseCase-block {
                 position: relative;
                 right: auto;
                 top: auto;
@@ -231,7 +231,7 @@
                 max-width: 420px;
             }
 
-            .register-block:hover {
+            .registerUseCase-block:hover {
                 transform: translateY(-5px);
             }
 
@@ -258,7 +258,7 @@
                 font-size: 1em;
             }
 
-            .register-block {
+            .registerUseCase-block {
                 width: 100%;
                 padding: 35px;
             }
@@ -275,9 +275,9 @@
         </p>
     </div>
 
-    <div class="register-block" id="registerBlock">
+    <div class="registerUseCase-block" id="registerBlock">
         <h2>Rejestracja</h2>
-        <form th:action="@{/oskarinio143/MoneyIsland/register}" method="post">
+        <form th:action="@{/oskarinio143/MoneyIsland/registerUseCase}" method="post">
             <div class="form-group">
                 <label for="username">Nazwa użytkownika</label>
                 <input type="text" name="username" id="username" placeholder="Wprowadź nazwę użytkownika" required>
@@ -294,9 +294,9 @@
                 <label for="confirm-password">Powtórz hasło</label>
                 <input type="password" name="confirmPassword" id="confirm-password" placeholder="Powtórz hasło" required>
             </div>
-            <button type="submit" class="register-button">Zarejestruj się</button>
-            <div class="login-link">
-                Masz już konto? <a th:href="@{/oskarinio143/MoneyIsland/login}">Zaloguj się</a>
+            <button type="submit" class="registerUseCase-button">Zarejestruj się</button>
+            <div class="loginUseCase-link">
+                Masz już konto? <a th:href="@{/oskarinio143/MoneyIsland/loginUseCase}">Zaloguj się</a>
             </div>
         </form>
     </div>

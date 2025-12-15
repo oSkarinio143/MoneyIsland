@@ -29,6 +29,16 @@
         <lombok.version>1.18.38</lombok.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>MoneyIsland-snapshots</id>
+            <url>https://localhost:8444/repository/MoneyIsland/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <dependencyManagement>
         <dependencies>
 
@@ -53,10 +63,11 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
@@ -163,6 +174,10 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-resource-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
         </dependency>
     </dependencies>
 
