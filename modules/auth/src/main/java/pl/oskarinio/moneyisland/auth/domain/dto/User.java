@@ -1,7 +1,7 @@
 package pl.oskarinio.moneyisland.auth.domain.dto;
 
 import lombok.*;
-import pl.oskarinio.moneyisland.shared.config.Role;
+import pl.oskarinio.moneyisland.shared.domain.Role;
 
 import java.time.Instant;
 import java.util.HashSet;

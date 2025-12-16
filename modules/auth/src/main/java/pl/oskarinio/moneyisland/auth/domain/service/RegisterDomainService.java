@@ -8,7 +8,7 @@ import pl.oskarinio.moneyisland.auth.domain.port.PasswordEncoderPort;
 import pl.oskarinio.moneyisland.auth.domain.port.UserManagement;
 import pl.oskarinio.moneyisland.auth.domain.port.UserRepository;
 import pl.oskarinio.moneyisland.auth.domain.dto.RefreshToken;
-import pl.oskarinio.moneyisland.shared.config.Role;
+import pl.oskarinio.moneyisland.shared.domain.Role;
 
 import java.time.Clock;
 import java.time.Instant;

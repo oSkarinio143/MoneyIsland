@@ -22,7 +22,7 @@ public class TokenDeleter {
     }
 
     @Transactional
-    @Scheduled(cron = "0 0 4 * * ?")
+    @Scheduled(cron = "0 0 8 * * ?")
     public void cleanExpiredTokens() {
         log.debug("Uruchamiam czyszczenie tokenow");
         refreshTokenRepository.deleteExpiredToken(Instant.now(clock));

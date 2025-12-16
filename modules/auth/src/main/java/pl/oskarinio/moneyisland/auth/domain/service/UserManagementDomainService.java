@@ -8,7 +8,7 @@ import pl.oskarinio.moneyisland.auth.domain.dto.UserServiceData;
 import pl.oskarinio.moneyisland.auth.domain.port.Token;
 import pl.oskarinio.moneyisland.auth.domain.port.UserRepository;
 import pl.oskarinio.moneyisland.auth.domain.dto.RefreshToken;
-import pl.oskarinio.moneyisland.shared.exception.UsernameNotFoundException;
+import pl.oskarinio.moneyisland.shared.domain.exception.UsernameNotFoundException;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -49,7 +49,6 @@ public class UserManagementDomainService {
     }
 
     public User getUserByUsernameOrThrow(String username){
-        userRepository.findAll().forEach(v -> System.out.println(v.getUsername() + " + " + v.getPassword()));
         return userRepository.findByUsername(username)
                 .orElseThrow(() ->new UsernameNotFoundException(username));
     }

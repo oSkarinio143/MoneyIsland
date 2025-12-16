@@ -58,8 +58,6 @@ public class UserController {
                         HttpServletResponse response) {
 
         log.info("Uzytkownik rozpoczyna logowanie");
-        System.out.println("usr - " + loginFormRequest.getUsername());
-        System.out.println("hasl - " + loginFormRequest.getPassword());
         if (bindingResult.hasErrors()){
             log.warn("Logowanie nie udane, wprowadzono niepoprawne dane");
             List<String> errorMessages = bindingResult.getAllErrors()
@@ -98,9 +96,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("errorMessage", userManagement.prepareErrorMessage(errorMessages));
             return Route.REDIRECT + Route.REGISTER;
         }
-        System.out.println("Bez bledu");
         UserServiceData userServiceData = registerUseCase.registerUser(mapper.toRegisterForm(registerFormRequest));
-        System.out.println("reg udany");
         cookieManager.setCookieTokens(userServiceData, response);
         redirectAttributes.addFlashAttribute("welcomeUserMessage", "Udało się zarejestrować użytkownika");
         log.info("Uzytkownik zostal zarejestrowany");

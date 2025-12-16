@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import pl.oskarinio.moneyisland.finance.UserRepository;
+import pl.oskarinio.moneyisland.shared.kafka.UserDeletedEvent;
+import pl.oskarinio.moneyisland.shared.kafka.UserRegisteredEvent;
 
 @Slf4j
 @Service
@@ -18,13 +20,23 @@ public class KafkaEventConsumer {
     @Autowired
     private UserRepository userRepository;
 
-    @KafkaListener(topics = "user-registered", groupId = "finance-service-group")
+    @KafkaListener(topics = "userRegistered", groupId = "auth")
     public void consumeUserRegistered(String message) {
         log.info("Odebrano wiadomość: {}", message);
 
         try{
             UserRegisteredEvent event = objectMapper.readValue(message, UserRegisteredEvent.class);
-            System.out.println(event.username());
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @KafkaListener(topics = "userDeleted", groupId = "auth")
+    public void consumeUserDeleted(String message){
+        log.info("Odebrano wiadomość: {}", message);
+
+        try{
+            UserDeletedEvent event = objectMapper.readValue(message, UserDeletedEvent.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

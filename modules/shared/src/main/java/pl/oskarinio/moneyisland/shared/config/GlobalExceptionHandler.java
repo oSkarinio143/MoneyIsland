@@ -5,9 +5,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.oskarinio.moneyisland.shared.exception.DuplicateUnitException;
-import pl.oskarinio.moneyisland.shared.exception.UsernameNotFoundException;
-import pl.oskarinio.moneyisland.shared.exception.UsernameNotMatchingPassword;
+import pl.oskarinio.moneyisland.shared.domain.exception.DuplicateUnitException;
+import pl.oskarinio.moneyisland.shared.domain.exception.UsernameNotFoundException;
+import pl.oskarinio.moneyisland.shared.domain.exception.UsernameNotMatchingPassword;
 
 @Slf4j
 @ControllerAdvice

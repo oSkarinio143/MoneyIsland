@@ -37,9 +37,7 @@ public class RegisterService implements RegisterUseCase {
     public UserServiceData registerUser(RegisterForm registerForm) {
         log.debug("Rejestruję użytkownika. Nazwa = {}", registerForm.getUsername());
         UserServiceData usrData = registerDomainService.registerUser(registerForm);
-        System.out.println("powinno po tym wyslac event");
         kafkaEventPublisher.publishUserRegistered(usrData.getUsername());
-        System.out.println("powinien przed chwila zostac wyslany event");
         return usrData;
 
         //return registerUseCase.registerUser(registerForm);

@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import pl.oskarinio.moneyisland.shared.config.Role;
+import pl.oskarinio.moneyisland.shared.domain.Role;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -9,6 +9,7 @@ import pl.oskarinio.moneyisland.auth.application.port.GrantAdminRoleUseCase;
 import pl.oskarinio.moneyisland.auth.domain.dto.User;
 import pl.oskarinio.moneyisland.auth.domain.port.UserRepository;
 import pl.oskarinio.moneyisland.auth.domain.service.AdminDomainService;
+import pl.oskarinio.moneyisland.auth.infrastructure.kafka.KafkaEventPublisher;
 
 import java.util.List;
 
@@ -17,8 +18,8 @@ import java.util.List;
 public class AdminService implements GetUserListUseCase, GrantAdminRoleUseCase, DeleteUserUseCase {
     private final AdminDomainService adminDomainService;
 
-    public AdminService(UserRepository userRepository, @Value("${spring.profiles.active:}") String[] activeProfiles) {
-        this.adminDomainService = new AdminDomainService(userRepository, activeProfiles);
+    public AdminService(UserRepository userRepository, @Value("${spring.profiles.active:}") String[] activeProfiles, KafkaEventPublisher kafkaEventPublisher) {
+        this.adminDomainService = new AdminDomainService(userRepository, activeProfiles, kafkaEventPublisher);
     }
 
     @Override
