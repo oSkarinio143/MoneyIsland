@@ -32,7 +32,7 @@
     <repositories>
         <repository>
             <id>MoneyIsland-snapshots</id>
-            <url>https://localhost:8444/repository/MoneyIsland/</url>
+            <url>https://localhost:8444/repository/moneyisland/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>

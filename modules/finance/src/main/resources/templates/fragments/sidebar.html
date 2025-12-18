@@ -1,160 +1,7 @@
-<!-- sidebar.html -->
 <aside class="sidebar" th:fragment="sidebar(activePage)"
-       xmlns:th="http://www.thymeleaf.org"
-       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+       xmlns:th="http://www.thymeleaf.org">
 
-    <!-- STYLE CSS - WSZYSTKO W JEDNYM MIEJSCU -->
-    <style th:inline="css">
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap');
-
-        :root {
-            --color-bone: #DAD7CD;
-            --color-sage: #A3B18A;
-            --color-fern: #588157;
-            --color-hunter: #3A5A40;
-            --color-moss: #344E41;
-            --bg-page: var(--color-bone);
-            --card-bg: rgba(163, 177, 138, 0.4);
-            --card-border: var(--color-fern);
-            --text-main: var(--color-moss);
-        }
-
-        body {
-            margin: 0; padding: 0; font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-page); display: flex; height: 100vh;
-            color: var(--text-main); overflow: hidden;
-        }
-
-        /* SIDEBAR */
-        .sidebar {
-            width: 340px; background-color: #fff; flex-shrink: 0; z-index: 10;
-            box-shadow: 10px 0 40px rgba(52, 78, 65, 0.05);
-            display: flex; flex-direction: column; align-items: center;
-            padding-top: 50px; padding-bottom: 30px;
-            position: relative;
-        }
-        .brand-header { text-align: center; width: 100%; }
-        .title {
-            display: flex; flex-direction: column; align-items: center;
-            line-height: 0.85; font-size: 72px; font-weight: 900; letter-spacing: -2px;
-        }
-        .text-dark { color: var(--color-moss); }
-        .island-row {
-            display: flex; align-items: baseline; justify-content: center;
-            text-transform: uppercase; font-size: 68px; font-weight: 800;
-        }
-        .text-light { color: var(--color-fern); }
-        .dollar-sign { color: var(--color-moss); font-weight: 900; }
-
-        /* MENU */
-        .nav-container {
-            width: 100%; box-sizing: border-box;
-            background-color: rgba(163, 177, 138, 0.2);
-            border: 3px solid var(--color-fern); border-left: none;
-            border-radius: 0 24px 24px 0;
-            margin-top: 50px; margin-right: 30px; padding: 30px 30px 30px 0;
-            display: flex; flex-direction: column; gap: 15px;
-        }
-
-        /* PRZYCISKI NAWIGACYJNE */
-        .nav-btn {
-            position: relative; background: transparent; border: none; padding: 0;
-            margin-left: 0; border-radius: 0 12px 12px 0; cursor: pointer;
-            text-align: left; color: var(--color-hunter);
-            font-size: 20px; font-weight: 700; overflow: hidden; z-index: 1;
-            transition: color 0.4s ease; text-decoration: none; display: block;
-        }
-        .nav-btn::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--color-moss); transform: scaleX(0); transform-origin: left;
-            transition: transform 0.4s cubic-bezier(0.65, 0.05, 0.36, 1); z-index: -1;
-        }
-        .nav-btn:hover::before, .nav-btn.active::before { transform: scaleX(1); }
-        .nav-btn:hover, .nav-btn.active { color: var(--color-bone); }
-
-        .nav-btn span {
-            position: relative; display: flex; align-items: center; gap: 15px;
-            padding: 12px 20px 12px 40px; width: 100%; height: 100%; box-sizing: border-box;
-        }
-
-        .nav-btn span::before, .nav-btn span::after {
-            position: absolute; content: ""; background-color: var(--color-moss);
-            height: 2px; width: 0%; transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .nav-btn span::before { left: 0; top: 0; }
-        .nav-btn span::after { right: 0; bottom: 0; }
-        .nav-btn:hover span::before, .nav-btn:hover span::after,
-        .nav-btn.active span::before, .nav-btn.active span::after {
-            width: 100%; background-color: var(--color-bone);
-        }
-
-        .nav-icon { width: 24px; height: 24px; fill: currentColor; transition: transform 0.3s ease; }
-        .nav-btn:hover .nav-icon, .nav-btn.active .nav-icon { transform: scale(1.1); }
-
-        /* SEKCJA LOGA I PRZYCISKÓW NA DOLE */
-        .bottom-profile {
-            position: absolute;
-            bottom: 30px;
-            left: 30px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .bottom-profile form {
-            margin: 0;
-        }
-
-        .logo-img {
-            width: 50px; height: 50px; border: 2px solid var(--color-moss);
-            border-radius: 12px; object-fit: cover; display: block; background-color: var(--color-sage);
-        }
-
-        /* UNIWERSALNY STYL DLA PRZYCISKÓW ZALOGUJ/WYLOGUJ */
-        .btn-bottom-action {
-            background-color: var(--color-moss);
-            color: var(--color-bone);
-            font-family: 'Outfit', sans-serif;
-            padding: 14px 40px; /* <<<< ZWIĘKSZONY PADDING */
-            border-radius: 50px;
-            border: none;
-            font-size: 18px; /* <<<< WIĘKSZA CZCIONKA */
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: transform 0.2s, box-shadow 0.2s;
-            min-width: 160px; /* <<<< DODANE: Zapewnia stałą szerokość */
-            text-align: center; /* <<<< DODANE: Centruje tekst w przycisku */
-            box-sizing: border-box;
-        }
-        .btn-bottom-action:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(52, 78, 65, 0.3);
-        }
-
-        /* ... reszta stylów bez zmian ... */
-        .main-content {
-            flex-grow: 1;
-            padding: 30px; /* Usunąłem padding-left: 0 -> teraz jest odstęp z każdej strony! */
-            display: flex;
-            flex-direction: column; /* Uporządkowanie kierunku */
-        }
-
-        /* To naprawia zwężanie - wymusza na wstrzykniętym divie zajęcie 100% miejsca */
-        .main-content > div {
-            width: 100%;
-            height: 100%;
-            display: flex;       /* Opcjonalnie: jeśli chcesz, by .content-card też się ładnie centrował */
-            flex-direction: column;
-        }
-        .content-card { width: 100%; height: 100%; background-color: var(--card-bg); border: 2px solid var(--card-border); border-radius: 36px; padding: 60px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; box-shadow: 0 20px 60px rgba(52, 78, 65, 0.1); }
-        .hero-title { font-size: 64px; font-weight: 800; margin-bottom: 20px; color: var(--color-moss); letter-spacing: -2px; }
-        .hero-subtitle { font-size: 22px; color: var(--color-hunter); margin-bottom: 45px; max-width: 600px; line-height: 1.5; }
-        .btn-primary { background-color: var(--color-moss); color: var(--color-bone); padding: 18px 40px; border-radius: 50px; border: none; font-size: 18px; font-weight: 700; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(52, 78, 65, 0.4); }
-    </style>
-
-    <!-- KOD HTML PASKA -->
+    <!-- Tytuł -->
     <div class="brand-header">
         <div class="title">
             <span class="text-dark">Money</span>
@@ -164,8 +11,8 @@
         </div>
     </div>
 
+    <!-- Linki nawigacyjne -->
     <nav class="nav-container">
-        <!-- Linki nawigacyjne bez zmian -->
         <a th:href="@{/}" class="nav-btn" th:classappend="${activePage == 'home'} ? 'active'">
             <span>
                 <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
@@ -192,32 +39,19 @@
         </a>
     </nav>
 
-    <!-- ZMIENIONA SEKCJA LOGA I PRZYCISKÓW NA DOLE (GWARANTUJE JEDEN PRZYCISK) -->
+    <!-- Logo + Przycisk -->
     <div class="bottom-profile">
         <img src="https://via.placeholder.com/50/344E41/DAD7CD/?text=M" alt="Logo Money Island" class="logo-img">
 
-        <!--
-          Ten blok wyrenderuje się TYLKO, gdy zmienna 'currentUsername' jest null LUB jest pustym stringiem.
-          Używamy narzędzia #strings.isEmpty()
-        -->
-
         <th:block th:if="${#strings.isEmpty(currentUsername)}">
-            <!-- Przycisk musi mieć id="openLoginModalBtn" i href="#" -->
             <a id="openLoginModalBtn" href="#" class="btn-bottom-action">Zaloguj się</a>
         </th:block>
 
-        <!--
-          Ten blok wyrenderuje się TYLKO, gdy zmienna 'currentUsername' ma jakąś wartość (nie jest null ani pusta).
-          Można użyć th:unless (chyba że) lub th:if z zaprzeczeniem.
-        -->
         <th:block th:unless="${#strings.isEmpty(currentUsername)}">
-            <!-- Opcjonalnie: wyświetl nazwę zalogowanego użytkownika -->
             <span class="username-display" th:text="${currentUsername}"></span>
-
             <form th:action="@{/oskarinio143/moneyisland/logout}" method="post">
                 <button type="submit" class="btn-bottom-action">Wyloguj</button>
             </form>
         </th:block>
     </div>
-
 </aside>

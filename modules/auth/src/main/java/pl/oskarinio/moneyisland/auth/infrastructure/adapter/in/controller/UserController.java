@@ -6,9 +6,10 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.oskarinio.moneyisland.auth.application.port.LoginUseCase;
 import pl.oskarinio.moneyisland.auth.application.port.RegisterUseCase;
@@ -40,16 +41,6 @@ public class UserController {
         this.cookieManager = cookieManager;
         this.mapper = mapper;
     }
-    @GetMapping(Route.LOGIN)
-    public String loginView(Model model,
-                            @RequestParam(name = "logout", required = false) String logoutType){
-
-        log.info("Uzytkownik w formularzu logowania");
-        if(logoutType != null && logoutType.equals("auto")) {
-            model.addAttribute("autoLogoutMessage", "Zostałeś automatycznie wylogowany z powodu braku aktywności");
-        }
-        return Route.PACKAGE_CONNECTION + Route.LOGIN;
-    }
 
     @PostMapping(Route.LOGIN)
     public String login(@Valid @ModelAttribute LoginFormRequest loginFormRequest,
@@ -72,12 +63,6 @@ public class UserController {
         redirectAttributes.addFlashAttribute("welcomeUserMessage","Udało się poprawnie zalogować użytkownika");
         log.info("Uzytkownik zostal zalogowany");
         return Route.REDIRECT;
-    }
-
-    @GetMapping(Route.REGISTER)
-    public String registerView(){
-        log.info("Uzytkownik w formularzu rejestracji");
-        return Route.PACKAGE_CONNECTION + Route.REGISTER;
     }
 
     @PostMapping(Route.REGISTER)
@@ -109,7 +94,6 @@ public class UserController {
                              HttpServletRequest request){
 
         log.info("Uzytkownik rozpoczyna wylogowanie");
-
         String username = cookieManager.getUsernameFromCookie(request);
         cookieManager.removeAccessCookie(response);
         cookieManager.removeRefreshCookie(response);
@@ -117,6 +101,6 @@ public class UserController {
 
         redirectAttributes.addFlashAttribute("logoutMessage", "Użytkownik został wylogowany");
         log.info("Uzytkownik zostal wylogowany");
-        return Route.REDIRECT + Route.LOGIN;
+        return Route.REDIRECT;
     }
 }

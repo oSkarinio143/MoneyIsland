@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @ControllerAdvice
 public class CspNonceSetter {
     @ModelAttribute
-    public void addNonce(HttpServletRequest req, Model model) {
+    public void setNonce(HttpServletRequest req, Model model) {
         String nonce = req.getHeader("X-CSP-Nonce");
         if (nonce!=null) model.addAttribute("cspNonce", nonce);
     }

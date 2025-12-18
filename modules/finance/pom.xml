@@ -36,6 +36,25 @@
         </dependency>
 
         <dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+            <!-- Wersja zostanie automatycznie zarządzona przez Spring Boot,
+                 jeśli używasz spring-boot-starter-parent -->
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.thymeleaf.extras</groupId>-->
+<!--            <artifactId>thymeleaf-extras-springsecurity6</artifactId>-->
+<!--            &lt;!&ndash; Użyj wersji 6 dla Spring Boot 3.x, lub wersji 5 dla Spring Boot 2.x &ndash;&gt;-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; 2. Podstawowe Security (żeby klasy Authentication istniały) &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
@@ -47,6 +66,10 @@
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
         </dependency>
 
     </dependencies>

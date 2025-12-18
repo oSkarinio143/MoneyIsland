@@ -20,7 +20,6 @@ import java.util.List;
 
 @Component
 public class WebExpiredTokenFilter implements WebFilter {
-    private final String COOKIE_ACCESS_TOKEN = "accessToken";
     private final SecretKey secretKey;
     private static final List<String> PUBLIC_PATHS = List.of(
             Route.MAIN + Route.REGISTER,
@@ -35,7 +34,7 @@ public class WebExpiredTokenFilter implements WebFilter {
         if (PUBLIC_PATHS.contains(exchange.getRequest().getPath()))
             return chain.filter(exchange);
 
-        HttpCookie accessTokenCookie = exchange.getRequest().getCookies().getFirst(COOKIE_ACCESS_TOKEN);
+        HttpCookie accessTokenCookie = exchange.getRequest().getCookies().getFirst("accessToken");
         if (accessTokenCookie == null || accessTokenCookie.getValue().isEmpty()) {
             return chain.filter(exchange);
         }

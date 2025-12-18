@@ -39,8 +39,7 @@ public class WebSecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/favicon.ico").permitAll()
-                        .pathMatchers(Route.MAIN + Route.LOGIN,
-                                Route.MAIN + Route.REGISTER).permitAll()
+                        .pathMatchers(Route.MAIN).permitAll()
                         .pathMatchers(Route.MAIN + Route.USER + "/**").hasRole("USER")
                         .pathMatchers(Route.MAIN + Route.ADMIN + "/**").hasRole("ADMIN")
                         .anyExchange().authenticated()

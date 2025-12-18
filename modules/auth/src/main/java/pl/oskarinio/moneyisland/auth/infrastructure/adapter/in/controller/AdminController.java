@@ -44,13 +44,13 @@ public class AdminController {
     @GetMapping
     public String choseAdminOption(){
         log.info("Uzytkownik administrator w panelu admina");
-        return Route.PACKAGE_ADMIN + Route.ADMIN;
+        return Route.ADMIN;
     }
 
     @GetMapping(Route.SHOW)
     public String showUsers(Model model){
         log.info("Admin wyswietla liste uzytkownikow");
-        return Route.PACKAGE_ADMIN + Route.VIEW_SHOW_USERS;
+        return Route.VIEW_SHOW_USERS;
     }
 
     @GetMapping(Route.DELETE)
@@ -58,7 +58,7 @@ public class AdminController {
         log.info("Admin wybiera uzytkownika do usuniecia");
         model.addAttribute("adminUsername", adminUsername);
         model.addAttribute("thisUsername", cookieManager.getUsernameFromCookie(request));
-        return Route.PACKAGE_ADMIN + Route.VIEW_DELETE_USER;
+        return Route.VIEW_DELETE_USER;
     }
 
     @PostMapping(Route.DELETE)
@@ -71,7 +71,7 @@ public class AdminController {
     @GetMapping(Route.GRANT)
     public String grantAdmin(){
         log.info("Admin wybiera uzytkownika do nadania uprawnien administracyjnych");
-        return Route.PACKAGE_ADMIN + Route.VIEW_GRANT_ADMIN;
+        return Route.VIEW_GRANT_ADMIN;
     }
 
     @PostMapping(Route.GRANT)

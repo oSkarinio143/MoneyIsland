@@ -49,7 +49,6 @@ public class UserSetter {
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
-        System.out.println(username);
         return username;
     }
 }

@@ -1,19 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <!-- Style są praktycznie identyczne jak w loginModal, więc możemy je skopiować. -->
-    <style>
-        /* UWAGA: Te style są tutaj dla kompletności fragmentu. */
-        /* Jeśli masz je w osobnym pliku CSS, nie musisz ich duplikować. */
-        .modal-backdrop { display: none; /* ... reszta stylów taka sama ... */ }
-        .modal-visible { display: flex; }
-        /* ... reszta stylów ... */
-    </style>
-</head>
 <body>
 
-<!-- Definicja fragmentu rejestracji -->
 <div th:fragment="registerModalFragment" id="registerModalBackdrop" class="modal-backdrop">
     <div class="modal-content">
         <span class="modal-close-btn">&times;</span>
@@ -37,7 +25,6 @@
                 <input type="password" id="reg-password-repeat" name="confirmPassword" required>
             </div>
 
-            <!-- Miejsce na błędy walidacji z backendu -->
             <p th:if="${param.registerError}" class="error-message" th:text="${param.registerError}">
                 Wystąpił błąd rejestracji.
             </p>
@@ -45,7 +32,7 @@
             <button type="submit">Zarejestruj się</button>
 
             <div class="register-link">
-                <p class="register-link">Masz już konto? <a href="#" id="switchToLogin">Zaloguj się</a></p>
+                <p>Masz już konto? <a href="#" id="switchToLogin">Zaloguj się</a></p>
             </div>
         </form>
     </div>

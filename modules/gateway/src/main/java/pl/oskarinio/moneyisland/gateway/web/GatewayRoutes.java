@@ -17,16 +17,17 @@ public class GatewayRoutes {
 
     @Bean
     public RouteLocator authRoutes(RouteLocatorBuilder builder){
+        System.out.println("Budowniczy - " + builder.toString());
         return builder.routes()
                 .route("auth", r -> r
-                        .path("/oskarinio143/MoneyIsland/login/**",
-                                "/oskarinio143/MoneyIsland/register/**",
-                                "/oskarinio143/MoneyIsland/logout/**")
+                        .path(Route.MAIN + Route.REGISTER,
+                                Route.MAIN + Route.LOGIN,
+                                Route.MAIN + Route.LOGOUT)
                         .filters(f -> f.stripPrefix(0))
                         .uri(authUrl))
 
                 .route("finance", r -> r
-                        .path("/oskarinio143/MoneyIsland")
+                        .path(Route.MAIN + "/**")
                         .filters(f -> f.stripPrefix(0))
                         .uri(financeUrl))
                 .build();

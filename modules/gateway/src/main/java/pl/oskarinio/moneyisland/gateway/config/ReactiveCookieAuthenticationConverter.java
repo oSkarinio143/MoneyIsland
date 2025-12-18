@@ -10,16 +10,16 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class ReactiveCookieAuthenticationConverter extends ServerBearerTokenAuthenticationConverter {
-    private final String COOKIE_ACCESS_TOKEN = "accessToken";
 
     @Override
     public Mono<Authentication> convert(ServerWebExchange exchange) {
-        HttpCookie accessTokenCookie = exchange.getRequest().getCookies().getFirst(COOKIE_ACCESS_TOKEN);
+        HttpCookie accessTokenCookie = exchange.getRequest().getCookies().getFirst("accessToken");
 
         if(accessTokenCookie == null || accessTokenCookie.getValue().isEmpty())
             return Mono.empty();
 
         String token = accessTokenCookie.getValue();
+
         return Mono.just(new BearerTokenAuthenticationToken(token));
     }
 }

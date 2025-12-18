@@ -32,7 +32,7 @@
 	<repositories>
 		<repository>
 			<id>MoneyIsland-snapshots</id>
-			<url>https://localhost:8444/repository/MoneyIsland/</url>
+			<url>https://localhost:8444/repository/moneyisland/</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
@@ -69,6 +69,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
 		</dependency>
 
 		<dependency>

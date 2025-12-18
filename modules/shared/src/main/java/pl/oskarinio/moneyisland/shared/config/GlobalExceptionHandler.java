@@ -5,20 +5,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.oskarinio.moneyisland.shared.domain.exception.DuplicateUnitException;
 import pl.oskarinio.moneyisland.shared.domain.exception.UsernameNotFoundException;
 import pl.oskarinio.moneyisland.shared.domain.exception.UsernameNotMatchingPassword;
 
 @Slf4j
 @ControllerAdvice
 class GlobalExceptionHandler {
-
-    @ExceptionHandler(DuplicateUnitException.class)
-    public String handleDuplicateUnitException(DuplicateUnitException exception, RedirectAttributes attributes){
-        log.warn("Dodanie jednostki nieudane - jednostka juz istnieje");
-        attributes.addFlashAttribute("duplicateMessage", exception.getMessage());
-        return Route.REDIRECT + Route.ADMIN + Route.DATABASE + Route.ADD;
-    }
 
     @ExceptionHandler (UsernameNotFoundException.class)
     public String handleUsernameNotFoundException(RedirectAttributes redirectAttributes, UsernameNotFoundException usernameNotFoundException) {
