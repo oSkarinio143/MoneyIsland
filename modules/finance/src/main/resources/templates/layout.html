@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>...</title>
+    <!-- Dołączamy style z OBU fragmentów modali -->
+    <th:block th:insert="~{fragments/loginModal :: head}"></th:block>
+    <th:block th:insert="~{fragments/registerModal :: head}"></th:block>
+    <th:block layout:fragment="styles"></th:block>
+</head>
+<body>
+
+<!-- ... sidebar i main content bez zmian ... -->
+<div th:replace="~{fragments/sidebar :: sidebar(activePage=${activePage})}"></div>
+<main class="main-content">
+    <div layout:fragment="content"></div>
+</main>
+
+<!-- Dołączamy OBA modale -->
+<div th:replace="~{fragments/loginModal :: loginModalFragment}"></div>
+<div th:replace="~{fragments/registerModal :: registerModalFragment}"></div>
+
+<!-- ZAKTUALIZOWANY SKRYPT JAVASCRIPT -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- Referencje do elementów ---
+        const loginModal = document.getElementById('loginModalBackdrop');
+        const registerModal = document.getElementById('registerModalBackdrop');
+
+        const openLoginBtn = document.getElementById('openLoginModalBtn');
+
+        // Linki do przełączania
+        const switchToRegisterLink = document.getElementById('switchToRegister');
+        const switchToLoginLink = document.getElementById('switchToLogin');
+
+        // Przyciski zamknięcia (szukamy w obu modalach)
+        const closeButtons = document.querySelectorAll('.modal-close-btn');
+
+        // --- Funkcje pomocnicze ---
+        const openLoginModal = () => { if(loginModal) loginModal.classList.add('modal-visible'); };
+        const closeLoginModal = () => { if(loginModal) loginModal.classList.remove('modal-visible'); };
+        const openRegisterModal = () => { if(registerModal) registerModal.classList.add('modal-visible'); };
+        const closeRegisterModal = () => { if(registerModal) registerModal.classList.remove('modal-visible'); };
+        const closeAllModals = () => {
+            closeLoginModal();
+            closeRegisterModal();
+        };
+
+        // --- Event Listeners ---
+
+        // Otwieranie modala logowania z sidebara
+        if (openLoginBtn) {
+            openLoginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openLoginModal();
+            });
+        }
+
+        // Przełączanie z logowania na rejestrację
+        if (switchToRegisterLink) {
+            switchToRegisterLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeLoginModal();
+                openRegisterModal();
+            });
+        }
+
+        // Przełączanie z rejestracji na logowanie
+        if (switchToLoginLink) {
+            switchToLoginLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeRegisterModal();
+                openLoginModal();
+            });
+        }
+
+        // Zamykanie dowolnego modala przyciskiem 'X'
+        closeButtons.forEach(btn => {
+            btn.addEventListener('click', closeAllModals);
+        });
+
+        // Zamykanie przez kliknięcie w tło
+        if(loginModal) loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) closeAllModals();
+        });
+        if(registerModal) registerModal.addEventListener('click', (e) => {
+            if (e.target === registerModal) closeAllModals();
+        });
+
+        // --- Obsługa błędów z URL po przeładowaniu ---
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('error')) {
+            openLoginModal();
+        } else if (urlParams.has('registerError')) {
+            openRegisterModal();
+        }
+    });
+</script>
+
+</body>
+</html>
