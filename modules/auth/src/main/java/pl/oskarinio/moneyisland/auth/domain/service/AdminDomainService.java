@@ -26,21 +26,15 @@ public class AdminDomainService {
         return userRepository.findAll();
     }
 
-    //PRZY KOŃCZENIU PROJEKTU PAMIĘTAĆ O ROZWAŻENIU DRUGIEGO PROFILU DLA NOWYCH UŻYTKOWNIKÓW
     public void deleteUser(String username){
         Optional<User> userOpt = userRepository.findByUsername(username);
         if(userOpt.isEmpty())
             throw new UsernameNotFoundException();
 
         User user = userOpt.get();
-        if(activeProfiles.contains("h2")) {
-            if(!user.getUsername().equals("adminUser"))
-                userRepository.delete(user);
-        }
-        else{
-            if (!user.getUsername().equals(System.getenv("ADMIN_USERNAME")))
-                userRepository.delete(user);
-        }
+
+        if (!user.getUsername().equals(System.getenv("ADMIN_USERNAME")))
+            userRepository.delete(user);
         kafkaEventPublisher.publishUserDeleted(username, user.getId());
     }
 

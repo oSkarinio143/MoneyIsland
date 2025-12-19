@@ -22,19 +22,18 @@
             Zarządzaj użytkownikami i uprawnieniami w systemie. Wybierz jedną z dostępnych akcji poniżej.
         </p>
 
-        <!-- Kontener na karty akcji -->
         <div class="admin-actions-container">
 
             <div class="admin-action-card">
                 <h2 class="action-card-title">Lista Użytkowników</h2>
                 <p class="action-card-description">Przejdź do widoku tabeli ze wszystkimi zarejestrowanymi użytkownikami w systemie.</p>
-                <a th:href="@{/admin/users}" class="btn-admin-action">Wyświetl użytkowników</a>
+                <a th:href="@{admin/users}" class="btn-admin-action">Wyświetl użytkowników</a>
             </div>
 
             <div class="admin-action-card">
                 <h2 class="action-card-title">Usuń Użytkownika</h2>
                 <p class="action-card-description">Wpisz nazwę użytkownika, którego konto chcesz trwale usunąć z bazy danych.</p>
-                <form th:action="@{/admin/users/delete}" method="post" class="admin-form">
+                <form th:action="@{admin/delete}" method="post" class="admin-form">
                     <div class="admin-form-group">
                         <label for="delete-username">Nazwa użytkownika:</label>
                         <input type="text" id="delete-username" name="username" placeholder="np. jankowalski123" required>
@@ -46,7 +45,7 @@
             <div class="admin-action-card">
                 <h2 class="action-card-title">Nadaj Uprawnienia Admina</h2>
                 <p class="action-card-description">Wpisz nazwę użytkownika, któremu chcesz przyznać pełne uprawnienia administratora.</p>
-                <form th:action="@{/admin/users/grant-admin}" method="post" class="admin-form">
+                <form th:action="@{admin/grant}" method="post" class="admin-form">
                     <div class="admin-form-group">
                         <label for="grant-username">Nazwa użytkownika:</label>
                         <input type="text" id="grant-username" name="username" placeholder="np. nowymoderator" required>

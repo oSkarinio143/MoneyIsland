@@ -19,10 +19,11 @@ public class Route {
     public static final String LOGIN = "/login";
     public static final String LOGOUT = "/logout";
 
+    public static final String USERS_LIST = "/users";
+
     public static final String ERROR = "/error";
     public static final String DELETE = "/delete";
     public static final String SHOW = "/show";
     public static final String GRANT = "/grant";
-    public static final String USERS_LIST = "users";
     public static final String REFRESH ="/refresh";
 }

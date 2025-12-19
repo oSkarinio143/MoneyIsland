@@ -18,7 +18,7 @@ public class ReactiveAuthenticationEntryPoint implements ServerAuthenticationEnt
     public Mono<Void> commence(ServerWebExchange exchange, AuthenticationException exception) {
         exchange.getResponse().setStatusCode(HttpStatus.FOUND);
 
-        String loginUrl = Route.MAIN + Route.LOGIN;
+        String loginUrl = Route.MAIN;
         exchange.getResponse().getHeaders().setLocation(URI.create(loginUrl));
 
         return exchange.getResponse().setComplete();

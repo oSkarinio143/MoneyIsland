@@ -1,6 +1,5 @@
 package pl.oskarinio.moneyisland.auth.infrastructure.adapter.in.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -34,51 +33,37 @@ public class AdminController {
         this.cookieManager = cookieManager;
     }
 
-    //Dostarcza liste uzytkownikow kazdej metodzie w klasie
-    @ModelAttribute(Route.USERS_LIST)
+    @ModelAttribute("users")
     public List<User> addUsersListModel(){
         List<User> userList = showUserList.getUsersList();
+        System.out.println(userList.size());
         return showUserList.getUsersList();
     }
 
     @GetMapping
     public String choseAdminOption(){
-        System.out.println("Łącze sie z endpointem admina");
         log.info("Uzytkownik administrator w panelu admina");
         return Route.ADMIN;
     }
 
-    @GetMapping(Route.SHOW)
+    @GetMapping("/users")
     public String showUsers(Model model){
+        System.out.println("Łącze sie z endpointem users");
         log.info("Admin wyswietla liste uzytkownikow");
-        return Route.VIEW_SHOW_USERS;
+        return "users";
     }
 
-    @GetMapping(Route.DELETE)
-    public String deleteUserView(Model model, HttpServletRequest request){
-        log.info("Admin wybiera uzytkownika do usuniecia");
-        model.addAttribute("adminUsername", adminUsername);
-        model.addAttribute("thisUsername", cookieManager.getUsernameFromCookie(request));
-        return Route.VIEW_DELETE_USER;
-    }
-
-    @PostMapping(Route.DELETE)
+    @PostMapping("/delete")
     public String deleteUser(@RequestParam String username){
         deleteUser.deleteUser(username);
         log.info("Admin usunal uzytkownika");
-        return Route.REDIRECT + Route.ADMIN + Route.DELETE;
+        return Route.REDIRECT + Route.ADMIN;
     }
 
-    @GetMapping(Route.GRANT)
-    public String grantAdmin(){
-        log.info("Admin wybiera uzytkownika do nadania uprawnien administracyjnych");
-        return Route.VIEW_GRANT_ADMIN;
-    }
-
-    @PostMapping(Route.GRANT)
+    @PostMapping("/grant")
     public String grantAdmin(@RequestParam String username){
         grantAdminRole.grantAdminRole(username);
         log.info("Admin nadal uzytkownikowi uprawnienia administracyjne");
-        return Route.REDIRECT + Route.ADMIN + Route.GRANT;
+        return Route.REDIRECT + Route.ADMIN;
     }
 }

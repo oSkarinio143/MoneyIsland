@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Lista Użytkowników</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="content-card">
+        <h1 class="content-title">
+            Lista Użytkowni<span class="dollar-sign-content">k</span>ów
+        </h1>
+        <p class="content-subtitle">
+            Poniżej znajduje się lista wszystkich użytkowników zarejestrowanych w systemie Money Island.
+        </p>
+
+        <table class="user-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nazwa użytkownika</th>
+                <th>Email</th>
+                <th>Rola</th>
+                <th>Data rejestracji</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${#strings.listJoin(user.roles, ', ')}"></td>
+                <td th:text="${#temporals.format(user.registrationDate.atZone(T(java.time.ZoneId).systemDefault()), 'HH:mm - dd.MM.yyyy')}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(users)}">
+                <td colspan="5" class="empty-table-message">Nie znaleziono żadnych użytkowników w systemie.</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+</body>
+</html>
