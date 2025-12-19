@@ -43,6 +43,7 @@ public class AdminController {
 
     @GetMapping
     public String choseAdminOption(){
+        System.out.println("Łącze sie z endpointem admina");
         log.info("Uzytkownik administrator w panelu admina");
         return Route.ADMIN;
     }

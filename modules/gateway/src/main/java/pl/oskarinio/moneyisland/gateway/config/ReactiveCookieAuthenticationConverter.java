@@ -19,7 +19,6 @@ public class ReactiveCookieAuthenticationConverter extends ServerBearerTokenAuth
             return Mono.empty();
 
         String token = accessTokenCookie.getValue();
-
         return Mono.just(new BearerTokenAuthenticationToken(token));
     }
 }

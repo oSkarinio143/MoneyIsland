@@ -1,0 +1,65 @@
+<aside class="sidebar" th:fragment="sidebar(activePage)"
+       xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+    <!-- Tytuł -->
+    <div class="brand-header">
+        <div class="title">
+            <span class="text-dark">Money</span>
+            <div class="island-row">
+                <span class="text-light">I</span><span class="dollar-sign">$</span><span class="text-light">LAND</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Linki nawigacyjne -->
+    <nav class="nav-container">
+        <a th:href="@{/}" class="nav-btn" th:classappend="${activePage == 'home'} ? 'active'">
+            <span>
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                Pulpit Główny
+            </span>
+        </a>
+        <a th:href="@{/przelewy}" class="nav-btn" th:classappend="${activePage == 'przelewy'} ? 'active'">
+            <span>
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
+                Przelewy
+            </span>
+        </a>
+        <a th:href="@{/inwestycje}" class="nav-btn" th:classappend="${activePage == 'inwestycje'} ? 'active'">
+            <span>
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
+                Inwestycje
+            </span>
+        </a>
+        <a th:href="@{/sklep}" class="nav-btn" th:classappend="${activePage == 'sklep'} ? 'active'">
+            <span>
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M16 6V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H2v13c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6h-6zm-6-2h4v2h-4V4zM4 21V8h2v2h2V8h8v2h2V8h2v13H4z"/></svg>
+                Sklep
+            </span>
+        </a>
+    </nav>
+
+    <!-- Sekcja Panelu Admina -->
+    <div th:if="${role == 'ROLE_ADMIN'}" class="admin-btn-container">
+        <a th:href="@{/oskarinio143/moneyisland/admin}" class="btn-admin-panel" th:classappend="${activePage == 'admin'} ? 'active'">
+        <span>
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-12h2v2h-2v-2zm0 4h2v6h-2v-6z"/></svg>
+            Panel Administracyjny
+        </span>
+        </a>
+    </div>
+
+    <!-- Logo + Przycisk -->
+    <div class="bottom-profile">
+        <th:block th:if="${#strings.isEmpty(currentUsername)}">
+            <a id="openLoginModalBtn" href="#" class="btn-bottom-action">Zaloguj się</a>
+        </th:block>
+
+        <th:block th:unless="${#strings.isEmpty(currentUsername)}">
+            <span class="username-display" th:text="${currentUsername}"></span>
+            <form th:action="@{/oskarinio143/moneyisland/logout}" method="post">
+                <button type="submit" class="btn-bottom-action">Wyloguj</button>
+            </form>
+        </th:block>
+    </div>
+</aside>

@@ -1,5 +1,5 @@
 <aside class="sidebar" th:fragment="sidebar(activePage)"
-       xmlns:th="http://www.thymeleaf.org">
+       xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
     <!-- Tytuł -->
     <div class="brand-header">
@@ -39,10 +39,18 @@
         </a>
     </nav>
 
+    <!-- Sekcja Panelu Admina -->
+    <div th:if="${role == 'ROLE_ADMIN'}" class="admin-btn-container">
+        <a th:href="@{/oskarinio143/moneyisland/admin}" class="btn-admin-panel" th:classappend="${activePage == 'admin'} ? 'active'">
+        <span>
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-12h2v2h-2v-2zm0 4h2v6h-2v-6z"/></svg>
+            Panel Administracyjny
+        </span>
+        </a>
+    </div>
+
     <!-- Logo + Przycisk -->
     <div class="bottom-profile">
-        <img src="https://via.placeholder.com/50/344E41/DAD7CD/?text=M" alt="Logo Money Island" class="logo-img">
-
         <th:block th:if="${#strings.isEmpty(currentUsername)}">
             <a id="openLoginModalBtn" href="#" class="btn-bottom-action">Zaloguj się</a>
         </th:block>

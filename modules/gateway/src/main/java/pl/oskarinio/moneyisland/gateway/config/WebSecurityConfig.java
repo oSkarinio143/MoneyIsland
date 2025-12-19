@@ -5,18 +5,22 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import pl.oskarinio.moneyisland.gateway.web.Route;
 import pl.oskarinio.moneyisland.gateway.filter.WebCspNonceFilter;
 import pl.oskarinio.moneyisland.gateway.filter.WebExpiredTokenFilter;
+import pl.oskarinio.moneyisland.gateway.web.Route;
 import reactor.core.publisher.Mono;
 
 import javax.crypto.SecretKey;
@@ -30,6 +34,7 @@ public class WebSecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http,
                                                          ReactiveJwtDecoder reactiveJwtDecoder,
                                                          ReactiveCookieAuthenticationConverter reactiveCookieAuthenticationConverter,
+
                                                          ReactiveAuthenticationEntryPoint reactiveAuthenticationEntryPoint,
                                                          ReactiveAccessDeniedHandler reactiveAccessDeniedHandler,
                                                          WebCspNonceFilter webCspNonceFilter,
@@ -39,13 +44,17 @@ public class WebSecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/favicon.ico").permitAll()
-                        .pathMatchers(Route.MAIN).permitAll()
+                        .pathMatchers(Route.MAIN,
+                                Route.MAIN + Route.LOGIN,
+                                Route.MAIN + Route.REGISTER).permitAll()
                         .pathMatchers(Route.MAIN + Route.USER + "/**").hasRole("USER")
                         .pathMatchers(Route.MAIN + Route.ADMIN + "/**").hasRole("ADMIN")
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwt.jwtDecoder(reactiveJwtDecoder))
+                        .jwt(jwt -> jwt
+                                .jwtDecoder(reactiveJwtDecoder)
+                                .jwtAuthenticationConverter(reactiveJwtAuthenticationConverter()))
                         .bearerTokenConverter(reactiveCookieAuthenticationConverter)
                         .accessDeniedHandler(reactiveAccessDeniedHandler)
                         .authenticationEntryPoint(reactiveAuthenticationEntryPoint)
@@ -54,10 +63,10 @@ public class WebSecurityConfig {
                 .headers(headers -> headers
                         .contentSecurityPolicy(csp -> csp
                                 .policyDirectives("default-src 'self'; " +
-                                        "style-src 'self' 'nonce-{nonce}';" +
+                                        "style-src 'self' https://fonts.googleapis.com 'nonce-{nonce}';" +
                                         "script-src 'self' 'nonce-{nonce}';" +
                                         "img-src 'self' data: https://oskarinio143.github.io; " +
-                                        "font-src 'self' https://cdnjs.cloudflare.com; " +
+                                        "font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; " +
                                         "frame-ancestors 'none'; " +
                                         "form-action 'self'; " +
                                         "object-src 'none';")
@@ -90,13 +99,16 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter(){
+    public Converter<Jwt, Mono<AbstractAuthenticationToken>> reactiveJwtAuthenticationConverter() {
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+
         grantedAuthoritiesConverter.setAuthorityPrefix("");
         grantedAuthoritiesConverter.setAuthoritiesClaimName("roles");
 
-        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
-        return jwtAuthenticationConverter;
+
+        return new ReactiveJwtAuthenticationConverterAdapter(jwtAuthenticationConverter);
     }
+
 }

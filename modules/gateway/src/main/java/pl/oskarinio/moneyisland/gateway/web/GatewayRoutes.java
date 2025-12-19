@@ -22,7 +22,8 @@ public class GatewayRoutes {
                 .route("auth", r -> r
                         .path(Route.MAIN + Route.REGISTER,
                                 Route.MAIN + Route.LOGIN,
-                                Route.MAIN + Route.LOGOUT)
+                                Route.MAIN + Route.LOGOUT,
+                                Route.MAIN + Route.ADMIN)
                         .filters(f -> f.stripPrefix(0))
                         .uri(authUrl))
 

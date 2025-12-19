@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$CONTENT_TITLE - Money Island">Money Island</title>
+
+    <style th:attr="nonce=${cspNonce}">
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap');
+
+/* === ZMIENNE GLOBALNE === */
+        :root {
+            --color-bone: #DAD7CD;
+            --color-sage: #A3B18A;
+            --color-fern: #588157;
+            --color-hunter: #3A5A40;
+            --color-moss: #344E41;
+            --bg-page: var(--color-bone);
+            --card-bg: rgba(163, 177, 138, 0.4);
+            --card-border: var(--color-fern);
+            --text-main: var(--color-moss);
+        }
+
+/* === STYLE PODSTAWOWE === */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-page);
+            display: flex;
+            height: 100vh;
+            color: var(--text-main);
+            overflow: hidden;
+        }
+
+/* === STYLE SIDEBARA === */
+        .sidebar {
+            width: 340px;
+            background-color: #fff;
+            flex-shrink: 0;
+            z-index: 10;
+            box-shadow: 10px 0 40px rgba(52, 78, 65, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+            padding-bottom: 30px;
+            position: relative;
+        }
+        .brand-header {
+            text-align: center;
+            width: 100%;
+        }
+        .title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 0.85;
+            font-size: 72px;
+            font-weight: 900;
+            letter-spacing: -2px;
+        }
+        .text-dark { color: var(--color-moss); }
+        .island-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            text-transform: uppercase;
+            font-size: 68px;
+            font-weight: 800;
+        }
+        .text-light { color: var(--color-fern); }
+        .dollar-sign { color: var(--color-moss); font-weight: 900; }
+        .nav-container {
+            width: 100%;
+            box-sizing: border-box;
+            background-color: rgba(163, 177, 138, 0.2);
+            border: 3px solid var(--color-fern);
+            border-left: none;
+            border-radius: 0 24px 24px 0;
+            margin-top: 50px;
+            margin-right: 30px;
+            padding: 30px 30px 30px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .nav-btn {
+            position: relative;
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin-left: 0;
+            border-radius: 0 12px 12px 0;
+            cursor: pointer;
+            text-align: left;
+            color: var(--color-hunter);
+            font-size: 20px;
+            font-weight: 700;
+            overflow: hidden;
+            z-index: 1;
+            transition: color 0.4s ease;
+            text-decoration: none;
+            display: block;
+        }
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-moss);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.65, 0.05, 0.36, 1);
+            z-index: -1;
+        }
+        .nav-btn:hover::before, .nav-btn.active::before { transform: scaleX(1); }
+        .nav-btn:hover, .nav-btn.active { color: var(--color-bone); }
+        .nav-btn span {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 20px 12px 40px;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .nav-btn .nav-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+            transition: transform 0.3s ease;
+        }
+        .nav-btn:hover .nav-icon, .nav-btn.active .nav-icon { transform: scale(1.1); }
+        .bottom-profile {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .bottom-profile form { margin: 0; }
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--color-moss);
+            border-radius: 12px;
+            object-fit: cover;
+            display: block;
+            background-color: var(--color-sage);
+        }
+        .btn-bottom-action {
+            background-color: var(--color-moss);
+            color: var(--color-bone);
+            font-family: 'Outfit', sans-serif;
+            padding: 14px 40px;
+            border-radius: 50px;
+            border: none;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s, box-shadow 0.2s;
+            min-width: 160px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .btn-bottom-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(52, 78, 65, 0.3);
+        }
+
+/* === STYLE GŁÓWNEJ CONTENT === */
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        .main-content > div {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .content-card {
+            width: 100%;
+            height: 100%;
+            background-color: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 36px;
+            padding: 60px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(52, 78, 65, 0.1);
+        }
+        .content-title {
+            font-size: 72px;
+            font-weight: 900;
+            color: var(--color-moss);
+            letter-spacing: -2.5px;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 0px rgba(163, 177, 138, 0.4);
+        }
+        .dollar-sign-content {
+            color: var(--color-fern);
+            font-weight: 900;
+        }
+        .content-subtitle {
+            font-size: 24px;
+            color: var(--color-hunter);
+            max-width: 650px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+/* === STYLE MODALI === */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-visible { display: flex; }
+        .modal-content {
+            background-color: #ffffff;
+            color: #333;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .modal-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 2rem;
+            color: #555;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .modal-close-btn:hover { color: #000; }
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .modal-content .form-group { text-align: left; }
+        .modal-content label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .modal-content button[type="submit"] {
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: #344E41;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .modal-content button[type="submit"]:hover { background-color: #4A685D; }
+        .modal-content .error-message {
+            color: #D8000C;
+            background-color: #FFD2D2;
+            border: 1px solid;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .modal-content .register-link { margin-top: 1rem; }
+        .modal-content .register-link a {
+            color: #344E41;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+/*Przycisk admina*/
+        .admin-btn-container {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding: 0 30px;
+            box-sizing: border-box;
+        }
+
+        .admin-btn-container .btn-admin-panel .nav-icon {
+            display: none;
+        }
+
+        .admin-btn-container .btn-admin-panel {
+            display: block;
+            width: 100%;
+            background-color: var(--color-moss);
+            color: var(--color-bone);
+            font-family: 'Outfit', sans-serif;
+            padding: 14px 20px;
+            border-radius: 50px;
+            border: none;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+            text-align: center; /* Wyśrodkowanie tekstu wewnątrz */
+        }
+
+        .admin-btn-container .btn-admin-panel span {
+            padding: 0;
+            display: inline;
+            gap: 0;
+        }
+
+        .admin-btn-container .btn-admin-panel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(52, 78, 65, 0.3);
+        }
+
+/* === STYLE PANELU ADMINA === */
+        .admin-actions-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 40px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .admin-action-card {
+            flex: 1;
+            min-width: 300px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 25px 30px;
+            box-shadow: 0 8px 20px rgba(52, 78, 65, 0.08);
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .action-card-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-moss);
+            margin: 0 0 10px 0;
+        }
+
+        .action-card-description {
+            font-size: 16px;
+            color: var(--color-hunter);
+            line-height: 1.6;
+            margin-bottom: auto;
+            padding-bottom: 20px;
+        }
+
+        .admin-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .admin-form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-form-group label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: var(--color-hunter);
+        }
+
+        .admin-form-group input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 2px solid var(--color-sage);
+            background-color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            color: var(--color-moss);
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .admin-form-group input[type="text"]:focus {
+            outline: none;
+            border-color: var(--color-hunter);
+            box-shadow: 0 0 0 3px rgba(58, 90, 64, 0.2);
+        }
+
+        .btn-admin-action {
+            background-color: var(--color-moss);
+            color: var(--color-bone);
+            font-family: 'Outfit', sans-serif;
+            padding: 14px 20px;
+            border-radius: 50px;
+            border: none;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: auto;
+        }
+
+        .btn-admin-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(52, 78, 65, 0.3);
+        }
+
+        .btn-admin-action.btn-danger {
+            background-color: #c94a4a;
+        }
+        .btn-admin-action.btn-danger:hover {
+            background-color: #e15656;
+            box-shadow: 0 8px 15px rgba(201, 74, 74, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/sidebar :: sidebar(activePage=${activePage})}"></div>
+
+<main class="main-content">
+    <div layout:fragment="content"></div>
+</main>
+
+<div th:replace="~{fragments/loginModal :: loginModalFragment}"></div>
+<div th:replace="~{fragments/registerModal :: registerModalFragment}"></div>
+
+<script th:attr="nonce=${cspNonce}">
+    document.addEventListener('DOMContentLoaded', () => {
+        const loginModal = document.getElementById('loginModalBackdrop');
+        const registerModal = document.getElementById('registerModalBackdrop');
+        const openLoginBtn = document.getElementById('openLoginModalBtn');
+        const switchToRegisterLink = document.getElementById('switchToRegister');
+        const switchToLoginLink = document.getElementById('switchToLogin');
+        const closeButtons = document.querySelectorAll('.modal-close-btn');
+
+        const openLoginModal = () => { if(loginModal) loginModal.classList.add('modal-visible'); };
+        const closeLoginModal = () => { if(loginModal) loginModal.classList.remove('modal-visible'); };
+        const openRegisterModal = () => { if(registerModal) registerModal.classList.add('modal-visible'); };
+        const closeRegisterModal = () => { if(registerModal) registerModal.classList.remove('modal-visible'); };
+        const closeAllModals = () => {
+            closeLoginModal();
+            closeRegisterModal();
+        };
+
+        if (openLoginBtn) {
+            openLoginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openLoginModal();
+            });
+        }
+        if (switchToRegisterLink) {
+            switchToRegisterLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeLoginModal();
+                openRegisterModal();
+            });
+        }
+        if (switchToLoginLink) {
+            switchToLoginLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeRegisterModal();
+                openLoginModal();
+            });
+        }
+        closeButtons.forEach(btn => {
+            btn.addEventListener('click', closeAllModals);
+        });
+        if(loginModal) loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) closeAllModals();
+        });
+        if(registerModal) registerModal.addEventListener('click', (e) => {
+            if (e.target === registerModal) closeAllModals();
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('error')) {
+            openLoginModal();
+        } else if (urlParams.has('registerError')) {
+            openRegisterModal();
+        }
+    });
+</script>
+</body>
+</html>

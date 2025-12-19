@@ -1,5 +1,6 @@
 package pl.oskarinio.moneyisland.shared.config;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -10,9 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.util.WebUtils;
+import pl.oskarinio.moneyisland.shared.domain.Role;
 
 import javax.crypto.SecretKey;
 import java.util.Base64;
+import java.util.List;
 
 @ControllerAdvice
 public class UserSetter {
@@ -35,14 +38,16 @@ public class UserSetter {
 
         String accessTokenCookie = cookieAccess.getValue();
         String username = extractUsername(accessTokenCookie);
+        extractRole(accessTokenCookie);
 
         if(username == null || username.isEmpty())
             return;
 
         model.addAttribute("currentUsername", username);
+        model.addAttribute("role", getPriorRole(accessTokenCookie));
     }
 
-    public String extractUsername(String token) {
+    private String extractUsername(String token) {
         String username = Jwts.parser()
                 .setSigningKey(secretKey)
                 .build()
@@ -50,5 +55,21 @@ public class UserSetter {
                 .getBody()
                 .getSubject();
         return username;
+    }
+
+    private String getPriorRole(String token){
+        List<String> rolesList = extractRole(token);
+        if(rolesList.contains(Role.ROLE_ADMIN.toString()))
+            return Role.ROLE_ADMIN.toString();
+        return Role.ROLE_USER.toString();
+    }
+
+    private List<String> extractRole(String token){
+        Claims claims = Jwts.parser()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("roles", List.class);
     }
 }
