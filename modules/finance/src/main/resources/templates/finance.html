@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <title>Oferta Kont</title>
+
+  <style layout:fragment="styles" th:attr="nonce=${cspNonce}">
+    /* Import czcionek (jeśli potrzebne) */
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
+
+    /* --- NOWE STYLE DLA SIATKI PRODUKTÓW --- */
+
+    /* Główny kontener siatki */
+    .products-grid {
+      display: grid;
+      /* Dwie równe kolumny */
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px; /* Odstęp między kafelkami */
+      padding: 20px;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    /* Styl pojedynczego kafelka produktu */
+    .product-card {
+      background-color: #FFFFFF;
+      border-radius: 16px;
+      border: 1px solid var(--color-bone, #eee);
+    padding: 24px;
+      display: flex; /* Używamy flexbox do ułożenia ikony i tekstu obok siebie */
+      align-items: center; /* Wyrównanie w pionie do środka */
+      gap: 20px; /* Odstęp między ikoną a tekstem */
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(52, 78, 65, 0.05);
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(52, 78, 65, 0.1);
+    border-color: var(--color-sage, #A3B18A);
+    }
+
+    /* Kontener na ikonę */
+    .product-icon {
+      flex-shrink: 0; /* Zapobiega kurczeniu się ikony */
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      background-color: #f7f7f7; /* Jasnoszare tło, jak na obrazku */
+      /* Wyśrodkowanie obrazka/ikony w środku */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* (Opcjonalnie) Styl dla obrazka wewnątrz ikony */
+    .product-icon img {
+      max-width: 60%;
+      height: auto;
+    }
+
+    /* Kontener na tekst (tytuł + opis) */
+    .product-details {
+      text-align: left;
+    }
+
+    /* Tytuł produktu */
+    .product-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+    color: var(--color-hunter, #344E41);
+    margin: 0 0 4px 0;
+    }
+
+    /* Opis produktu */
+    .product-description {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+    color: var(--text-secondary, #555);
+    margin: 0;
+      line-height: 1.5;
+    }
+
+    /* --- RESPONSOWNOŚĆ --- */
+    /* Na mniejszych ekranach (np. telefony) kafelki układają się jeden pod drugim */
+    @media (max-width: 768px) {
+      .products-grid {
+      /* Zmiana na jedną kolumnę */
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 480px) {
+      .product-card {
+      /* Na bardzo małych ekranach można zmniejszyć padding */
+        padding: 16px;
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Zamiast .finance-container używamy nowej klasy .products-grid -->
+<div layout:fragment="content" class="products-grid">
+
+  <!-- Każdy produkt to teraz .product-card -->
+
+  <!-- 1. Konto Direct -->
+  <div class="product-card">
+    <div class="product-icon">
+      <!-- Wstaw tutaj swoją ikonę, np. <img src="/path/to/icon.svg" alt=""> -->
+    </div>
+    <div class="product-details">
+      <h3 class="product-title">Konto Direct</h3>
+      <p class="product-description">Lepiej ogarniaj finanse i płać jak Ci wygodnie - 24/7 z Moim ING.</p>
+    </div>
+  </div>
+
+  <!-- 2. Konto Mobi 18-26 -->
+  <div class="product-card">
+    <div class="product-icon"></div>
+    <div class="product-details">
+      <h3 class="product-title">Konto Mobi 18-26</h3>
+      <p class="product-description">Dobre na studia, do pierwszej pracy. Dużo za 0 zł, np. wypłaty BLIKIEM z bankomatów w Polsce.</p>
+    </div>
+  </div>
+
+  <!-- 3. Konto Mobi 13-17 -->
+  <div class="product-card">
+    <div class="product-icon"></div>
+    <div class="product-details">
+      <h3 class="product-title">Konto Mobi 13-17</h3>
+      <p class="product-description">Z płatnościami telefonem lub kartą (też taką z własną grafiką!).</p>
+    </div>
+  </div>
+
+  <!-- 4. Konto Mobi 0-12 -->
+  <div class="product-card">
+    <div class="product-icon"></div>
+    <div class="product-details">
+      <h3 class="product-title">Konto Mobi 0-12</h3>
+      <p class="product-description">Pierwsze konto osobiste dla dziecka. Z bezpieczną aplikacją od 6 roku życia i kartą przedpłaconą.</p>
+    </div>
+  </div>
+
+  <!-- 5. Konto Komfort -->
+  <div class="product-card">
+    <div class="product-icon"></div>
+    <div class="product-details">
+      <h3 class="product-title">Konto Komfort</h3>
+      <p class="product-description">Załóż, jeśli często wypłacasz gotówkę lub potrzebujesz konta wspólnego.</p>
+    </div>
+  </div>
+
+  <!-- 6. Konto Active -->
+  <div class="product-card">
+    <div class="product-icon"></div>
+    <div class="product-details">
+      <h3 class="product-title">Konto Active</h3>
+      <p class="product-description">Darmowe wypłaty za granicą i inne korzyści dla bardziej aktywnych klientów.</p>
+    </div>
+  </div>
+
+  <!-- 7. Podstawowy Rachunek Płatniczy (PRP) -->
+  <div class="product-card">
+    <div class="product-icon"></div>
+    <div class="product-details">
+      <h3 class="product-title">Podstawowy Rachunek Płatniczy (PRP)</h3>
+      <p class="product-description">Korzystaj w zakresie określonym ustawą o usługach płatniczych.</p>
+    </div>
+  </div>
+
+  <!-- 8. Rachunki dla bieżenciw -->
+  <div class="product-card">
+    <div class="product-icon"></div>
+    <div class="product-details">
+      <h3 class="product-title">Рахунки для біженців</h3>
+      <p class="product-description">Спрощені продукти для людей, які приїжджають до Польщі через війну в Україні.</p>
+    </div>
+  </div>
+
+</div>
+
+<th:block layout:fragment="scripts">
+</th:block>
+
+</body>
+</html>

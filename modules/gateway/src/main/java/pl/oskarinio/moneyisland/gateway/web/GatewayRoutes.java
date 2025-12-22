@@ -17,7 +17,6 @@ public class GatewayRoutes {
 
     @Bean
     public RouteLocator authRoutes(RouteLocatorBuilder builder){
-        System.out.println("Budowniczy - " + builder.toString());
         return builder.routes()
                 .route("auth", r -> r
                         .path(Route.MAIN + Route.REGISTER,

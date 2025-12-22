@@ -35,8 +35,8 @@ public class WebSecurityConfig {
                                                          ReactiveJwtDecoder reactiveJwtDecoder,
                                                          ReactiveCookieAuthenticationConverter reactiveCookieAuthenticationConverter,
 
-                                                         ReactiveAuthenticationEntryPoint reactiveAuthenticationEntryPoint,
-                                                         ReactiveAccessDeniedHandler reactiveAccessDeniedHandler,
+//                                                         ReactiveAuthenticationEntryPoint reactiveAuthenticationEntryPoint,
+//                                                         ReactiveAccessDeniedHandler reactiveAccessDeniedHandler,
                                                          WebCspNonceFilter webCspNonceFilter,
                                                          WebExpiredTokenFilter webExpiredTokenFilter
                                                          ){
@@ -56,8 +56,8 @@ public class WebSecurityConfig {
                                 .jwtDecoder(reactiveJwtDecoder)
                                 .jwtAuthenticationConverter(reactiveJwtAuthenticationConverter()))
                         .bearerTokenConverter(reactiveCookieAuthenticationConverter)
-                        .accessDeniedHandler(reactiveAccessDeniedHandler)
-                        .authenticationEntryPoint(reactiveAuthenticationEntryPoint)
+//                        .accessDeniedHandler(reactiveAccessDeniedHandler)
+//                        .authenticationEntryPoint(reactiveAuthenticationEntryPoint)
                 )
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                 .headers(headers -> headers

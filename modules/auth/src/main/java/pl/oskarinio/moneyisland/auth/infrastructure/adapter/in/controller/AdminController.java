@@ -21,7 +21,6 @@ public class AdminController {
     private final GetUserListUseCase showUserList;
     private final GrantAdminRoleUseCase grantAdminRole;
     private final DeleteUserUseCase deleteUser;
-    private final CookieManager cookieManager;
 
     @Value("${app.security.admin-username:}")
     private String adminUsername;
@@ -30,10 +29,9 @@ public class AdminController {
         this.showUserList = showUserList;
         this.grantAdminRole = grantAdminRole;
         this.deleteUser = deleteUserUseCase;
-        this.cookieManager = cookieManager;
     }
 
-    @ModelAttribute("users")
+    @ModelAttribute(Route.USERS_LIST)
     public List<User> addUsersListModel(){
         List<User> userList = showUserList.getUsersList();
         System.out.println(userList.size());
@@ -46,21 +44,21 @@ public class AdminController {
         return Route.ADMIN;
     }
 
-    @GetMapping("/users")
+    @GetMapping(Route.SHOW_USERS_LIST)
     public String showUsers(Model model){
         System.out.println("Łącze sie z endpointem users");
         log.info("Admin wyswietla liste uzytkownikow");
-        return "users";
+        return Route.USERS_LIST;
     }
 
-    @PostMapping("/delete")
+    @PostMapping(Route.DELETE)
     public String deleteUser(@RequestParam String username){
         deleteUser.deleteUser(username);
         log.info("Admin usunal uzytkownika");
         return Route.REDIRECT + Route.ADMIN;
     }
 
-    @PostMapping("/grant")
+    @PostMapping(Route.GRANT)
     public String grantAdmin(@RequestParam String username){
         grantAdminRole.grantAdminRole(username);
         log.info("Admin nadal uzytkownikowi uprawnienia administracyjne");

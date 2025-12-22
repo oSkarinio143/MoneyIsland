@@ -18,12 +18,16 @@ public class Route {
     public static final String REGISTER = "/register";
     public static final String LOGIN = "/login";
     public static final String LOGOUT = "/logout";
+    public static final String REFRESH ="/refresh";
 
-    public static final String USERS_LIST = "/users";
+    public static final String USERS_LIST = "users";
+    public static final String SHOW_USERS_LIST = "/users";
+    public static final String DELETE = "/delete";
+    public static final String GRANT = "/grant";
+
+    public static final String FINANCE = "/finance";
+    public static final String INVESTMENT = "/investment";
 
     public static final String ERROR = "/error";
-    public static final String DELETE = "/delete";
     public static final String SHOW = "/show";
-    public static final String GRANT = "/grant";
-    public static final String REFRESH ="/refresh";
 }
