@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Zarządzanie Majątkiem</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" th:attr="nonce=${cspNonce}"></script>
+    <style layout:fragment="styles" th:attr="nonce=${cspNonce}">
+        /* Twoje style pozostają bez zmian */
+        body { background-color: #e6e5dd; }
+        .balance-wealth-container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; padding: 32px; width: 100%; box-sizing: border-box; align-items: start; }
+        .balance-summary-panel { background-color: #fdfdfb; border-radius: 20px; padding: 24px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); display: flex; flex-direction: column; align-items: center; min-height: 400px; }
+        .balance-summary-panel h2 { font-size: 1.25rem; font-weight: 700; color: var(--color-hunter); margin: 0; }
+        .balance-total-value { font-size: 2rem; font-weight: 700; color: var(--color-hunter); margin: 8px 0 16px 0; }
+        .balance-chart-container { position: relative; width: 100%; max-width: 250px; flex-grow: 1; display: flex; align-items: center; margin: auto 0; }
+        .balance-summary-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px 24px; width: 100%; margin-top: auto; }
+        .balance-legend-item { display: flex; align-items: baseline; gap: 8px; }
+        .balance-legend-percentage { font-size: 1.1rem; font-weight: 700; color: var(--color-hunter); }
+        .balance-legend-label { font-size: 0.875rem; color: var(--color-moss); }
+        .balance-assets-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .balance-asset-card { background-color: #fdfdfb; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); min-height: 160px; }
+        .balance-asset-details { display: flex; flex-direction: column; gap: 4px; }
+        .balance-asset-name { font-size: 0.875rem; font-weight: 500; color: var(--color-moss); }
+        .balance-asset-value { font-size: 1.5rem; font-weight: 700; color: var(--color-hunter); }
+        .balance-asset-actions { display: flex; gap: 10px; margin-top: auto; }
+        .balance-asset-button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 12px; border-radius: 9999px; border: none; font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: opacity 0.2s; }
+        .balance-asset-button:hover { opacity: 0.85; }
+        .balance-asset-button--edit { background-color: #dce5d1; color: #588157; }
+        .balance-asset-button--delete { background-color: #f5d8d8; color: #c94a4a; }
+        .balance-asset-button--confirm { background-color: var(--color-sage); color: #fff; flex-grow: 1; }
+        .balance-asset-button--cancel { background-color: #e2e2e2; color: #555; }
+        .balance-asset-card--add { background-color: transparent; border: 2px dashed #d1d8cb; align-items: center; justify-content: center; cursor: pointer; box-shadow: none; transition: border-color 0.2s, background-color 0.2s; }
+        .balance-asset-card--add:hover { border-color: var(--color-fern); background-color: #f4f3ed; }
+        .balance-form-inputs { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .balance-form-input { width: 100%; padding: 10px; border: 1px solid var(--color-bone); border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 0.875rem; box-sizing: border-box; }
+        .balance-form-contents { display: contents; }
+        .balance-asset-edit { display: none; } /* Domyślnie ukryj formularz edycji */
+        @media (max-width: 1024px) { .balance-wealth-container { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) { .balance-assets-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="balance-wealth-container">
+        <!-- LEWA KOLUMNA (WYKRES) -->
+        <div class="balance-summary-panel">
+            <h2>Struktura Majątku</h2>
+            <p id="balanceTotalValue" class="balance-total-value">0,00 PLN</p>
+            <div class="balance-chart-container">
+                <canvas id="balanceWealthChart"></canvas>
+            </div>
+            <div id="balanceSummaryLegend" class="balance-summary-legend"></div>
+        </div>
+
+        <div class="balance-assets-grid">
+
+            <div th:each="asset : ${assetsList}" class="balance-asset-card">
+                <form th:action="@{/oskarinio143/moneyisland/user/finance/balance/modify}" method="post" class="balance-form-contents">
+                    <input type="hidden" name="assetId" th:value="${asset.id}" />
+                    <input type="hidden" name="username" th:value="${currentUsername}" />
+
+                    <!-- WIDOK DOMYŚLNY -->
+                    <div class="balance-asset-view">
+                        <div class="balance-asset-details">
+                            <span class="balance-asset-name" th:text="${asset.assetName}">Nazwa aktywa</span>
+                            <span class="balance-asset-value" th:text="${asset.assetValue} + ' PLN'">0.00 PLN</span>
+                        </div>
+                        <div class="balance-asset-actions">
+                            <button type="button" class="balance-asset-button balance-asset-button--edit">
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                <span>Edytuj</span>
+                            </button>
+                            <button type="submit" th:formaction="@{/oskarinio143/moneyisland/user/finance/balance/delete}" class="balance-asset-button balance-asset-button--delete">
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                <span>Usuń</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- WIDOK EDYCJI (DOMYŚLNIE UKRYTY) -->
+                    <div class="balance-asset-edit">
+                        <div class="balance-form-inputs">
+                            <span class="balance-asset-name" th:text="${asset.assetName}">Nazwa aktywa</span>
+                            <input type="number" name="assetValue" class="balance-form-input" placeholder="Wartość (PLN)" required step="0.01" th:value="${asset.assetValue}">
+                        </div>
+                        <div class="balance-asset-actions">
+                            <button type="button" class="balance-asset-button balance-asset-button--cancel">Anuluj</button>
+                            <button type="submit" class="balance-asset-button balance-asset-button--confirm">Zatwierdź</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- DODAWANIE NOWEGO AKTYWA -->
+            <form th:action="@{/oskarinio143/moneyisland/user/finance/balance/add}" method="post" class="balance-asset-card balance-asset-card--add">
+                <div class="balance-form-inputs">
+                    <input type="text" name="assetName" class="balance-form-input" placeholder="Nazwa składnika majątku" required>
+                    <input type="number" name="assetValue" class="balance-form-input" placeholder="Wartość (PLN)" required step="0.01">
+                    <input type="hidden" name="username" th:value="${currentUsername}" />
+                </div>
+                <button type="submit" class="balance-asset-button balance-asset-button--confirm">
+                    Dodaj Nowy
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="scripts">
+    <script th:attr="nonce=${cspNonce}">
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- LOGIKA WYKRESU I SUMY ---
+            const COLOR_PALETTE = ['#fde047', '#4ade80', '#60a5fa', '#c084fc', '#f87171', '#fb923c'];
+            const assets = [];
+
+            document.querySelectorAll('.balance-asset-card:not(.balance-asset-card--add)').forEach(card => {
+                const name = card.querySelector('.balance-asset-name')?.textContent || 'Brak nazwy';
+                const valueString = card.querySelector('.balance-asset-value')?.textContent || '0';
+                const value = parseFloat(valueString.replace(/\s|PLN/g, '').replace(',', '.'));
+                if (!isNaN(value)) {
+                    assets.push({ label: name, value: value });
+                }
+            });
+
+            const totalValue = assets.reduce((sum, asset) => sum + asset.value, 0);
+
+            // Aktualizacja łącznej kwoty majątku
+            const totalValueElement = document.getElementById('balanceTotalValue');
+            if (totalValueElement) {
+                totalValueElement.textContent = totalValue.toLocaleString('pl-PL', { style: 'currency', currency: 'PLN' });
+            }
+
+            const assetsWithPercentage = assets.map(asset => ({...asset, percentage: totalValue > 0 ? (asset.value / totalValue) * 100 : 0 }));
+
+            const legendContainer = document.getElementById('balanceSummaryLegend');
+            if(legendContainer) {
+                legendContainer.innerHTML = '';
+                assetsWithPercentage.forEach(asset => {
+                    const legendItem = document.createElement('div');
+                    legendItem.className = 'balance-legend-item';
+                    legendItem.innerHTML = `<span class="balance-legend-percentage">${asset.percentage.toFixed(0)}%</span><span class="balance-legend-label">${asset.label}</span>`;
+                    legendContainer.appendChild(legendItem);
+                });
+            }
+
+            const chartLabels = assets.map(a => a.label);
+            const chartValues = assets.map(a => a.value);
+            const chartColors = COLOR_PALETTE.slice(0, assets.length);
+            const maxValue = Math.max(...chartValues);
+            const proportionalOffsets = chartValues.map(value => maxValue > 0 ? (value / maxValue) * 30 : 0);
+            const ctx = document.getElementById('balanceWealthChart');
+
+            if (ctx && assets.length > 0) {
+                new Chart(ctx.getContext('2d'), {
+                    type: 'doughnut',
+                    data: { labels: chartLabels, datasets: [{ data: chartValues, backgroundColor: chartColors, borderColor: '#fdfdfb', borderWidth: 6, borderRadius: 6, offset: proportionalOffsets }] },
+                    options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { display: false }, tooltip: { enabled: true } } }
+                });
+            }
+
+            // --- LOGIKA DLA EDYCJI AKTYWÓW ---
+            document.querySelectorAll('.balance-asset-button--edit').forEach(button => {
+                button.addEventListener('click', function() {
+                    const card = this.closest('.balance-asset-card');
+                    const viewMode = card.querySelector('.balance-asset-view');
+                    const editMode = card.querySelector('.balance-asset-edit');
+                    const valueSpan = viewMode.querySelector('.balance-asset-value');
+                    const valueInput = editMode.querySelector('input[name="assetValue"]');
+
+                    const numericValue = parseFloat(valueSpan.textContent.replace(/\s|PLN/g, '').replace(',', '.'));
+                    if (!isNaN(numericValue)) {
+                        valueInput.value = numericValue.toFixed(2);
+                    }
+
+                    viewMode.style.display = 'none';
+                    editMode.style.display = 'flex';
+                    editMode.style.flexDirection = 'column';
+                    editMode.style.gap = '16px';
+                });
+            });
+
+            document.querySelectorAll('.balance-asset-button--cancel').forEach(button => {
+                button.addEventListener('click', function() {
+                    const card = this.closest('.balance-asset-card');
+                    const viewMode = card.querySelector('.balance-asset-view');
+                    const editMode = card.querySelector('.balance-asset-edit');
+
+                    editMode.style.display = 'none';
+                    viewMode.style.display = 'block';
+                });
+            });
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

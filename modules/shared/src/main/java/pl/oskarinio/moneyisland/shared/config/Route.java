@@ -27,6 +27,11 @@ public class Route {
 
     public static final String FINANCE = "/finance";
     public static final String INVESTMENT = "/investment";
+    public static final String BALANCE = "/balance";
+    public static final String ADD = "/add";
+
+    public static final String VIEW_BALANCE = "balance";
+    public static final String VIEW_FINANCE = "finance";
 
     public static final String ERROR = "/error";
     public static final String SHOW = "/show";

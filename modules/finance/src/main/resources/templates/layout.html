@@ -30,6 +30,7 @@
             display: flex;
             height: 100vh;
             color: var(--text-main);
+            /* ZMIANA 1: Zablokowanie przewijania na całym body. To jest kluczowe! */
             overflow: hidden;
         }
 
@@ -45,7 +46,11 @@
             align-items: center;
             padding-top: 50px;
             padding-bottom: 30px;
-            position: relative;
+            box-sizing: border-box;
+
+            /* ZMIANA 2: Usunięcie 'position: sticky' i 'height: 100vh'. */
+            /* Nie są potrzebne, gdy body poprawnie ustawia wysokość. */
+            /* Sidebar automatycznie zajmie pełną wysokość. */
         }
         .brand-header {
             text-align: center;
@@ -181,16 +186,16 @@
             padding: 30px;
             display: flex;
             flex-direction: column;
+
+            /* ZMIANA 3: Włączenie pionowego paska przewijania TYLKO dla tego kontenera. */
+            overflow-y: auto;
         }
         .main-content > div {
             width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
         }
         .content-card {
             width: 100%;
-            height: 100%;
+            /* Usunięto height: 100% aby karta mogła się rozciągać w zależności od treści */
             background-color: var(--card-bg);
             border: 2px solid var(--card-border);
             border-radius: 36px;
@@ -224,319 +229,51 @@
             font-weight: 500;
         }
 
-        /* === STYLE MODALI === */
-        .modal-backdrop {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: 1000;
-            -webkit-backdrop-filter: blur(5px);
-            backdrop-filter: blur(5px);
-            justify-content: center;
-            align-items: center;
-        }
+        /* === POZOSTAŁE STYLE - BEZ ZMIAN === */
+        .modal-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.6); z-index: 1000; -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); justify-content: center; align-items: center; }
         .modal-visible { display: flex; }
-        .modal-content {
-            background-color: #ffffff;
-            color: #333;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            position: relative;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-        }
-        .modal-close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 2rem;
-            color: #555;
-            cursor: pointer;
-            line-height: 1;
-        }
+        .modal-content { background-color: #ffffff; color: #333; padding: 2rem; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative; width: 90%; max-width: 400px; text-align: center; }
+        .modal-close-btn { position: absolute; top: 10px; right: 15px; font-size: 2rem; color: #555; cursor: pointer; line-height: 1; }
         .modal-close-btn:hover { color: #000; }
-        .modal-content form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
+        .modal-content form { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
         .modal-content .form-group { text-align: left; }
-        .modal-content label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .modal-content input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        .modal-content button[type="submit"] {
-            padding: 12px;
-            border: none;
-            border-radius: 4px;
-            background-color: #344E41;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+        .modal-content label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .modal-content input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .modal-content button[type="submit"] { padding: 12px; border: none; border-radius: 4px; background-color: #344E41; color: white; font-size: 1rem; cursor: pointer; transition: background-color 0.3s; }
         .modal-content button[type="submit"]:hover { background-color: #4A685D; }
-        .modal-content .error-message {
-            color: #D8000C;
-            background-color: #FFD2D2;
-            border: 1px solid;
-            padding: 10px;
-            border-radius: 4px;
-        }
+        .modal-content .error-message { color: #D8000C; background-color: #FFD2D2; border: 1px solid; padding: 10px; border-radius: 4px; }
         .modal-content .register-link { margin-top: 1rem; }
-        .modal-content .register-link a {
-            color: #344E41;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        /*Przycisk admina*/
-        .admin-btn-container {
-            margin-top: 30px;
-            margin-bottom: 20px;
-            padding: 0 30px;
-            box-sizing: border-box;
-        }
-
-        .admin-btn-container .btn-admin-panel .nav-icon {
-            display: none;
-        }
-
-        .admin-btn-container .btn-admin-panel {
-            display: block;
-            width: 100%;
-            background-color: var(--color-moss);
-            color: var(--color-bone);
-            font-family: 'Outfit', sans-serif;
-            padding: 14px 20px;
-            border-radius: 50px;
-            border: none;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-sizing: border-box;
-            text-align: center; /* Wyśrodkowanie tekstu wewnątrz */
-        }
-
-        .admin-btn-container .btn-admin-panel span {
-            padding: 0;
-            display: inline;
-            gap: 0;
-        }
-
-        .admin-btn-container .btn-admin-panel:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(52, 78, 65, 0.3);
-        }
-
-        /* === STYLE PANELU ADMINA === */
-        .admin-actions-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-top: 40px;
-            width: 100%;
-            max-width: 1200px;
-        }
-
-        .admin-action-card {
-            flex: 1;
-            min-width: 300px;
-            background-color: rgba(255, 255, 255, 0.4);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 25px 30px;
-            box-shadow: 0 8px 20px rgba(52, 78, 65, 0.08);
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-        }
-
-        .action-card-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--color-moss);
-            margin: 0 0 10px 0;
-        }
-
-        .action-card-description {
-            font-size: 16px;
-            color: var(--color-hunter);
-            line-height: 1.6;
-            margin-bottom: auto;
-            padding-bottom: 20px;
-        }
-
-        .admin-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .admin-form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .admin-form-group label {
-            font-weight: 500;
-            margin-bottom: 5px;
-            font-size: 14px;
-            color: var(--color-hunter);
-        }
-
-        .admin-form-group input[type="text"] {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 2px solid var(--color-sage);
-            background-color: #fff;
-            font-family: 'Outfit', sans-serif;
-            font-size: 16px;
-            color: var(--color-moss);
-            box-sizing: border-box;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .admin-form-group input[type="text"]:focus {
-            outline: none;
-            border-color: var(--color-hunter);
-            box-shadow: 0 0 0 3px rgba(58, 90, 64, 0.2);
-        }
-
-        .btn-admin-action {
-            background-color: var(--color-moss);
-            color: var(--color-bone);
-            font-family: 'Outfit', sans-serif;
-            padding: 14px 20px;
-            border-radius: 50px;
-            border: none;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            display: inline-block;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: auto;
-        }
-
-        .btn-admin-action:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(52, 78, 65, 0.3);
-        }
-
-        .btn-admin-action.btn-danger {
-            background-color: #c94a4a;
-        }
-        .btn-admin-action.btn-danger:hover {
-            background-color: #e15656;
-            box-shadow: 0 8px 15px rgba(201, 74, 74, 0.3);
-        }
-
-        /* === STYLE TABELI UŻYTKOWNIKÓW === */
-        .user-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 30px;
-            font-size: 16px;
-            box-shadow: 0 8px 20px rgba(52, 78, 65, 0.08);
-            border-radius: 12px;
-            overflow: hidden; /* Potrzebne, aby zaokrąglenie działało na komórkach tabeli */
-        }
-
-        .user-table thead tr {
-            background-color: var(--color-moss);
-            color: #ffffff;
-            text-align: left;
-            font-weight: bold;
-        }
-
-        .user-table th, .user-table td {
-            padding: 12px 15px;
-        }
-
-        .user-table tbody tr {
-            border-bottom: 1px solid var(--color-sage);
-            background-color: #fff;
-        }
-
-        .user-table tbody tr:nth-of-type(even) {
-            background-color: #f3f3f3;
-        }
-
-        .user-table tbody tr:last-of-type {
-            border-bottom: 2px solid var(--color-moss);
-        }
-
-        .user-table tbody tr:hover {
-            background-color: var(--color-bone);
-        }
-
-        .empty-table-message {
-            text-align: center;
-            padding: 20px;
-            font-style: italic;
-            color: var(--color-hunter);
-        }
-
-        /* === STYLE PRZYCISKU POWROTU I PASKA AKCJI === */
-        .action-bar {
-            width: 100%;
-            max-width: 1200px;
-            margin-top: 20px;
-            display: flex;
-            justify-content: flex-start;
-        }
-
-        .btn-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background-color: var(--color-sage);
-            color: var(--color-moss);
-            font-family: 'Outfit', sans-serif;
-            padding: 10px 20px;
-            border-radius: 50px;
-            border: 2px solid var(--color-fern);
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .btn-back:hover {
-            background-color: var(--color-fern);
-            color: var(--color-bone);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(52, 78, 65, 0.2);
-        }
-
-        .user-table th,
-        .user-table td {
-            text-align: center; /* To jest kluczowa właściwość - wyśrodkowuje tekst w poziomie */
-            vertical-align: middle; /* Opcjonalnie, ale polecane - wyśrodkowuje tekst w pionie */
-            padding: 12px 15px; /* Dodaje wewnętrzny odstęp, aby komórki nie były "ściśnięte" */
-        }
-
+        .modal-content .register-link a { color: #344E41; text-decoration: none; font-weight: bold; }
+        .admin-btn-container { margin-top: 30px; margin-bottom: 20px; padding: 0 30px; box-sizing: border-box; }
+        .admin-btn-container .btn-admin-panel .nav-icon { display: none; }
+        .admin-btn-container .btn-admin-panel { display: block; width: 100%; background-color: var(--color-moss); color: var(--color-bone); font-family: 'Outfit', sans-serif; padding: 14px 20px; border-radius: 50px; border: none; font-size: 18px; font-weight: 700; cursor: pointer; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; box-sizing: border-box; text-align: center; }
+        .admin-btn-container .btn-admin-panel span { padding: 0; display: inline; gap: 0; }
+        .admin-btn-container .btn-admin-panel:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(52, 78, 65, 0.3); }
+        .admin-actions-container { display: flex; flex-wrap: wrap; gap: 30px; margin-top: 40px; width: 100%; max-width: 1200px; }
+        .admin-action-card { flex: 1; min-width: 300px; background-color: rgba(255, 255, 255, 0.4); border: 1px solid var(--card-border); border-radius: 20px; padding: 25px 30px; box-shadow: 0 8px 20px rgba(52, 78, 65, 0.08); display: flex; flex-direction: column; text-align: left; }
+        .action-card-title { font-size: 24px; font-weight: 700; color: var(--color-moss); margin: 0 0 10px 0; }
+        .action-card-description { font-size: 16px; color: var(--color-hunter); line-height: 1.6; margin-bottom: auto; padding-bottom: 20px; }
+        .admin-form { display: flex; flex-direction: column; gap: 15px; }
+        .admin-form-group { display: flex; flex-direction: column; }
+        .admin-form-group label { font-weight: 500; margin-bottom: 5px; font-size: 14px; color: var(--color-hunter); }
+        .admin-form-group input[type="text"] { width: 100%; padding: 12px 15px; border-radius: 8px; border: 2px solid var(--color-sage); background-color: #fff; font-family: 'Outfit', sans-serif; font-size: 16px; color: var(--color-moss); box-sizing: border-box; transition: border-color 0.3s, box-shadow 0.3s; }
+        .admin-form-group input[type="text"]:focus { outline: none; border-color: var(--color-hunter); box-shadow: 0 0 0 3px rgba(58, 90, 64, 0.2); }
+        .btn-admin-action { background-color: var(--color-moss); color: var(--color-bone); font-family: 'Outfit', sans-serif; padding: 14px 20px; border-radius: 50px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; text-decoration: none; text-align: center; display: inline-block; transition: transform 0.2s, box-shadow 0.2s; margin-top: auto; }
+        .btn-admin-action:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(52, 78, 65, 0.3); }
+        .btn-admin-action.btn-danger { background-color: #c94a4a; }
+        .btn-admin-action.btn-danger:hover { background-color: #e15656; box-shadow: 0 8px 15px rgba(201, 74, 74, 0.3); }
+        .user-table { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 16px; box-shadow: 0 8px 20px rgba(52, 78, 65, 0.08); border-radius: 12px; overflow: hidden; }
+        .user-table thead tr { background-color: var(--color-moss); color: #ffffff; text-align: left; font-weight: bold; }
+        .user-table th, .user-table td { padding: 12px 15px; }
+        .user-table tbody tr { border-bottom: 1px solid var(--color-sage); background-color: #fff; }
+        .user-table tbody tr:nth-of-type(even) { background-color: #f3f3f3; }
+        .user-table tbody tr:last-of-type { border-bottom: 2px solid var(--color-moss); }
+        .user-table tbody tr:hover { background-color: var(--color-bone); }
+        .empty-table-message { text-align: center; padding: 20px; font-style: italic; color: var(--color-hunter); }
+        .action-bar { width: 100%; max-width: 1200px; margin-top: 20px; display: flex; justify-content: flex-start; }
+        .btn-back { display: inline-flex; align-items: center; gap: 8px; background-color: var(--color-sage); color: var(--color-moss); font-family: 'Outfit', sans-serif; padding: 10px 20px; border-radius: 50px; border: 2px solid var(--color-fern); font-size: 16px; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.2s ease; }
+        .btn-back:hover { background-color: var(--color-fern); color: var(--color-bone); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(52, 78, 65, 0.2); }
+        .user-table th, .user-table td { text-align: center; vertical-align: middle; padding: 12px 15px; }
     </style>
 </head>
 <body>
@@ -606,5 +343,8 @@
         }
     });
 </script>
+<th:block layout:fragment="scripts">
+    <!-- Skrypty z plików takich jak balance.html zostaną wstawione tutaj -->
+</th:block>
 </body>
 </html>

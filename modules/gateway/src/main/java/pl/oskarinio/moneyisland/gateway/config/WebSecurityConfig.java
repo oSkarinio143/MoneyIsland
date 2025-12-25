@@ -46,8 +46,9 @@ public class WebSecurityConfig {
                         .pathMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/favicon.ico").permitAll()
                         .pathMatchers(Route.MAIN,
                                 Route.MAIN + Route.LOGIN,
-                                Route.MAIN + Route.REGISTER).permitAll()
-                        .pathMatchers(Route.MAIN + Route.USER + "/**").hasRole("USER")
+                                Route.MAIN + Route.REGISTER,
+                                Route.MAIN + Route.USER + "/**").permitAll()
+//                        .pathMatchers(Route.MAIN + Route.USER + "/**").hasRole("USER")
                         .pathMatchers(Route.MAIN + Route.ADMIN + "/**").hasRole("ADMIN")
                         .anyExchange().authenticated()
                 )
@@ -64,11 +65,12 @@ public class WebSecurityConfig {
                         .contentSecurityPolicy(csp -> csp
                                 .policyDirectives("default-src 'self'; " +
                                         "style-src 'self' https://fonts.googleapis.com 'nonce-{nonce}';" +
-                                        "script-src 'self' 'nonce-{nonce}';" +
+                                        "script-src 'self' https://cdn.jsdelivr.net 'nonce-{nonce}';" +
                                         "img-src 'self' data: https://oskarinio143.github.io; " +
                                         "font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; " +
                                         "frame-ancestors 'none'; " +
                                         "form-action 'self'; " +
+                                        "connect-src 'self' https://cdn.jsdelivr.net; " +
                                         "object-src 'none';")
                         )
                         .contentTypeOptions(Customizer.withDefaults())

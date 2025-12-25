@@ -13,13 +13,13 @@
 
     <!-- Linki nawigacyjne -->
     <nav class="nav-container">
-        <a th:href="@{/}" class="nav-btn" th:classappend="${activePage == 'mainPanel'} ? 'active'">
+        <a th:href="@{/oskarinio143/moneyisland}" class="nav-btn" th:classappend="${activePage == 'mainPanel'} ? 'active'">
             <span>
                 <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
                 Pulpit Główny
             </span>
         </a>
-        <a th:href="@{moneyisland/user/finance}" class="nav-btn" th:classappend="${activePage == 'finance'} ? 'active'">
+        <a th:href="@{/oskarinio143/moneyisland/user/finance}" class="nav-btn" th:classappend="${activePage == 'finance'} ? 'active'">
             <span>
                 <svg class="nav-icon" viewBox="0 0 24 24"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
                 Finanse

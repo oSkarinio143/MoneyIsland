@@ -12,9 +12,9 @@
     <name>MoneyIsland</name>
 
     <modules>
+        <module>modules/shared</module>
         <module>modules/auth</module>
         <module>modules/gateway</module>
-        <module>modules/shared</module>
         <module>modules/refresh</module>
         <module>modules/finance</module>
     </modules>
