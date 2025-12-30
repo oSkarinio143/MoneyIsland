@@ -22,16 +22,23 @@ public class Route {
 
     public static final String USERS_LIST = "users";
     public static final String SHOW_USERS_LIST = "/users";
-    public static final String DELETE = "/delete";
     public static final String GRANT = "/grant";
+    public static final String DELETE = "/delete";
 
     public static final String FINANCE = "/finance";
     public static final String INVESTMENT = "/investment";
     public static final String BALANCE = "/balance";
     public static final String ADD = "/add";
+    public static final String MODIFY = "/modify";
+    public static final String HISTORY = "/history";
+    public static final String GOAL = "/goal";
+
+
 
     public static final String VIEW_BALANCE = "balance";
     public static final String VIEW_FINANCE = "finance";
+    public static final String VIEW_HISTORY = "history";
+    public static final String VIEW_GOAL = "goal";
 
     public static final String ERROR = "/error";
     public static final String SHOW = "/show";

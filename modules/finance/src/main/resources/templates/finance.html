@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-  <title>Oferta Kont</title>
+  <title>Finanse</title>
 
   <style layout:fragment="styles" th:attr="nonce=${cspNonce}">
     /* Import czcionek */
@@ -124,12 +124,10 @@
       display: none;
     }
 
-    /* ZMIANA: Dodano style, aby link <a> zachowywał się jak przycisk */
     .finance-action-button {
-      display: inline-block; /* Potrzebne dla linku <a> */
-      text-decoration: none; /* Usunięcie podkreślenia */
+      display: inline-block;
+      text-decoration: none;
       text-align: center;
-
       background-color: #A3B18A;
       color: #ffffff;
       border: none;
@@ -146,7 +144,7 @@
 
     .finance-action-button:hover {
       background-color: #588157;
-      color: #ffffff; /* Upewnienie się, że kolor tekstu się nie zmienia */
+      color: #ffffff;
     }
 
     /* --- RESPONSOWNOŚĆ --- */
@@ -163,21 +161,20 @@
 
 <div layout:fragment="content" class="finance-staggered-layout">
 
-  <!-- WIERSZ 1: Karta po lewej (50%) -->
+  <!-- WIERSZ 1: Zarządzanie majątkiem -->
   <div class="finance-layout-row finance-layout-row--left">
     <div class="finance-product-card">
       <div class="finance-card-illustration-wrapper">
         <img class="finance-card-illustration" src="https://i.imgur.com/example-line-art-1.svg" alt="Ilustracja świątyni">
       </div>
       <div class="finance-card-content">
-        <h3 class="finance-card-title">Konta Osobiste</h3>
+        <h3 class="finance-card-title">Struktura Majątku</h3>
         <p class="finance-card-description">{...}</p>
       </div>
-      <!-- ZMIANA: Z <button> na <a> z th:href -->
       <form th:action="@{/oskarinio143/moneyisland/user/finance/balance}" method="get">
         <input type="hidden" name="username" th:value="${currentUsername}" />
         <button type="submit" class="finance-action-button">
-          Dowiedz się więcej
+          Pokaż szczegóły
         </button>
       </form>
     </div>
@@ -187,7 +184,7 @@
     </div>
   </div>
 
-  <!-- WIERSZ 2: Karta po prawej (75%) -->
+  <!-- WIERSZ 2: Zobowiązania -->
   <div class="finance-layout-row finance-layout-row--right">
     <div class="finance-text-block">
       <h2>Przyszłość</h2>
@@ -201,23 +198,27 @@
         <h3 class="finance-card-title">Zobowiązania</h3>
         <p class="finance-card-description">{...}</p>
       </div>
-      <!-- ZMIANA: Z <button> na <a> z th:href -->
       <a th:href="@{/finance/liabilities}" class="finance-action-button">Zobacz analizę</a>
     </div>
   </div>
 
-  <!-- WIERSZ 3: Karta po lewej (50%) -->
+  <!-- WIERSZ 3: Zmiany majątkowe (ANALIZA) -->
   <div class="finance-layout-row finance-layout-row--left">
     <div class="finance-product-card">
       <div class="finance-card-illustration-wrapper">
         <img class="finance-card-illustration" src="https://i.imgur.com/example-line-art-3.svg" alt="Ilustracja pawilonu">
       </div>
       <div class="finance-card-content">
-        <h3 class="finance-card-title">Historia Transakcji</h3>
+        <h3 class="finance-card-title">Analiza Finansowa</h3>
         <p class="finance-card-description">{...}</p>
       </div>
-      <!-- ZMIANA: Z <button> na <a> z th:href -->
-      <a th:href="@{/finance/history}" class="finance-action-button">Sprawdź historię</a>
+      <!-- ZMIANA: Z <a> na <form> z przyciskiem, aby przekazać username -->
+      <form th:action="@{/oskarinio143/moneyisland/user/finance/history}" method="get">
+        <input type="hidden" name="username" th:value="${currentUsername}" />
+        <button type="submit" class="finance-action-button">
+          Sprawdź analizę
+        </button>
+      </form>
     </div>
     <div class="finance-text-block">
       <h2>Zmiany majątkowe</h2>
@@ -225,7 +226,7 @@
     </div>
   </div>
 
-  <!-- WIERSZ 4: Karta po prawej (75%) -->
+  <!-- WIERSZ 4: Cele finansowe -->
   <div class="finance-layout-row finance-layout-row--right">
     <div class="finance-text-block">
       <h2>Twoja droga</h2>
@@ -239,8 +240,12 @@
         <h3 class="finance-card-title">Cele Finansowe</h3>
         <p class="finance-card-description">{...}</p>
       </div>
-      <!-- ZMIANA: Z <button> na <a> z th:href -->
-      <a th:href="@{/finance/goals}" class="finance-action-button">Wyznacz cele</a>
+      <form th:action="@{/oskarinio143/moneyisland/user/finance/goal}" method="get">
+        <input type="hidden" name="username" th:value="${currentUsername}" />
+        <button type="submit" class="finance-action-button">
+          Wyznacz cele
+        </button>
+      </form>
     </div>
   </div>
 

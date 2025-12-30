@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Analiza Finansowa</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" th:attr="nonce=${cspNonce}"></script>
+    <style layout:fragment="styles" th:attr="nonce=${cspNonce}">
+        /* TWOJE STYLE (bez zmian) */
+        body { background-color: #f8f9fa; font-family: 'Montserrat', sans-serif; color: #212529; }
+        .analysis-container { max-width: 1600px; margin: 0 auto; padding: 32px; box-sizing: border-box; }
+        .analysis-header { margin-bottom: 40px; text-align: center; }
+        .analysis-header h1 { font-size: 2.25rem; font-weight: 700; color: #2c3e50; margin: 0 0 8px 0; }
+        .analysis-header p { font-size: 1.1rem; color: #7f8c8d; margin: 0; }
+        .summary-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px; }
+        .stat-card { background-color: #ffffff; border-radius: 16px; border: 1px solid #e9ecef; padding: 24px; text-align: center; }
+        .stat-card__title { font-size: 0.875rem; font-weight: 600; color: #7f8c8d; margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card__value { font-size: 2rem; font-weight: 700; margin: 0; }
+        .stat-card__value--income { color: #27ae60; }
+        .stat-card__value--expense { color: #e74c3c; }
+        .stat-card__value--savings { color: #2980b9; }
+        .chart-panel, .input-panel { background-color: #ffffff; border-radius: 16px; border: 1px solid #e9ecef; padding: 24px; display: flex; flex-direction: column; }
+        .chart-panel h2 { font-size: 1.25rem; font-weight: 600; color: #2c3e50; margin: 0 0 24px 0; text-align: left; }
+        .main-chart-panel { margin-bottom: 24px; }
+        .chart-wrapper-main { position: relative; min-height: 350px; }
+        .chart-wrapper-small { position: relative; flex-grow: 1; min-height: 250px; }
+        .analysis-details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; }
+        .charts-column, .inputs-column { display: flex; flex-direction: column; gap: 24px; }
+        .charts-column .chart-panel, .inputs-column .input-panel { flex: 1; }
+        .monthly-inputs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .monthly-input-tile { display: flex; flex-direction: column; gap: 6px; background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 12px; transition: background-color 0.2s, border-color 0.2s; }
+        .monthly-input-tile label { font-size: 0.8rem; font-weight: 500; color: #7f8c8d; }
+        .monthly-input { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ced4da; font-family: 'Montserrat', sans-serif; font-size: 1rem; text-align: right; background-color: #fff; box-sizing: border-box; }
+        .monthly-input:focus { outline: none; border-color: #2980b9; box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.15); }
+        .monthly-input-tile--current { background-color: #fffbe6; border-color: #ffe58f; }
+        .save-button { width: 100%; background-color: #2980b9; color: #ffffff; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: background-color 0.2s; margin-top: auto; }
+        .save-button:hover { background-color: #3498db; }
+        @media (max-width: 1200px) { .analysis-details-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .summary-stats { grid-template-columns: 1fr; } .analysis-container { padding: 24px 16px; } .analysis-header h1 { font-size: 1.75rem; } .monthly-inputs-grid { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="analysis-container">
+        <header class="analysis-header">
+            <h1>Panel Analizy Finansowej</h1>
+            <p>Podsumowanie i planowanie przepływów pieniężnych</p>
+        </header>
+
+        <!-- Sekcja KPI -->
+        <section class="summary-stats">
+            <div class="stat-card">
+                <h3 class="stat-card__title">Całkowite Przychody</h3>
+                <p id="totalIncomeValue" class="stat-card__value stat-card__value--income">0,00 zł</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="stat-card__title">Całkowite Wydatki</h3>
+                <p id="totalExpenseValue" class="stat-card__value stat-card__value--expense">0,00 zł</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="stat-card__title">Oszczędności Netto</h3>
+                <p id="netSavingsValue" class="stat-card__value stat-card__value--savings">0,00 zł</p>
+            </div>
+        </section>
+
+        <!-- Główny Wykres -->
+        <section class="chart-panel main-chart-panel">
+            <h2>Saldo Miesięczne</h2>
+            <div class="chart-wrapper-main"><canvas id="differenceChart"></canvas></div>
+        </section>
+
+        <main class="analysis-details-grid">
+            <!-- Kolumna lewa (wykresy) -->
+            <div class="charts-column">
+                <div class="chart-panel">
+                    <h2>Przychody</h2>
+                    <div class="chart-wrapper-small"><canvas id="incomeChart"></canvas></div>
+                </div>
+                <div class="chart-panel">
+                    <h2>Wydatki</h2>
+                    <div class="chart-wrapper-small"><canvas id="expensesChart"></canvas></div>
+                </div>
+            </div>
+
+            <div class="inputs-column" th:with="months=${ {'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'} }">
+
+                <!-- FORMULARZ PRZYCHODÓW -->
+                <form id="incomeForm" class="input-panel" th:action="@{/oskarinio143/moneyisland/user/finance/history/income}" method="post">
+                    <input type="hidden" name="username" th:value="${currentUsername}"/>
+
+                    <div class="monthly-inputs-grid">
+                        <div th:each="month, iterStat : ${months}" class="monthly-input-tile">
+                            <label th:for="'income-' + ${iterStat.index}" th:text="${month}">Miesiąc</label>
+
+                            <!-- ZMIANA TUTAJ: th:value pobiera dane z backendu (incomeData) -->
+                            <!-- Jeśli incomeData jest null LUB element pod indeksem jest null, wstaw 0 -->
+                            <input type="number"
+                                   th:id="'income-' + ${iterStat.index}"
+                                   name="monthlyValues"
+                                   class="monthly-input"
+                                   th:value="${incomeData != null and incomeData.size() > iterStat.index ? (incomeData[iterStat.index] ?: 0) : 0}"
+                                   placeholder="0"
+                                   min="0"
+                                   step="0.01">
+                        </div>
+                    </div>
+                    <button type="submit" class="save-button">Zapisz Przychody</button>
+                </form>
+
+                <!-- FORMULARZ WYDATKÓW -->
+                <form id="expenseForm" class="input-panel" th:action="@{/oskarinio143/moneyisland/user/finance/history/expense}" method="post">
+                    <input type="hidden" name="username" th:value="${currentUsername}"/>
+
+                    <div class="monthly-inputs-grid">
+                        <div th:each="month, iterStat : ${months}" class="monthly-input-tile">
+                            <label th:for="'expense-' + ${iterStat.index}" th:text="${month}">Miesiąc</label>
+
+                            <!-- ZMIANA TUTAJ: th:value pobiera dane z backendu (expenseData) -->
+                            <input type="number"
+                                   th:id="'expense-' + ${iterStat.index}"
+                                   name="monthlyValues"
+                                   class="monthly-input"
+                                   th:value="${expenseData != null and expenseData.size() > iterStat.index ? (expenseData[iterStat.index] ?: 0) : 0}"
+                                   placeholder="0"
+                                   min="0"
+                                   step="0.01">
+                        </div>
+                    </div>
+                    <button type="submit" class="save-button">Zapisz Wydatki</button>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+
+<th:block layout:fragment="scripts">
+    <script th:attr="nonce=${cspNonce}">
+        document.addEventListener('DOMContentLoaded', function () {
+            const months = ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru'];
+            const formatCurrency = (value) => value.toLocaleString('pl-PL', { style: 'currency', currency: 'PLN' });
+
+            // Formatter dla osi Y (np. 1000 -> 1k, 0 -> 0)
+            const formatAxisLabel = (value) => {
+                if (value === 0) return '0';
+                return (value / 1000) + 'k';
+            };
+
+            const incomeInputs = Array.from(document.querySelectorAll('#incomeForm .monthly-input'));
+            const expenseInputs = Array.from(document.querySelectorAll('#expenseForm .monthly-input'));
+
+            const totalIncomeEl = document.getElementById('totalIncomeValue');
+            const totalExpenseEl = document.getElementById('totalExpenseValue');
+            const netSavingsEl = document.getElementById('netSavingsValue');
+
+            let differenceChart, incomeChart, expensesChart;
+
+            function updateAllVisuals() {
+                // Pobieramy wartości, puste traktujemy jako 0
+                const incomeData = incomeInputs.map(input => parseFloat(input.value) || 0);
+                const expenseData = expenseInputs.map(input => parseFloat(input.value) || 0);
+
+                const differenceData = incomeData.map((income, i) => income - expenseData[i]);
+
+                const totalIncome = incomeData.reduce((sum, v) => sum + v, 0);
+                const totalExpense = expenseData.reduce((sum, v) => sum + v, 0);
+
+                totalIncomeEl.textContent = formatCurrency(totalIncome);
+                totalExpenseEl.textContent = formatCurrency(totalExpense);
+                netSavingsEl.textContent = formatCurrency(totalIncome - totalExpense);
+
+                if(differenceChart) {
+                    differenceChart.data.datasets[0].data = differenceData;
+                    differenceChart.update('none');
+                }
+                if(incomeChart) {
+                    incomeChart.data.datasets[0].data = incomeData;
+                    incomeChart.update('none');
+                }
+                if(expensesChart) {
+                    expensesChart.data.datasets[0].data = expenseData;
+                    expensesChart.update('none');
+                }
+            }
+
+            function initializeCharts() {
+                // Wspólna konfiguracja wyglądu (tooltipy, legenda, grid X)
+                const baseOptions = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: '#2c3e50',
+                            callbacks: {
+                                label: (ctx) => `${ctx.dataset.label}: ${formatCurrency(ctx.parsed.y)}`
+                            }
+                        }
+                    },
+                    interaction: { intersect: false, mode: 'index' },
+                    animation: { duration: 250 },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#7f8c8d' }
+                        }
+                    }
+                };
+
+                // Opcje dla PRZYCHODÓW i WYDATKÓW (zablokowane poniżej 0)
+                const positiveOnlyOptions = {
+                    ...baseOptions,
+                    scales: {
+                        ...baseOptions.scales,
+                        y: {
+                            min: 0,              // TWARDA BLOKADA: Wykres zaczyna się od 0
+                            suggestedMax: 5000,  // DOMYŚLNA SKALA: Jeśli dane są małe, pokaż chociaż do 5k
+                            border: { dash: [4, 4] },
+                            grid: { color: '#e9ecef' },
+                            ticks: {
+                                color: '#7f8c8d',
+                                callback: formatAxisLabel // Nasza funkcja 1k, 2k
+                            }
+                        }
+                    }
+                };
+
+                // Opcje dla SALDA (może być na minusie)
+                const balanceOptions = {
+                    ...baseOptions,
+                    scales: {
+                        ...baseOptions.scales,
+                        y: {
+                            // Tutaj NIE MA min: 0, więc saldo może spadać pod kreskę
+                            suggestedMax: 5000,
+                            suggestedMin: -1000, // Sugerujemy trochę miejsca na minusie
+                            border: { dash: [4, 4] },
+                            grid: { color: '#e9ecef' },
+                            ticks: {
+                                color: '#7f8c8d',
+                                callback: formatAxisLabel
+                            }
+                        }
+                    }
+                };
+
+                // 1. Wykres SALDA (różnicy) - używa balanceOptions
+                const diffCtx = document.getElementById('differenceChart').getContext('2d');
+                differenceChart = new Chart(diffCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: months,
+                        datasets: [{
+                            label: 'Saldo',
+                            data: [],
+                            backgroundColor: (ctx) => (ctx.raw >= 0 ? 'rgba(39, 174, 96, 0.8)' : 'rgba(231, 76, 60, 0.8)'),
+                            borderRadius: 6
+                        }]
+                    },
+                    options: balanceOptions
+                });
+
+                // 2. Wykres PRZYCHODÓW - używa positiveOnlyOptions
+                const incomeCtx = document.getElementById('incomeChart').getContext('2d');
+                const incomeGradient = incomeCtx.createLinearGradient(0, 0, 0, 250);
+                incomeGradient.addColorStop(0, 'rgba(41, 128, 185, 0.6)');
+                incomeGradient.addColorStop(1, 'rgba(41, 128, 185, 0.05)');
+
+                incomeChart = new Chart(incomeCtx, {
+                    type: 'line',
+                    data: {
+                        labels: months,
+                        datasets: [{
+                            label: 'Przychody',
+                            data: [],
+                            borderColor: '#2980b9',
+                            backgroundColor: incomeGradient,
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: positiveOnlyOptions
+                });
+
+                // 3. Wykres WYDATKÓW - używa positiveOnlyOptions
+                const expenseCtx = document.getElementById('expensesChart').getContext('2d');
+                const expenseGradient = expenseCtx.createLinearGradient(0, 0, 0, 250);
+                expenseGradient.addColorStop(0, 'rgba(231, 76, 60, 0.6)');
+                expenseGradient.addColorStop(1, 'rgba(231, 76, 60, 0.05)');
+
+                expensesChart = new Chart(expenseCtx, {
+                    type: 'line',
+                    data: {
+                        labels: months,
+                        datasets: [{
+                            label: 'Wydatki',
+                            data: [],
+                            borderColor: '#e74c3c',
+                            backgroundColor: expenseGradient,
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: positiveOnlyOptions
+                });
+            }
+
+            function highlightCurrentMonth() {
+                const currentMonthIndex = new Date().getMonth();
+                const currentIncomeInput = document.getElementById(`income-${currentMonthIndex}`);
+                if (currentIncomeInput) { currentIncomeInput.closest('.monthly-input-tile')?.classList.add('monthly-input-tile--current'); }
+                const currentExpenseInput = document.getElementById(`expense-${currentMonthIndex}`);
+                if (currentExpenseInput) { currentExpenseInput.closest('.monthly-input-tile')?.classList.add('monthly-input-tile--current'); }
+            }
+
+            initializeCharts();
+            updateAllVisuals();
+            highlightCurrentMonth();
+
+            [...incomeInputs, ...expenseInputs].forEach(input => {
+                input.addEventListener('input', updateAllVisuals);
+            });
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

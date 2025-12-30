@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Bilans Finansowy 2025</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <style th:attr="nonce=${cspNonce}">
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap');
+
+        :root {
+            --bg-cream: #fffcf5;
+            --card-white: #ffffff;
+            --text-dark: #2d3436;
+            --text-gray: #636e72;
+            --color-sage: #A3B18A;
+            --color-deep: #588157;
+            --color-warm: #d4a373;
+            --font-main: 'Montserrat', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+        }
+
+        .dashboard-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* NAGŁÓWEK */
+        .dashboard-header { text-align: center; margin-bottom: 60px; }
+        .dashboard-title { font-size: 2.2rem; font-weight: 800; color: var(--color-deep); margin: 0; letter-spacing: -1px; }
+        .dashboard-subtitle { font-size: 1rem; color: var(--text-gray); font-weight: 500; margin-top: 10px; }
+
+        /* GRID */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+        @media (max-width: 900px) { .dashboard-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+        /* KARTY */
+        .dash-card {
+            background: var(--card-white);
+            border-radius: 30px;
+            padding: 30px 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            border: 1px solid rgba(163, 177, 138, 0.2);
+            gap: 15px; /* Odstępy między elementami w karcie */
+        }
+        .dash-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(163, 177, 138, 0.15); }
+
+        /* WYRÓŻNIONA KARTA (ŚRODEK) */
+        .dash-card.card-highlight {
+            padding: 50px 30px;
+            border: 2px solid var(--color-sage);
+            background: #ffffff;
+            z-index: 2;
+            box-shadow: 0 25px 60px rgba(88, 129, 87, 0.12);
+        }
+
+        /* WYKRESY */
+        .chart-container { position: relative; width: 110px; height: 110px; margin-bottom: 5px; }
+        .card-highlight .chart-container { width: 160px; height: 160px; }
+
+        .chart-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+        .chart-bg { fill: none; stroke: #f0f0f0; stroke-width: 8; }
+        .chart-bar { fill: none; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1.5s ease-out; }
+
+        .color-income { stroke: var(--color-sage); }
+        .color-expense { stroke: var(--color-warm); }
+        .color-savings { stroke: var(--color-deep); }
+
+        .chart-label {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.4rem; font-weight: 800; color: var(--text-dark);
+        }
+        .card-highlight .chart-label { font-size: 2.2rem; color: var(--color-deep); }
+        .chart-label span { font-size: 0.5em; margin-top: 5px; margin-left: 2px; opacity: 0.6; }
+
+        /* === STYLIZACJA TEKSTÓW W KARTA === */
+        .card-title {
+            font-size: 0.9rem; font-weight: 700; color: var(--text-gray);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .card-amount {
+            font-size: 1.6rem; font-weight: 800; color: var(--text-dark);
+            margin-top: 5px; line-height: 1;
+        }
+        .card-highlight .card-amount { font-size: 2.2rem; color: var(--color-deep); }
+
+        /* POPRAWIONA WIDOCZNOŚĆ CELU */
+        .card-target {
+            font-size: 1rem;       /* Większa czcionka */
+            color: var(--color-deep); /* Ciemny zielony kolor */
+            opacity: 1;            /* Pełna widoczność */
+            font-weight: 700;      /* Pogrubienie */
+            margin-top: 5px;
+            background-color: rgba(163, 177, 138, 0.15); /* Lekkie tło dla wyróżnienia */
+            padding: 6px 14px;
+            border-radius: 12px;
+        }
+        .card-target span {
+            font-weight: 500;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-right: 4px;
+        }
+
+        /* BUTTONY */
+        .action-btn {
+            background-color: transparent;
+            color: var(--color-sage);
+            border: 2px solid var(--color-sage);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+        .action-btn:hover { background-color: var(--color-sage); color: #fff; }
+        .action-btn.hidden { visibility: hidden; pointer-events: none; }
+
+        /* === MODAL STYLIZACJA === */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(45, 52, 54, 0.6); /* Ciemniejsze tło */
+            backdrop-filter: blur(5px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.visible { opacity: 1; visibility: visible; }
+
+        .modal-content {
+            background: #fff;
+            padding: 40px;
+            border-radius: 30px;
+            width: 90%; max-width: 400px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            border: none;
+            transform: scale(0.9); transition: transform 0.3s ease;
+        }
+        .modal-overlay.visible .modal-content { transform: scale(1); }
+
+        .modal-header h3 { font-size: 1.6rem; color: var(--color-deep); margin: 0 0 10px 0; font-weight: 800; }
+        .modal-desc { color: var(--text-gray); font-size: 0.95rem; margin-bottom: 25px; line-height: 1.5; }
+
+        .modal-input {
+            width: 100%; padding: 15px;
+            font-family: var(--font-main); font-size: 1.8rem; font-weight: 700;
+            text-align: center; color: var(--text-dark);
+            border: 2px solid #eee; border-radius: 16px;
+            background: #fafafa;
+            box-sizing: border-box; margin-bottom: 30px;
+            transition: border-color 0.2s;
+        }
+        .modal-input:focus { outline: none; border-color: var(--color-sage); background: #fff; }
+
+        .modal-actions { display: flex; gap: 15px; justify-content: center; }
+        .modal-btn {
+            padding: 12px 30px; border-radius: 50px; border: none; font-weight: 700;
+            cursor: pointer; font-family: var(--font-main); font-size: 0.9rem; transition: transform 0.2s;
+        }
+        .modal-btn:hover { transform: translateY(-2px); }
+        .btn-save { background: var(--color-deep); color: #fff; box-shadow: 0 5px 15px rgba(88, 129, 87, 0.3); }
+        .btn-cancel { background: #f0f0f0; color: var(--text-gray); }
+        .btn-cancel:hover { background: #e0e0e0; }
+
+    </style>
+
+    <div class="dashboard-wrapper">
+        <div class="dashboard-header">
+            <h2 class="dashboard-title">Bilans Finansowy 2025</h2>
+            <div class="dashboard-subtitle">Zarządzaj swoimi celami i obserwuj wzrost</div>
+        </div>
+
+        <!-- KONTENER NA KAFELKI -->
+        <div id="dashboardGrid" class="dashboard-grid"></div>
+    </div>
+
+    <!-- MODAL (Edycja celu) -->
+    <!-- MODAL (Edycja celu) -->
+    <div id="editModal" class="modal-overlay">
+        <!-- FORMULARZ POST -->
+        <!-- Ustaw th:action na swój endpoint w kontrolerze, np. /save -->
+        <form id="modalForm" method="post" th:action="@{/oskarinio143/moneyisland/user/finance/goal}" class="modal-content">
+
+            <!-- Ukryte pole username (przekazywane zawsze) -->
+            <input type="hidden" name="username" th:value="${currentUsername}" />
+
+            <div class="modal-header">
+                <h3 id="modalTitle">Edytuj Cel</h3>
+                <div class="modal-desc">Wprowadź nową kwotę roczną.</div>
+            </div>
+
+            <!-- Input, którego "name" będziemy zmieniać JS-em -->
+            <input type="number" id="modalInput" class="modal-input" placeholder="0" required />
+
+            <div class="modal-actions">
+                <!-- Typ button, żeby nie wysyłał formularza automatycznie -->
+                <button type="button" id="modalCancel" class="modal-btn btn-cancel">Anuluj</button>
+                <!-- Typ submit wyśle formularz -->
+                <button type="submit" id="modalSave" class="modal-btn btn-save">Zapisz</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<th:block layout:fragment="scripts">
+    <script th:inline="javascript" th:attr="nonce=${cspNonce}">
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // === DANE ===
+            const parseVal = (val) => parseFloat(val) || 0;
+
+            const backendData = {
+                incomeCurrent: parseVal([[${incomeCurrent}]]),
+        incomeTarget: parseVal([[${incomeTarget}]]),
+        expenseCurrent: parseVal([[${expenseCurrent}]]),
+        expenseTarget: parseVal([[${expenseTarget}]])
+        };
+
+        const state = {
+        income:  { id: 'income',  title: 'Przychody', current: backendData.incomeCurrent, target: backendData.incomeTarget, colorClass: 'color-income', editable: true },
+        savings: { id: 'savings', title: 'Oszczędności', current: 0, target: 0, colorClass: 'color-savings', editable: false },
+        expense: { id: 'expense', title: 'Wydatki',   current: backendData.expenseCurrent, target: backendData.expenseTarget, colorClass: 'color-expense', editable: true }
+        };
+
+        const gridEl = document.getElementById('dashboardGrid');
+        const modalEl = document.getElementById('editModal');
+        const modalInput = document.getElementById('modalInput');
+        const modalTitle = document.getElementById('modalTitle');
+
+        // === RENDEROWANIE KAFELKÓW ===
+        const formatMoney = (val) => new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN', maximumFractionDigits: 0 }).format(val);
+
+        const render = () => {
+        // Oblicz oszczędności
+        state.savings.current = state.income.current - state.expense.current;
+        state.savings.target = state.income.target - state.expense.target;
+
+        gridEl.innerHTML = '';
+
+        ['income', 'savings', 'expense'].forEach(key => {
+        const item = state[key];
+        const isHighlight = (key === 'savings');
+        let percent = item.target > 0 ? Math.round((item.current / item.target) * 100) : 0;
+        let visualPercent = Math.max(0, Math.min(100, percent));
+
+        const r = isHighlight ? 70 : 45;
+        const c = 2 * Math.PI * r;
+        const offset = c - (visualPercent / 100) * c;
+        const highlightClass = isHighlight ? 'card-highlight' : '';
+
+        const btnHtml = item.editable
+            ? `<button type="button" class="action-btn" data-key="${key}">Edytuj Cel</button>`
+            : `<div class="action-btn hidden"></div>`;
+
+        const html = `
+                    <div class="dash-card ${highlightClass}">
+                        <div class="chart-container">
+                            <svg class="chart-svg" viewBox="0 0 160 160">
+                                <circle class="chart-bg" cx="80" cy="80" r="${r}"></circle>
+                                <circle class="chart-bar dynamic-chart-bar ${item.colorClass}" cx="80" cy="80" r="${r}" data-c="${c}" data-offset="${offset}"></circle>
+                            </svg>
+                            <div class="chart-label">${percent}<span>%</span></div>
+                        </div>
+                        <div class="card-title">${item.title}</div>
+                        <div class="card-amount">${formatMoney(item.current)}</div>
+                        <div class="card-target"><span>Cel:</span> ${formatMoney(item.target)}</div>
+                        ${btnHtml}
+                    </div>`;
+        gridEl.insertAdjacentHTML('beforeend', html);
+        });
+
+        document.querySelectorAll('.dynamic-chart-bar').forEach(el => {
+        el.style.strokeDasharray = el.getAttribute('data-c');
+        el.style.strokeDashoffset = el.getAttribute('data-offset');
+        });
+        };
+
+        // === LOGIKA OTWIERANIA MODALA (TUTAJ DZIEJE SIĘ MAGIA ZMIANY NAZWY) ===
+
+        gridEl.addEventListener('click', (e) => {
+        if (e.target.classList.contains('action-btn')) {
+        const key = e.target.getAttribute('data-key');
+        openEdit(key);
+        }
+        });
+
+        const openEdit = (key) => {
+        modalTitle.textContent = "Edytuj cel: " + state[key].title;
+        modalInput.value = state[key].target;
+
+        // TO JEST TO CZEGO SZUKASZ:
+        // Jeśli kliknąłeś przychód -> input nazywa się "targetIncome"
+        // Jeśli kliknąłeś wydatek -> input nazywa się "targetExpense"
+        if (key === 'income') {
+        modalInput.name = 'targetIncome';
+        } else {
+        modalInput.name = 'targetExpense';
+        }
+
+        modalEl.classList.add('visible');
+        setTimeout(() => modalInput.focus(), 100);
+        };
+
+        const closeModal = () => {
+        modalEl.classList.remove('visible');
+        };
+
+        document.getElementById('modalCancel').addEventListener('click', closeModal);
+        modalEl.addEventListener('click', (e) => { if(e.target === modalEl) closeModal(); });
+
+        render();
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

@@ -25,7 +25,7 @@ public class FinanceController {
     private final ModifyUserBalancePanelUseCase modifyUserBalancePanel;
     private final DeleteUserBalancePanelUseCase deleteUserBalancePanel;
     private final MapStruct mapper;
-    private final static String ACTIVE_PAGE = "activePage";
+    private final String ACTIVE_PAGE = "activePage";
 
     public FinanceController(SaveUserBalancePanelUseCase saveUserBalancePanel, LoadUserBalancePanelsUseCase loadUserBalancePanel, ModifyUserBalancePanelUseCase modifyUserBalancePanel, DeleteUserBalancePanelUseCase deleteUserBalancePanel, MapStruct mapper) {
         this.saveUserBalancePanel = saveUserBalancePanel;
@@ -33,6 +33,11 @@ public class FinanceController {
         this.modifyUserBalancePanel = modifyUserBalancePanel;
         this.deleteUserBalancePanel = deleteUserBalancePanel;
         this.mapper = mapper;
+    }
+
+    @ModelAttribute()
+    public void setActivePage(Model model){
+        model.addAttribute(ACTIVE_PAGE, Route.VIEW_FINANCE);
     }
 
     @GetMapping()
@@ -43,7 +48,7 @@ public class FinanceController {
 
     @GetMapping(Route.USER + Route.FINANCE)
     public String displayFinancePanel(Model model){
-        model.addAttribute(ACTIVE_PAGE, Route.VIEW_FINANCE);
+//        model.addAttribute(ACTIVE_PAGE, Route.VIEW_FINANCE);
         return Route.VIEW_FINANCE;
     }
 
@@ -57,7 +62,7 @@ public class FinanceController {
                 .map(mapper::toAssetEntity)
                 .toList();
 
-        model.addAttribute(ACTIVE_PAGE, Route.VIEW_FINANCE);
+//        model.addAttribute(ACTIVE_PAGE, Route.VIEW_FINANCE);
         model.addAttribute("assetsList", assetEntitiesList);
 
         return Route.VIEW_BALANCE;
@@ -75,7 +80,7 @@ public class FinanceController {
                         .toList();
 
         System.out.println("dlugosc listy - " + assetEntitiesList);
-        model.addAttribute(ACTIVE_PAGE, Route.VIEW_FINANCE);
+//        model.addAttribute(ACTIVE_PAGE, Route.VIEW_FINANCE);
         model.addAttribute("assetsList", assetEntitiesList);
 
         saveUserBalancePanel.saveUserBalancePanel(assetFormRequest);
@@ -83,7 +88,7 @@ public class FinanceController {
         return Route.REDIRECT + Route.USER + Route.FINANCE + Route.BALANCE;
     }
 
-    @PostMapping(Route.USER + Route.FINANCE + Route.BALANCE + "/modify")
+    @PostMapping(Route.USER + Route.FINANCE + Route.BALANCE + Route.MODIFY)
     public String modifyUserBalancePanel(Model model,
                                          RedirectAttributes redirectAttributes,
                                          @ModelAttribute AssetOperationFormRequest assetOperationFormRequest){
@@ -92,13 +97,13 @@ public class FinanceController {
 
         modifyUserBalancePanel.modifyUserBalancePanel(assetOperationFormRequest.getAssetId(), assetOperationFormRequest.getAssetValue());
 
-        model.addAttribute(ACTIVE_PAGE, Route.VIEW_FINANCE);
+//        model.addAttribute(ACTIVE_PAGE, Route.VIEW_FINANCE);
         redirectAttributes.addAttribute("username", assetOperationFormRequest.getUsername());
 
         return Route.REDIRECT + Route.USER + Route.FINANCE + Route.BALANCE;
     }
 
-    @PostMapping(Route.USER + Route.FINANCE + Route.BALANCE + "/delete")
+    @PostMapping(Route.USER + Route.FINANCE + Route.BALANCE + Route.DELETE)
     public String deleteUserBalancePanel(Model model,
                                          RedirectAttributes redirectAttributes,
                                          @RequestParam Long assetId,
@@ -108,7 +113,7 @@ public class FinanceController {
 
         deleteUserBalancePanel.deleteUserBalancePanel(assetId);
 
-        model.addAttribute(ACTIVE_PAGE, Route.VIEW_FINANCE);
+//        model.addAttribute(ACTIVE_PAGE, Route.VIEW_FINANCE);
         redirectAttributes.addAttribute("username", username);
 
         return Route.REDIRECT + Route.USER + Route.FINANCE + Route.BALANCE;
