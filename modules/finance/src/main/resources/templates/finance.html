@@ -198,7 +198,12 @@
         <h3 class="finance-card-title">Zobowiązania</h3>
         <p class="finance-card-description">{...}</p>
       </div>
-      <a th:href="@{/finance/liabilities}" class="finance-action-button">Zobacz analizę</a>
+      <form th:action="@{/oskarinio143/moneyisland/user/finance/credit}" method="get">
+        <input type="hidden" name="username" th:value="${currentUsername}" />
+        <button type="submit" class="finance-action-button">
+          Zobacz analizę
+        </button>
+      </form>
     </div>
   </div>
 

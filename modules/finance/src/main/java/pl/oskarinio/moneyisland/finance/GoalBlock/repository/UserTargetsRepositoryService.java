@@ -1,7 +1,7 @@
 package pl.oskarinio.moneyisland.finance.GoalBlock.repository;
 
 import org.springframework.stereotype.Service;
-import pl.oskarinio.moneyisland.finance.BalanceBlock.MapStruct;
+import pl.oskarinio.moneyisland.MapStruct;
 import pl.oskarinio.moneyisland.finance.GoalBlock.UserTargets;
 
 @Service

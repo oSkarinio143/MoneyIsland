@@ -1,0 +1,32 @@
+package pl.oskarinio.moneyisland.finance.creditBlock;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+
+@Entity
+@Table(
+        name = "credits",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"credit_name", "username"})
+        }
+)
+@Data
+@NoArgsConstructor
+public class CreditEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String username;
+    private String creditName;
+    private double percent;
+    private BigDecimal months;
+    private BigDecimal value;
+    private BigDecimal finalValue;
+    private BigDecimal payedValue;
+    private BigDecimal unpayedValue;
+    private BigDecimal repayment;
+    private BigDecimal repaymentQuantity;
+}

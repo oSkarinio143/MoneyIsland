@@ -8,7 +8,7 @@ import pl.oskarinio.moneyisland.finance.BalanceBlock.Asset;
 import pl.oskarinio.moneyisland.finance.BalanceBlock.AssetEntity;
 import pl.oskarinio.moneyisland.finance.BalanceBlock.Dto.AssetFormRequest;
 import pl.oskarinio.moneyisland.finance.BalanceBlock.Dto.AssetOperationFormRequest;
-import pl.oskarinio.moneyisland.finance.BalanceBlock.MapStruct;
+import pl.oskarinio.moneyisland.MapStruct;
 import pl.oskarinio.moneyisland.finance.BalanceBlock.UserBalanceUseCases.DeleteUserBalancePanelUseCase;
 import pl.oskarinio.moneyisland.finance.BalanceBlock.UserBalanceUseCases.LoadUserBalancePanelsUseCase;
 import pl.oskarinio.moneyisland.finance.BalanceBlock.UserBalanceUseCases.ModifyUserBalancePanelUseCase;

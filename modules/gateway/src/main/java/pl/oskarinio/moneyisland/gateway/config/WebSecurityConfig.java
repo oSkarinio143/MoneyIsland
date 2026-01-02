@@ -64,8 +64,8 @@ public class WebSecurityConfig {
                 .headers(headers -> headers
                         .contentSecurityPolicy(csp -> csp
                                 .policyDirectives("default-src 'self'; " +
-                                        "style-src 'self' https://fonts.googleapis.com 'nonce-{nonce}';" +
-                                        "script-src 'self' https://cdn.jsdelivr.net 'nonce-{nonce}';" +
+                                        "style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com 'nonce-{nonce}';" +
+                                        "script-src 'self' https://cdn.jsdelivr.net https://unpkg.com https://cdn.jsdelivr.net 'nonce-{nonce}';" +
                                         "img-src 'self' data: https://oskarinio143.github.io; " +
                                         "font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; " +
                                         "frame-ancestors 'none'; " +

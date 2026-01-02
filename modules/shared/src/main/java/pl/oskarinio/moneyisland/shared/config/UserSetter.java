@@ -45,7 +45,6 @@ public class UserSetter {
 
         model.addAttribute("currentUsername", username);
         model.addAttribute("role", getPriorRole(accessTokenCookie));
-        System.out.println("dodalem usera");
     }
 
     private String extractUsername(String token) {

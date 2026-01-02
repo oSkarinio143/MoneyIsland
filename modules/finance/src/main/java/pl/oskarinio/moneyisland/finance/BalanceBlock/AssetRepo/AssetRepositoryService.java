@@ -2,7 +2,7 @@ package pl.oskarinio.moneyisland.finance.BalanceBlock.AssetRepo;
 
 import org.springframework.stereotype.Service;
 import pl.oskarinio.moneyisland.finance.BalanceBlock.Asset;
-import pl.oskarinio.moneyisland.finance.BalanceBlock.MapStruct;
+import pl.oskarinio.moneyisland.MapStruct;
 
 import java.util.List;
 

@@ -2,16 +2,16 @@ package pl.oskarinio.moneyisland.finance;
 
 import org.springframework.stereotype.Service;
 import pl.oskarinio.moneyisland.finance.BalanceBlock.AssetRepo.User;
-import pl.oskarinio.moneyisland.finance.BalanceBlock.MapStruct;
+import pl.oskarinio.moneyisland.MapStruct;
 
 import java.util.Optional;
 
 @Service
 public class UserRepositoryService implements UserRepository {
-    private final UserRepositoryUseCase userRepositoryUseCase;
+    private final UserRepositoryJpa userRepositoryUseCase;
     private final MapStruct mapper;
 
-    public UserRepositoryService(UserRepositoryUseCase userRepositoryUseCase, MapStruct mapper) {
+    public UserRepositoryService(UserRepositoryJpa userRepositoryUseCase, MapStruct mapper) {
         this.userRepositoryUseCase = userRepositoryUseCase;
         this.mapper = mapper;
     }
