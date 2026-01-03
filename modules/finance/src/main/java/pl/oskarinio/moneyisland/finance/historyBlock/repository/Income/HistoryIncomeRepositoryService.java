@@ -1,7 +1,7 @@
 package pl.oskarinio.moneyisland.finance.historyBlock.repository.Income;
 
 import org.springframework.stereotype.Service;
-import pl.oskarinio.moneyisland.MapStruct;
+import pl.oskarinio.moneyisland.finance.map.MapStruct;
 import pl.oskarinio.moneyisland.finance.historyBlock.Dto.HistoryIncome;
 import pl.oskarinio.moneyisland.finance.historyBlock.Month;
 
@@ -32,6 +32,7 @@ public class HistoryIncomeRepositoryService implements HistoryIncomeRepository {
 
     private HistoryIncome setSortMap(HistoryIncome historyIncome){
         Map<Month, BigDecimal> historyIncomeMonthValues = historyIncome.getMonthValue();
+
 
         EnumMap<Month, BigDecimal> sortedMonthValues = historyIncomeMonthValues.entrySet()
                 .stream()

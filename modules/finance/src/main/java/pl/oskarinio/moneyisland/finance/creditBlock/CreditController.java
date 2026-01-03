@@ -14,7 +14,7 @@ public class CreditController {
     private final AddCreditUseCase addCreditUseCase;
     private final PayRepaymentUseCase payRepaymentUseCase;
     private final DeleteCreditUseCase deleteCreditUseCase;
-    private final String USERNAME = "username";
+    private static final String USERNAME = "username";
 
     public CreditController(LoadCreditsUseCase loadCreditsUseCase, PayRepaymentUseCase payRepaymentUseCase, AddCreditUseCase addCreditUseCase, DeleteCreditUseCase deleteCreditUseCase) {
         this.loadCreditsUseCase = loadCreditsUseCase;
@@ -31,6 +31,7 @@ public class CreditController {
     @GetMapping()
     public String displayCreditPanel(Model model,
                                      @RequestParam String username){
+
         model.addAttribute("credits", loadCreditsUseCase.loadCredits(username));
         return Route.VIEW_CREDIT;
     }
@@ -38,6 +39,7 @@ public class CreditController {
     @PostMapping(Route.ADD)
     public String addCredit(@ModelAttribute CreditAddForm creditAddForm,
                                RedirectAttributes redirectAttributes){
+
         addCreditUseCase.addCredit(creditAddForm);
         redirectAttributes.addAttribute(USERNAME, creditAddForm.getUsername());
         return Route.REDIRECT + Route.USER + Route.FINANCE + Route.CREDIT;
@@ -46,6 +48,7 @@ public class CreditController {
     @PostMapping(Route.PAY)
     public String payRepayment(@ModelAttribute CreditPayRepaymentForm creditPayRepaymentForm,
                                RedirectAttributes redirectAttributes){
+
         payRepaymentUseCase.payRepayment(creditPayRepaymentForm);
         redirectAttributes.addAttribute(USERNAME, creditPayRepaymentForm.getUsername());
         return Route.REDIRECT + Route.USER + Route.FINANCE + Route.CREDIT;
@@ -54,6 +57,7 @@ public class CreditController {
     @PostMapping(Route.DELETE)
     public String deleteCredit(@ModelAttribute CreditDeleteForm creditDeleteForm,
                                RedirectAttributes redirectAttributes){
+
         redirectAttributes.addAttribute(USERNAME, creditDeleteForm.getUsername());
         deleteCreditUseCase.deleteCredit(creditDeleteForm);
         return Route.REDIRECT + Route.USER + Route.FINANCE + Route.CREDIT;

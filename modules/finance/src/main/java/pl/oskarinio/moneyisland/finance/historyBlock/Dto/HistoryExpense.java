@@ -2,10 +2,14 @@ package pl.oskarinio.moneyisland.finance.historyBlock.Dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.oskarinio.moneyisland.finance.User;
 import pl.oskarinio.moneyisland.finance.historyBlock.Month;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.EnumMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -13,6 +17,8 @@ public class HistoryExpense {
     private Long id;
     private String username;
     private Map<Month, BigDecimal> monthValue = new EnumMap<>(Month.class);
+
+    private User user;
 
     public HistoryExpense(String username){
         this.username = username;

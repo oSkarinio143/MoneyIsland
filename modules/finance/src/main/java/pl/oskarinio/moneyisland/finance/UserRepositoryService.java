@@ -1,38 +1,58 @@
 package pl.oskarinio.moneyisland.finance;
 
 import org.springframework.stereotype.Service;
-import pl.oskarinio.moneyisland.finance.BalanceBlock.AssetRepo.User;
-import pl.oskarinio.moneyisland.MapStruct;
+import pl.oskarinio.moneyisland.finance.map.MapStruct;
+import pl.oskarinio.moneyisland.shared.domain.exception.UsernameNotFoundException;
 
 import java.util.Optional;
 
 @Service
 public class UserRepositoryService implements UserRepository {
-    private final UserRepositoryJpa userRepositoryUseCase;
+    private final UserRepositoryJpa userRepositoryJpa;
     private final MapStruct mapper;
 
-    public UserRepositoryService(UserRepositoryJpa userRepositoryUseCase, MapStruct mapper) {
-        this.userRepositoryUseCase = userRepositoryUseCase;
+    public UserRepositoryService(UserRepositoryJpa userRepositoryJpa, MapStruct mapper) {
+        this.userRepositoryJpa = userRepositoryJpa;
         this.mapper = mapper;
     }
 
+    @Override
+    public void save(User user) {
+        UserEntity userEntity = mapper.toUserEntity(user);
+        userRepositoryJpa.save(userEntity);
+    }
+
+    @Override
+    public void delete(String username) {
+        Optional<UserEntity> userEntityOptional = userRepositoryJpa.findByUsername(username);
+        if(userEntityOptional.isPresent())
+            userRepositoryJpa.delete(userEntityOptional.get());
+        else
+            throw new UsernameNotFoundException();
+    }
+
     public UserEntity getUserEntity(long id) {
-        return userRepositoryUseCase.getReferenceById(id);
+        return userRepositoryJpa.getReferenceById(id);
     }
 
-    public Optional<UserEntity> findByUsername(String username){
-        return userRepositoryUseCase.findByUsername(username);
+    public User findByUsername(String username){
+        Optional<UserEntity> userEntityOptional = userRepositoryJpa.findByUsername(username);
+        if(userEntityOptional.isPresent())
+            return mapper.toUser(userEntityOptional.get());
+        throw new UsernameNotFoundException();
     }
 
-    public Optional<UserEntity> findByAuthUserId(long id){
-        return userRepositoryUseCase.findByAuthUserId(id);
+    public User findByUserId(long id){
+        Optional<UserEntity> userEntityOptional = userRepositoryJpa.findById(id);
+        if(userEntityOptional.isPresent())
+            return mapper.toUser(userEntityOptional.get());
+        throw new UsernameNotFoundException();
     }
 
-    public UserEntity userToUserEntity(User user){
-        return mapper.toUserEntity(user);
-    }
-
-    public User userEntityToUser(UserEntity userEntity){
-        return mapper.toUser(userEntity);
+    public UserEntity findUserEntityByUserId(long id){
+        Optional<UserEntity> userEntityOptional = userRepositoryJpa.findById(id);
+        if(userEntityOptional.isPresent())
+            return userEntityOptional.get();
+        throw new UsernameNotFoundException();
     }
 }

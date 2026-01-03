@@ -1,7 +1,7 @@
 package pl.oskarinio.moneyisland.finance.historyBlock.repository.Expense;
 
 import org.springframework.stereotype.Service;
-import pl.oskarinio.moneyisland.MapStruct;
+import pl.oskarinio.moneyisland.finance.map.MapStruct;
 import pl.oskarinio.moneyisland.finance.historyBlock.Dto.HistoryExpense;
 import pl.oskarinio.moneyisland.finance.historyBlock.Month;
 

@@ -34,7 +34,6 @@ public class AdminController {
     @ModelAttribute(Route.USERS_LIST)
     public List<User> addUsersListModel(){
         List<User> userList = showUserList.getUsersList();
-        System.out.println(userList.size());
         return showUserList.getUsersList();
     }
 
@@ -46,7 +45,6 @@ public class AdminController {
 
     @GetMapping(Route.SHOW_USERS_LIST)
     public String showUsers(Model model){
-        System.out.println("Łącze sie z endpointem users");
         log.info("Admin wyswietla liste uzytkownikow");
         return Route.USERS_LIST;
     }

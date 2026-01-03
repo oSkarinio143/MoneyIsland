@@ -3,7 +3,7 @@ package pl.oskarinio.moneyisland.finance.historyBlock.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import pl.oskarinio.moneyisland.finance.UserEntity;
 import pl.oskarinio.moneyisland.finance.historyBlock.Month;
 
 import java.math.BigDecimal;
@@ -18,14 +18,17 @@ public class HistoryIncomeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NonNull
     private String username;
-    @NonNull
     @ElementCollection
-    @CollectionTable(name="income_month_values",
+    @CollectionTable(
+            name="month_income_values",
             joinColumns = @JoinColumn(name="income_id"))
     @MapKeyColumn(name = "month")
     @MapKeyEnumerated(EnumType.STRING)
     @Column(name = "value")
     private Map<Month, BigDecimal> monthValue = new EnumMap<>(Month.class);
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 }

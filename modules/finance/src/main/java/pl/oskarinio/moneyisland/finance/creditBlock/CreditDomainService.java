@@ -42,7 +42,6 @@ public class CreditDomainService {
 
     public void deleteCredit(CreditDeleteForm creditDeleteForm){
         List<Credit> credits = creditRepository.findCreditsByUsername(creditDeleteForm.getUsername());
-        System.out.println(credits);
         Credit credit = credits.stream()
                 .filter(v -> v.getCreditName().equals(creditDeleteForm.getCreditName()))
                 .toList()

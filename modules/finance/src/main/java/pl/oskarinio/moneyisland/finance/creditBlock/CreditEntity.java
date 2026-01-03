@@ -8,11 +8,10 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(
-        name = "credits",
+        name = "user_credit",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"credit_name", "username"})
-        }
-)
+        })
 @Data
 @NoArgsConstructor
 public class CreditEntity {
@@ -20,6 +19,7 @@ public class CreditEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+    @Column(name = "credit_name")
     private String creditName;
     private double percent;
     private BigDecimal months;

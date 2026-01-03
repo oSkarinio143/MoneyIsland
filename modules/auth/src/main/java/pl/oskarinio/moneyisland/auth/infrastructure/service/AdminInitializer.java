@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import pl.oskarinio.moneyisland.auth.domain.dto.User;
 import pl.oskarinio.moneyisland.auth.domain.port.PasswordEncoderPort;
 import pl.oskarinio.moneyisland.auth.domain.port.UserRepository;
+import pl.oskarinio.moneyisland.auth.infrastructure.kafka.KafkaEventPublisher;
 import pl.oskarinio.moneyisland.shared.domain.Role;
 
 import java.time.Clock;
@@ -22,19 +23,22 @@ public class AdminInitializer implements CommandLineRunner {
     private final String adminUsername;
     private final String adminEmail;
     private final String adminPassword;
+    private final KafkaEventPublisher kafkaEventPublisher;
 
     public AdminInitializer(UserRepository userRepository,
                             PasswordEncoderPort passwordEncoder,
                             Clock clock,
                             @Value("${app.security.admin-username:adminUser}") String adminUsername,
                             @Value("${app.security.admin-email:admin@pl}") String adminEmail,
-                            @Value("${app.security.admin-password:1234}") String adminPassword) {
+                            @Value("${app.security.admin-password:1234}") String adminPassword,
+                            KafkaEventPublisher kafkaEventPublisher) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.clock = clock;
         this.adminUsername = adminUsername;
         this.adminEmail = adminEmail;
         this.adminPassword = adminPassword;
+        this.kafkaEventPublisher = kafkaEventPublisher;
     }
 
 
@@ -54,7 +58,9 @@ public class AdminInitializer implements CommandLineRunner {
             adminUser.addRole(Role.ROLE_USER);
             adminUser.addRole(Role.ROLE_ADMIN);
             userRepository.save(adminUser);
+            kafkaEventPublisher.publishUserRegistered(adminUsername);
             log.info("Konto administratora utworzone. Nazwa = {}", adminUsername);
+
         } else {
             log.debug("Konto administratora już istnieje. Nazwa = {}", adminUsername);
         }

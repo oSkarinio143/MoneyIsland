@@ -24,6 +24,8 @@ public class HistoryController {
     private final SaveHistoryExpenseUseCase saveHistoryExpenseUseCase;
     private final LoadIncomeDataUseCase loadIncomeDataUseCase;
     private final LoadExpenseDataUseCase loadExpenseDataUseCase;
+    private static final String USERNAME = "username";
+    private static final String MONTHLY_VALUE = "monthlyValues";
 
     public HistoryController(SaveHistoryIncomeUseCase saveHistoryIncomeUseCase, SaveHistoryExpenseUseCase saveHistoryExpenseUseCase, LoadIncomeDataUseCase loadIncomeDataUseCase, LoadExpenseDataUseCase loadExpenseDataUseCase) {
         this.saveHistoryIncomeUseCase = saveHistoryIncomeUseCase;
@@ -34,28 +36,28 @@ public class HistoryController {
 
     @GetMapping()
     public String displayBalancePanel(Model model,
-                                      @RequestParam("username") String username){
+                                      @RequestParam(USERNAME) String username){
         model.addAttribute("incomeData", loadIncomeDataUseCase.loadIncomeData(username));
         model.addAttribute("expenseData", loadExpenseDataUseCase.loadExpenseData(username));
         return Route.VIEW_HISTORY;
     }
 
     @Transactional
-    @PostMapping("/income")
-    public String saveIncome(@RequestParam("monthlyValues") List<BigDecimal> monthlyValues,
-                             @RequestParam("username") String username,
+    @PostMapping(Route.INCOME)
+    public String saveIncome(@RequestParam(MONTHLY_VALUE) List<BigDecimal> monthlyValues,
+                             @RequestParam(USERNAME) String username,
                              RedirectAttributes redirectAttributes){
         saveHistoryIncomeUseCase.saveHistoryIncomeData(monthlyValues,username);
-        redirectAttributes.addAttribute("username", username);
+        redirectAttributes.addAttribute(USERNAME, username);
         return  Route.REDIRECT + Route.USER + Route.FINANCE + Route.HISTORY;
     }
 
-    @PostMapping("/expense")
-    public String saveExpense(@RequestParam("monthlyValues") List<BigDecimal> monthlyValues,
-                              @RequestParam("username") String username,
+    @PostMapping(Route.EXPENSE)
+    public String saveExpense(@RequestParam(MONTHLY_VALUE) List<BigDecimal> monthlyValues,
+                              @RequestParam(USERNAME) String username,
                               RedirectAttributes redirectAttributes){
         saveHistoryExpenseUseCase.saveHistoryExpenseData(monthlyValues,username);
-        redirectAttributes.addAttribute("username", username);
+        redirectAttributes.addAttribute(USERNAME, username);
         return Route.REDIRECT + Route.USER + Route.FINANCE + Route.HISTORY;
     }
 }

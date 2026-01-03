@@ -1,6 +1,7 @@
 package pl.oskarinio.moneyisland.finance.historyBlock.service;
 
 import org.springframework.stereotype.Service;
+import pl.oskarinio.moneyisland.finance.UserRepository;
 import pl.oskarinio.moneyisland.finance.historyBlock.repository.Expense.HistoryExpenseRepository;
 import pl.oskarinio.moneyisland.finance.historyBlock.repository.Income.HistoryIncomeRepository;
 
@@ -11,8 +12,10 @@ import java.util.List;
 public class HistoryBalanceService implements SaveHistoryExpenseUseCase, SaveHistoryIncomeUseCase, LoadExpenseDataUseCase, LoadIncomeDataUseCase{
     private final HistoryBalanceDomainService historyBalanceDomainService;
 
-    public HistoryBalanceService(HistoryExpenseRepository historyExpenseRepository, HistoryIncomeRepository historyIncomeRepository) {
-        this.historyBalanceDomainService = new HistoryBalanceDomainService(historyExpenseRepository, historyIncomeRepository);
+    public HistoryBalanceService(HistoryExpenseRepository historyExpenseRepository,
+                                 HistoryIncomeRepository historyIncomeRepository,
+                                 UserRepository userRepository) {
+        this.historyBalanceDomainService = new HistoryBalanceDomainService(historyExpenseRepository, historyIncomeRepository, userRepository);
     }
 
     @Override

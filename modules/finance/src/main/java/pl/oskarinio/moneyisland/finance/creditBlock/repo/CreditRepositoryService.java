@@ -1,7 +1,7 @@
 package pl.oskarinio.moneyisland.finance.creditBlock.repo;
 
 import org.springframework.stereotype.Service;
-import pl.oskarinio.moneyisland.MapStruct;
+import pl.oskarinio.moneyisland.finance.map.MapStruct;
 import pl.oskarinio.moneyisland.finance.creditBlock.Credit;
 
 import java.util.List;

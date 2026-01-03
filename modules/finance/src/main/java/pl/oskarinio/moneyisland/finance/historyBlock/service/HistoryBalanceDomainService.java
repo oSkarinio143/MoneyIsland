@@ -1,5 +1,6 @@
 package pl.oskarinio.moneyisland.finance.historyBlock.service;
 
+import pl.oskarinio.moneyisland.finance.UserRepository;
 import pl.oskarinio.moneyisland.finance.historyBlock.Dto.HistoryExpense;
 import pl.oskarinio.moneyisland.finance.historyBlock.Dto.HistoryIncome;
 import pl.oskarinio.moneyisland.finance.historyBlock.Month;
@@ -14,24 +15,25 @@ import java.util.Map;
 public class HistoryBalanceDomainService {
     private final HistoryExpenseRepository historyExpenseRepository;
     private final HistoryIncomeRepository historyIncomeRepository;
+    private final UserRepository userRepository;
 
-    public HistoryBalanceDomainService(HistoryExpenseRepository historyExpenseRepository, HistoryIncomeRepository historyIncomeRepository) {
+    public HistoryBalanceDomainService(HistoryExpenseRepository historyExpenseRepository, HistoryIncomeRepository historyIncomeRepository, UserRepository userRepository) {
         this.historyExpenseRepository = historyExpenseRepository;
         this.historyIncomeRepository = historyIncomeRepository;
+        this.userRepository = userRepository;
     }
 
     public void saveHistoryIncomeData(List<BigDecimal> monthlyValues, String username){
-        System.out.println("wartosci z kontrolera - " + monthlyValues);
         HistoryIncome historyIncome = loadHistoryIncome(username);
-        System.out.println("wartosci z hisinc - " + historyIncome.getMonthValue());
         historyIncome.addValuesToMonths(monthlyValues);
-        System.out.println("wartosci z kontrolera w hisinc - " + historyIncome.getUsername() + ", " + historyIncome.getMonthValue());
+        historyIncome.setUser(userRepository.findByUsername(username));
         historyIncomeRepository.save(historyIncome);
     }
 
     public void saveHistoryExpenseData(List<BigDecimal> monthlyValues, String username){
         HistoryExpense historyExpense = loadHistoryExpense(username);
         historyExpense.addValuesToMonths(monthlyValues);
+        historyExpense.setUser(userRepository.findByUsername(username));
         historyExpenseRepository.save(historyExpense);
     }
 

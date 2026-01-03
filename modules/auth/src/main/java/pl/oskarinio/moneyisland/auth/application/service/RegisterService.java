@@ -2,7 +2,6 @@ package pl.oskarinio.moneyisland.auth.application.service;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.oskarinio.moneyisland.auth.application.port.RegisterUseCase;
@@ -20,15 +19,15 @@ import java.time.Clock;
 @Slf4j
 public class RegisterService implements RegisterUseCase {
     private final RegisterDomainService registerDomainService;
+    private final KafkaEventPublisher kafkaEventPublisher;
 
-    @Autowired
-    private KafkaEventPublisher kafkaEventPublisher;
-
-    public RegisterService(UserRepository userRepository,
+    public RegisterService(KafkaEventPublisher kafkaEventPublisher,
+                           UserRepository userRepository,
                            UserManagement userManagement,
                            PasswordEncoderPort passwordEncoderPort,
                            Clock clock,
                            @Value("${token.refresh.seconds}") long refreshSeconds) {
+        this.kafkaEventPublisher = kafkaEventPublisher;
         this.registerDomainService = new RegisterDomainService(userRepository, userManagement, passwordEncoderPort, clock, refreshSeconds);
     }
 
