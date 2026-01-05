@@ -3,6 +3,7 @@ package pl.oskarinio.moneyisland.finance.creditBlock;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.oskarinio.moneyisland.finance.UserEntity;
 
 import java.math.BigDecimal;
 
@@ -26,7 +27,11 @@ public class CreditEntity {
     private BigDecimal value;
     private BigDecimal finalValue;
     private BigDecimal payedValue;
-    private BigDecimal unpayedValue;
+    private BigDecimal notPayedValue;
     private BigDecimal repayment;
     private BigDecimal repaymentQuantity;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 }

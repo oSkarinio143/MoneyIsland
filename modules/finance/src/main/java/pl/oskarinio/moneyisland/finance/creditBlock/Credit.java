@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import pl.oskarinio.moneyisland.finance.User;
 
 import java.math.BigDecimal;
 
@@ -27,9 +28,11 @@ public class Credit {
     @NonNull
     private BigDecimal payedValue;
     @NonNull
-    private BigDecimal unpayedValue;
+    private BigDecimal notPayedValue;
     @NonNull
     private BigDecimal repayment;
     @NonNull
     private BigDecimal repaymentQuantity;
+
+    private User user;
 }

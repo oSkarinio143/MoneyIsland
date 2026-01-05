@@ -1,5 +1,6 @@
 package pl.oskarinio.moneyisland.finance.creditBlock;
 
+import pl.oskarinio.moneyisland.finance.UserRepository;
 import pl.oskarinio.moneyisland.finance.creditBlock.repo.CreditRepository;
 
 import java.math.BigDecimal;
@@ -7,9 +8,11 @@ import java.util.List;
 
 public class CreditDomainService {
     private final CreditRepository creditRepository;
+    private final UserRepository userRepository;
 
-    public CreditDomainService(CreditRepository creditRepository) {
+    public CreditDomainService(CreditRepository creditRepository, UserRepository userRepository) {
         this.creditRepository = creditRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Credit> loadCredits(String username){
@@ -27,6 +30,7 @@ public class CreditDomainService {
                 creditAddForm.getFinalValue(),
                 creditAddForm.getRepayment(),
                 BigDecimal.ZERO);
+        credit.setUser(userRepository.findByUsername(creditAddForm.getUsername()));
         creditRepository.save(credit);
     }
 
@@ -51,13 +55,12 @@ public class CreditDomainService {
 
     private Credit getModdifiedCredit(CreditPayRepaymentForm creditPayRepaymentForm, Credit creditToModify){
         BigDecimal payedValue = creditToModify.getRepayment().multiply(creditPayRepaymentForm.getQuantity());
-        BigDecimal unPayedValue = creditToModify.getFinalValue().subtract(payedValue);
+        BigDecimal notPayedValue = creditToModify.getFinalValue().subtract(payedValue);
         BigDecimal repaymentQuantity = creditPayRepaymentForm.getQuantity();
 
         creditToModify.setPayedValue(payedValue);
-        creditToModify.setUnpayedValue(unPayedValue);
+        creditToModify.setNotPayedValue(notPayedValue);
         creditToModify.setRepaymentQuantity(repaymentQuantity);
         return creditToModify;
     }
-
 }

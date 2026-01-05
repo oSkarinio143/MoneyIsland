@@ -3,6 +3,7 @@ package pl.oskarinio.moneyisland.finance.BalanceBlock;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.oskarinio.moneyisland.finance.UserEntity;
 
 import java.math.BigDecimal;
 
@@ -22,4 +23,8 @@ public class AssetEntity {
     @Column(name = "asset_name")
     private String assetName;
     private BigDecimal assetValue;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 }

@@ -2,6 +2,7 @@ package pl.oskarinio.moneyisland.finance.BalanceBlock;
 
 import lombok.Data;
 import lombok.NonNull;
+import pl.oskarinio.moneyisland.finance.User;
 
 import java.math.BigDecimal;
 
@@ -14,4 +15,6 @@ public class Asset {
     private BigDecimal assetValue;
     @NonNull
     private String username;
+
+    private User user;
 }

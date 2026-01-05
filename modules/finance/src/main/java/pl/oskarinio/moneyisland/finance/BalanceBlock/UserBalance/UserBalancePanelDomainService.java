@@ -19,12 +19,14 @@ public class UserBalancePanelDomainService {
 
     public void saveUserBalanceData(AssetFormRequest assetFormRequest){
         Asset asset = new Asset(assetFormRequest.getAssetName(), assetFormRequest.getAssetValue(), assetFormRequest.getUsername());
+        asset.setUser(userRepository.findByUsername(asset.getUsername()));
+        System.out.println(asset.getUser());
+        System.out.println("asset user - " + asset.getUser());
         assetRepository.saveAsset(asset);
     }
 
     public List<Asset> loadUserBalancePanels(String username){
-        List<Asset> assetsList = assetRepository.findByUsername(username);
-        return assetsList;
+        return assetRepository.findByUsername(username);
     }
 
     public void modifyUserBalancePanel(Long assetId, BigDecimal assetValue){

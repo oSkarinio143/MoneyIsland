@@ -14,5 +14,6 @@ public class User {
     private Long authUserId;
     @NonNull
     private String username;
+
     private Long targetId;
 }

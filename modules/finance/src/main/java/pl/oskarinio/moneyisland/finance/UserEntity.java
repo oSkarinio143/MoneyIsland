@@ -5,9 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import pl.oskarinio.moneyisland.finance.BalanceBlock.AssetEntity;
 import pl.oskarinio.moneyisland.finance.GoalBlock.repository.TargetEntity;
+import pl.oskarinio.moneyisland.finance.creditBlock.CreditEntity;
 import pl.oskarinio.moneyisland.finance.historyBlock.entity.HistoryExpenseEntity;
 import pl.oskarinio.moneyisland.finance.historyBlock.entity.HistoryIncomeEntity;
+
+import java.util.List;
 
 @Entity
 @Table(name = "user_app")
@@ -39,5 +43,15 @@ public class UserEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private HistoryExpenseEntity historyExpense;
+
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<CreditEntity> creditEntities;
+
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<AssetEntity> assetEntities;
 }
 

@@ -1,6 +1,7 @@
 package pl.oskarinio.moneyisland.finance.creditBlock;
 
 import org.springframework.stereotype.Service;
+import pl.oskarinio.moneyisland.finance.UserRepository;
 import pl.oskarinio.moneyisland.finance.creditBlock.repo.CreditRepository;
 
 import java.util.List;
@@ -9,8 +10,8 @@ import java.util.List;
 public class CreditService implements LoadCreditsUseCase, AddCreditUseCase, PayRepaymentUseCase, DeleteCreditUseCase{
     private final CreditDomainService creditDomainService;
 
-    public CreditService(CreditRepository creditRepository) {
-        this.creditDomainService = new CreditDomainService(creditRepository);
+    public CreditService(CreditRepository creditRepository, UserRepository userRepository) {
+        this.creditDomainService = new CreditDomainService(creditRepository, userRepository);
     }
 
     @Override

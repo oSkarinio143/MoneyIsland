@@ -219,7 +219,7 @@
                         <div class="financial-item">
                             <div class="financial-label">Pozostało</div>
                             <div class="financial-value remaining"
-                                 th:text="${#numbers.formatDecimal(credit.unpayedValue, 1, 'WHITESPACE', 2, 'COMMA')} + ' zł'">0,00 zł</div>
+                                 th:text="${#numbers.formatDecimal(credit.notPayedValue, 1, 'WHITESPACE', 2, 'COMMA')} + ' zł'">0,00 zł</div>
                         </div>
                     </div>
 
