@@ -207,7 +207,7 @@
     <div id="editModal" class="modal-overlay">
         <!-- FORMULARZ POST -->
         <!-- Ustaw th:action na swój endpoint w kontrolerze, np. /save -->
-        <form id="modalForm" method="post" th:action="@{/oskarinio143/moneyisland/user/finance/goal}" class="modal-content">
+        <form id="modalForm" method="post" th:action="@{/oskarinio143/moneyisland/finance/user/goal}" class="modal-content">
 
             <!-- Ukryte pole username (przekazywane zawsze) -->
             <input type="hidden" name="username" th:value="${currentUsername}" />

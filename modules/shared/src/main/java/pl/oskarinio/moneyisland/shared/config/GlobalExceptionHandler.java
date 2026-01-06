@@ -1,35 +1,33 @@
 package pl.oskarinio.moneyisland.shared.config;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.oskarinio.moneyisland.shared.domain.exception.RegistrationDataException;
 import pl.oskarinio.moneyisland.shared.domain.exception.UsernameNotFoundException;
 import pl.oskarinio.moneyisland.shared.domain.exception.UsernameNotMatchingPassword;
 
 @Slf4j
 @ControllerAdvice
 class GlobalExceptionHandler {
+    @ExceptionHandler (exception = {UsernameNotMatchingPassword.class,
+            UsernameNotFoundException.class})
+    public String handleUsernameLogin(RedirectAttributes redirectAttributes,
+                                                    HttpServletRequest request){
 
-    @ExceptionHandler (UsernameNotFoundException.class)
-    public String handleUsernameNotFoundException(RedirectAttributes redirectAttributes, UsernameNotFoundException usernameNotFoundException) {
-        log.warn("Logowanie nieudane - brak uzytnowika w bazie");
-        redirectAttributes.addFlashAttribute("errorMessage", "Uzytkownik " + usernameNotFoundException.getMessage() + " nie istnieje w bazie danych");
-        return Route.REDIRECT + Route.LOGIN;
+        String urlFromForm = request.getAttribute("requestUrl").toString();
+        return Route.LOCALHOST + urlFromForm + "?loginError=BladLogowania";
     }
 
-    @ExceptionHandler (UsernameNotMatchingPassword.class)
-    public String handleUsernameNotMatchingPassword(RedirectAttributes redirectAttributes){
-        log.warn("Logowanie nieudane - uzytkownik podal niepoprawne haslo");
-        redirectAttributes.addFlashAttribute("errorMessage", "Nazwa uzytkownika i haslo nie pasuja do siebie");
-        return Route.REDIRECT + Route.LOGIN;
-    }
+    @ExceptionHandler (exception = {DataIntegrityViolationException.class,
+            RegistrationDataException.class})
+    public String handleUsernameRegister(RedirectAttributes redirectAttributes,
+                                                    HttpServletRequest request){
 
-    @ExceptionHandler (DataIntegrityViolationException.class)
-    public String handleDataIntegrityViolationException(RedirectAttributes redirectAttributes){
-        log.warn("Rejestracja nieudana - uzytkownik istnieje juz w bazie");
-        redirectAttributes.addFlashAttribute("errorMessage", "Użytkownik istnieje już w bazie danych");
-        return Route.REDIRECT + Route.REGISTER;
+        String urlFromForm = request.getAttribute("requestUrl").toString();
+        return Route.LOCALHOST + urlFromForm + "?registerError=BladRejestracji";
     }
 }

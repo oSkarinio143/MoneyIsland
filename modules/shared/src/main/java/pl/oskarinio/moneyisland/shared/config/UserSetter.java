@@ -47,6 +47,13 @@ public class UserSetter {
         model.addAttribute("role", getPriorRole(accessTokenCookie));
     }
 
+    @ModelAttribute
+    public void setCurrentUrl(HttpServletRequest request, Model model){
+        String requestURI = request.getRequestURI();
+        System.out.println("ustawiam reque" + requestURI);
+        model.addAttribute("requestUrl", requestURI);
+    }
+
     private String extractUsername(String token) {
         String username = Jwts.parser()
                 .setSigningKey(secretKey)

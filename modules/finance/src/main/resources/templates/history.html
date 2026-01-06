@@ -86,7 +86,7 @@
             <div class="inputs-column" th:with="months=${ {'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'} }">
 
                 <!-- FORMULARZ PRZYCHODÓW -->
-                <form id="incomeForm" class="input-panel" th:action="@{/oskarinio143/moneyisland/user/finance/history/income}" method="post">
+                <form id="incomeForm" class="input-panel" th:action="@{/oskarinio143/moneyisland/finance/user/history/income}" method="post">
                     <input type="hidden" name="username" th:value="${currentUsername}"/>
 
                     <div class="monthly-inputs-grid">
@@ -109,7 +109,7 @@
                 </form>
 
                 <!-- FORMULARZ WYDATKÓW -->
-                <form id="expenseForm" class="input-panel" th:action="@{/oskarinio143/moneyisland/user/finance/history/expense}" method="post">
+                <form id="expenseForm" class="input-panel" th:action="@{/oskarinio143/moneyisland/finance/user/history/expense}" method="post">
                     <input type="hidden" name="username" th:value="${currentUsername}"/>
 
                     <div class="monthly-inputs-grid">

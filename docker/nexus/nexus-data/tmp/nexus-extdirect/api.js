@@ -693,13 +693,13 @@ NX.direct.api.REMOTING_API = {
     ],
     ssl_Certificate: [
       {
-        name: 'details',
-        len: 1,
+        name: 'retrieveFromHost',
+        len: 3,
         formHandler: false
       },
       {
-        name: 'retrieveFromHost',
-        len: 3,
+        name: 'details',
+        len: 1,
         formHandler: false
       }
     ],

@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class Route {
+    public static final String LOCALHOST = "redirect:http://localhost:8080";
     public static final String REDIRECT = "redirect:http://localhost:8080/oskarinio143/moneyisland";
     public static final String MAIN = "/oskarinio143/moneyisland";
     public static final String USER = "/user";

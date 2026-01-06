@@ -5,11 +5,9 @@
 
 <head>
     <title>Dashboard Zobowiązań</title>
-    <!-- Import czcionek -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Import ikon (FontAwesome) dla kosza -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -53,7 +51,6 @@
         .summary-value { font-weight: 700; font-size: 15px; color: var(--color-moss); }
         .credit-btn-add { width: 100%; margin-top: 25px; background-color: var(--color-moss); color: white; padding: 16px; border-radius: 12px; border: none; font-size: 16px; font-weight: 600; cursor: pointer; }
 
-        /* Style Widgetu Summary */
         #summaryPanel .credit-title { font-size: 22px; }
         .summary-widget { display: flex; flex-direction: column; gap: 20px; }
         .widget-progress-bar-container { width: 100%; background-color: #F0F0F0; border-radius: 12px; height: 30px; position: relative; overflow: hidden; }
@@ -66,13 +63,11 @@
         .widget-details-value.paid { color: var(--color-fern); }
         .widget-details-value.remaining { color: var(--color-warning); }
 
-        /* Lista */
         #listPanel { height: 100%; display: flex; flex-direction: column; }
         .liabilities-list { flex-grow: 1; overflow-y: auto; padding: 5px 10px 5px 0; display: flex; flex-direction: column; gap: 20px; }
         .liability-card { background-color: #FAFAF8; border: 2px solid var(--color-sage); border-radius: 20px; padding: 20px; transition: all 0.3s ease; }
         .liability-card:hover { border-color: var(--color-fern); box-shadow: 0 5px 15px rgba(52, 78, 65, 0.1); transform: translateY(-2px); }
 
-        /* STYL NAGŁÓWKA KARTY Z PRZYCISKIEM USUWANIA */
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .card-title { font-weight: 800; color: var(--color-moss); font-size: 18px; }
 
@@ -95,7 +90,6 @@
         .card-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--color-sage), var(--color-fern)); border-radius: 10px; transition: width 0.5s ease-out; }
         .progress-percentage { font-size: 14px; font-weight: 700; color: var(--color-fern); }
 
-        /* Formularz wewnątrz karty (Pay) */
         .card-interaction-form { display: flex; gap: 10px; align-items: center; background-color: #fff; padding: 10px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--color-bone); }
         .interaction-label { font-size: 12px; font-weight: 500; color: var(--color-moss); flex-grow: 1; }
         .paid-installments-input { width: 60px; text-align: center; border-radius: 8px; border: 1px solid var(--color-sage); padding: 5px; }
@@ -116,7 +110,7 @@
     <div class="credit-wrapper">
         <!-- FORMULARZ DODAWANIA -->
         <div id="formPanel" class="credit-panel">
-            <form id="creditForm" method="post" th:action="@{/oskarinio143/moneyisland/user/finance/credit/add}">
+            <form id="creditForm" method="post" th:action="@{/oskarinio143/moneyisland/finance/user/credit/add}">
                 <div class="credit-header">
                     <h2 class="credit-title"><i class="fa-solid fa-file-invoice-dollar"></i> Dodaj Zobowiązanie</h2>
                 </div>
@@ -177,7 +171,7 @@
                         <span class="card-title" th:text="${credit.creditName}">Nazwa kredytu</span>
 
                         <!-- PRZYCISK USUWANIA (FORMULARZ) -->
-                        <form th:action="@{/oskarinio143/moneyisland/user/finance/credit/delete}" method="post" style="margin: 0;">
+                        <form th:action="@{/oskarinio143/moneyisland/finance/user/credit/delete}" method="post" style="margin: 0;">
                             <input type="hidden" name="username" th:value="${currentUsername}">
                             <input type="hidden" name="creditName" th:value="${credit.creditName}">
                             <button type="submit" class="delete-btn" title="Usuń zobowiązanie">
@@ -197,13 +191,12 @@
                               th:text="${#numbers.formatDecimal(progress, 0, 0)} + '%'">0%</span>
                     </div>
 
-                    <!-- FORMULARZ PŁATNOŚCI (PAY) -->
-                    <form th:action="@{/oskarinio143/moneyisland/user/finance/credit/pay}" method="post" class="card-interaction-form">
+                    <!-- FORMULARZ PŁATNOŚCI -->
+                    <form th:action="@{/oskarinio143/moneyisland/finance/user/credit/pay}" method="post" class="card-interaction-form">
                         <input type="hidden" name="username" th:value="${currentUsername}">
                         <input type="hidden" name="creditName" th:value="${credit.creditName}">
 
                         <label class="interaction-label">Ile rat zapłacono łącznie?</label>
-                        <!-- Pokazujemy repaymentQuantity pobrane z bazy -->
                         <input type="number" name="quantity" class="paid-installments-input" min="0"
                                th:max="${credit.months}"
                                th:value="${credit.repaymentQuantity != null ? credit.repaymentQuantity : 0}">
@@ -275,7 +268,6 @@
 <th:block layout:fragment="scripts">
     <script th:attr="nonce=${cspNonce}">
         document.addEventListener('DOMContentLoaded', function () {
-            // --- CZĘŚĆ 1: Obsługa formularza dodawania ---
             const form = document.getElementById('creditForm');
             const loanAmountInput = document.getElementById('loanAmount');
             const loanRateInput = document.getElementById('loanRate');
@@ -325,7 +317,6 @@
                 input.addEventListener('input', updateFormState);
             });
 
-            // --- CZĘŚĆ 2: Obliczanie globalnego podsumowania ---
             function calculateGlobalStats() {
                 let totalPaid = 0;
                 let totalFinal = 0;
@@ -351,7 +342,6 @@
 
             calculateGlobalStats();
 
-            // --- CZĘŚĆ 3: Live Update Paska Postępu w Karcie (UX) ---
             document.querySelectorAll('.paid-installments-input').forEach(input => {
                 input.addEventListener('input', function() {
                     const card = this.closest('.liability-card');
@@ -361,7 +351,6 @@
                     if (isNaN(val) || val < 0) val = 0;
                     if (val > months) val = months;
 
-                    // Oblicz procent postępu
                     const percentage = (val / months) * 100;
 
                     const bar = card.querySelector('.card-progress-bar');

@@ -8,6 +8,7 @@
         <h2>Rejestracja</h2>
 
         <form th:action="@{/oskarinio143/moneyisland/register}" method="post">
+            <input type="hidden" name="requestUrl" th:value="${requestUrl}"/>
             <div class="form-group">
                 <label for="reg-username">Nazwa użytkownika:</label>
                 <input type="text" id="reg-username" name="username" required>

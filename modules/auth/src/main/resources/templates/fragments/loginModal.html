@@ -8,6 +8,7 @@
         <h2>Logowanie</h2>
 
         <form th:action="@{/oskarinio143/moneyisland/login}" method="post">
+            <input type="hidden" name="redirectUrl" th:value="${123}" />
             <div class="form-group">
                 <label for="username">Nazwa użytkownika</label>
                 <input type="text" name="username" id="username" placeholder="Wprowadź nazwę użytkownika" required>

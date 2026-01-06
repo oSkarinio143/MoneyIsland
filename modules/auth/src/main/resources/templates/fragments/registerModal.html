@@ -8,6 +8,7 @@
         <h2>Rejestracja</h2>
 
         <form th:action="@{/oskarinio143/moneyisland/register}" method="post">
+            <input type="hidden" name="requestUrl" th:value="${requestUrl}"/>
             <div class="form-group">
                 <label for="reg-username">Nazwa użytkownika:</label>
                 <input type="text" id="reg-username" name="username" required>
@@ -25,9 +26,9 @@
                 <input type="password" id="reg-password-repeat" name="confirmPassword" required>
             </div>
 
-            <p th:if="${param.registerError}" class="error-message" th:text="${param.registerError}">
-                Wystąpił błąd rejestracji.
-            </p>
+<!--            <p th:if="${param.registerError}" class="error-message" th:text="${param.registerError}">-->
+<!--                Wystąpił błąd rejestracji.-->
+<!--            </p>-->
 
             <button type="submit">Zarejestruj się</button>
 

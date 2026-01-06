@@ -337,7 +337,7 @@
         });
 
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('error')) {
+        if (urlParams.has('loginError')) {
             openLoginModal();
         } else if (urlParams.has('registerError')) {
             openRegisterModal();

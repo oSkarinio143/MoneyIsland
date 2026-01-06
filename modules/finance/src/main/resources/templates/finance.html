@@ -171,7 +171,7 @@
         <h3 class="finance-card-title">Struktura Majątku</h3>
         <p class="finance-card-description">{...}</p>
       </div>
-      <form th:action="@{/oskarinio143/moneyisland/user/finance/balance}" method="get">
+      <form th:action="@{/oskarinio143/moneyisland/finance/user/balance}" method="get">
         <input type="hidden" name="username" th:value="${currentUsername}" />
         <button type="submit" class="finance-action-button">
           Pokaż szczegóły
@@ -198,7 +198,7 @@
         <h3 class="finance-card-title">Zobowiązania</h3>
         <p class="finance-card-description">{...}</p>
       </div>
-      <form th:action="@{/oskarinio143/moneyisland/user/finance/credit}" method="get">
+      <form th:action="@{/oskarinio143/moneyisland/finance/user/credit}" method="get">
         <input type="hidden" name="username" th:value="${currentUsername}" />
         <button type="submit" class="finance-action-button">
           Zobacz analizę
@@ -218,7 +218,7 @@
         <p class="finance-card-description">{...}</p>
       </div>
       <!-- ZMIANA: Z <a> na <form> z przyciskiem, aby przekazać username -->
-      <form th:action="@{/oskarinio143/moneyisland/user/finance/history}" method="get">
+      <form th:action="@{/oskarinio143/moneyisland/finance/user/history}" method="get">
         <input type="hidden" name="username" th:value="${currentUsername}" />
         <button type="submit" class="finance-action-button">
           Sprawdź analizę
@@ -245,7 +245,7 @@
         <h3 class="finance-card-title">Cele Finansowe</h3>
         <p class="finance-card-description">{...}</p>
       </div>
-      <form th:action="@{/oskarinio143/moneyisland/user/finance/goal}" method="get">
+      <form th:action="@{/oskarinio143/moneyisland/finance/user/goal}" method="get">
         <input type="hidden" name="username" th:value="${currentUsername}" />
         <button type="submit" class="finance-action-button">
           Wyznacz cele

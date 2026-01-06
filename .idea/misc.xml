@@ -10,6 +10,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/modules/refresh/finance2/pom.xml" />
+        <option value="$PROJECT_DIR$/modules/refresh/pom.xml" />
       </set>
     </option>
   </component>
