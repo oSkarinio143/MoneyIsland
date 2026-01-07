@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
-@RequestMapping(Route.MAIN + Route.USER + Route.FINANCE + Route.HISTORY)
+@RequestMapping(Route.MAIN + Route.FINANCE + Route.USER + Route.HISTORY)
 public class HistoryController {
     private final SaveHistoryIncomeUseCase saveHistoryIncomeUseCase;
     private final SaveHistoryExpenseUseCase saveHistoryExpenseUseCase;
@@ -26,7 +26,7 @@ public class HistoryController {
     private final LoadExpenseDataUseCase loadExpenseDataUseCase;
     private static final String USERNAME = "username";
     private static final String MONTHLY_VALUE = "monthlyValues";
-    private static final String ROUTE_HISTORY = Route.REDIRECT + Route.USER + Route.FINANCE + Route.HISTORY;
+    private static final String ROUTE_HISTORY = Route.REDIRECT + Route.FINANCE + Route.USER + Route.HISTORY;
 
     public HistoryController(SaveHistoryIncomeUseCase saveHistoryIncomeUseCase, SaveHistoryExpenseUseCase saveHistoryExpenseUseCase, LoadIncomeDataUseCase loadIncomeDataUseCase, LoadExpenseDataUseCase loadExpenseDataUseCase) {
         this.saveHistoryIncomeUseCase = saveHistoryIncomeUseCase;

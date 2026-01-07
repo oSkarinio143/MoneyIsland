@@ -22,7 +22,7 @@ public class CreditController {
     private final PayRepaymentUseCase payRepaymentUseCase;
     private final DeleteCreditUseCase deleteCreditUseCase;
     private static final String USERNAME = "username";
-    private static final String ROUTE_CREDIT = Route.REDIRECT + Route.USER + Route.FINANCE + Route.CREDIT;
+    private static final String ROUTE_CREDIT = Route.REDIRECT + Route.FINANCE + Route.USER + Route.CREDIT;
 
     public CreditController(LoadCreditsUseCase loadCreditsUseCase, PayRepaymentUseCase payRepaymentUseCase, AddCreditUseCase addCreditUseCase, DeleteCreditUseCase deleteCreditUseCase) {
         this.loadCreditsUseCase = loadCreditsUseCase;

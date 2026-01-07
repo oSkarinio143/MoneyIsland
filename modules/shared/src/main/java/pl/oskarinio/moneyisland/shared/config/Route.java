@@ -36,8 +36,10 @@ public class Route {
     public static final String INVESTMENT = "/investment";
 
     public static final String VIEW_MAIN_PANEL = "mainPanel";
-    public static final String VIEW_BALANCE = "balance";
     public static final String VIEW_FINANCE = "finance";
+    public static final String VIEW_ADMIN = "admin";
+
+    public static final String VIEW_BALANCE = "balance";
     public static final String VIEW_HISTORY = "history";
     public static final String VIEW_GOAL = "goal";
     public static final String VIEW_CREDIT = "credit";

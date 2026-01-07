@@ -13,7 +13,7 @@ import pl.oskarinio.moneyisland.finance.domain.dto.form.TargetForm;
 import pl.oskarinio.moneyisland.shared.config.Route;
 
 @Controller
-@RequestMapping(Route.MAIN + Route.USER + Route.FINANCE + Route.GOAL)
+@RequestMapping(Route.MAIN + Route.FINANCE + Route.USER + Route.GOAL)
 public class TargetController {
     private final LoadIncomeDataUseCase loadIncomeDataUseCase;
     private final LoadExpenseDataUseCase loadExpenseDataUseCase;
@@ -50,6 +50,6 @@ public class TargetController {
 
         saveTargetValuesUseCase.saveTargetValues(targetForm);
         redirectAttributes.addAttribute("username", targetForm.getUsername());
-        return Route.REDIRECT + Route.USER + Route.FINANCE + Route.GOAL;
+        return Route.REDIRECT + Route.FINANCE + Route.USER + Route.GOAL;
     }
 }

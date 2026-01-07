@@ -37,5 +37,5 @@ build/
 ### Mac OS ###
 .DS_Store
 
-docker/nexus/nexus-data/db/
+docker/nexus/nexus-data/db_old/
 docker/nexus/nexus-data/log/

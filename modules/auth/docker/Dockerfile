@@ -25,7 +25,7 @@ RUN mvn -f modules/auth/pom.xml dependency:resolve-plugins \
 
 COPY /modules/auth/src ./modules/auth/src
 
-RUN mvn -f modules/auth/pom.xml clean package -DskipTests \
+RUN mvn -f modules/auth/pom.xml clean package -U -DskipTests \
     -Dmaven.resolver.transport=wagon \
     -Dmaven.wagon.http.ssl.insecure=true \
     -Dmaven.wagon.http.ssl.allowall=true

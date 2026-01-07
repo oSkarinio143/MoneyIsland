@@ -40,7 +40,7 @@ public class AdminController {
     @GetMapping
     public String choseAdminOption(){
         log.info("Uzytkownik administrator w panelu admina");
-        return Route.ADMIN;
+        return Route.VIEW_ADMIN;
     }
 
     @GetMapping(Route.SHOW_USERS_LIST)
