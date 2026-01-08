@@ -68,20 +68,20 @@
         </dependencies>
     </dependencyManagement>
 
-    <repositories>
-        <repository>
-            <id>nexus-snapshots</id>
-            <name>Nexus Snapshots</name>
-            <url>https://host.docker.internal:8444/repository/moneyisland/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>nexus-snapshots</id>-->
+<!--            <name>Nexus Snapshots</name>-->
+<!--            <url>https://host.docker.internal:8444/repository/moneyisland/</url>-->
+<!--            <releases>-->
+<!--                <enabled>false</enabled>-->
+<!--            </releases>-->
+<!--            <snapshots>-->
+<!--                <enabled>true</enabled>-->
+<!--                <updatePolicy>always</updatePolicy>-->
+<!--            </snapshots>-->
+<!--        </repository>-->
+<!--    </repositories>-->
     <build>
         <pluginManagement>
             <plugins>

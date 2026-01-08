@@ -1,7 +1,8 @@
-FROM maven:3.9.9-eclipse-temurin-21 AS builder
+FROM maven:3.9.9-eclipse-temurin-21 AS gateway-builder
 WORKDIR /app
 
 COPY certs/nexus.cer nexus.cer
+
 RUN keytool -import -trustcacerts \
     -keystore /opt/java/openjdk/lib/security/cacerts \
     -storepass password \
@@ -32,5 +33,5 @@ RUN mvn -f modules/gateway/pom.xml clean package -DskipTests \
 
 FROM eclipse-temurin:21-jre
 WORKDIR /app
-COPY --from=builder /app/modules/gateway/target/*.jar gateway.jar
+COPY --from=gateway-builder /app/modules/gateway/target/*.jar gateway.jar
 ENTRYPOINT ["java","-jar","gateway.jar"]

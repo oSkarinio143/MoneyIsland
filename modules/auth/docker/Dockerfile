@@ -1,7 +1,8 @@
-FROM maven:3.9.9-eclipse-temurin-21 AS builder
+FROM maven:3.9.9-eclipse-temurin-21 AS auth-builder
 WORKDIR /app
 
 COPY certs/nexus.cer nexus.cer
+
 RUN keytool -import -trustcacerts \
     -keystore /opt/java/openjdk/lib/security/cacerts \
     -storepass password \
@@ -32,5 +33,5 @@ RUN mvn -f modules/auth/pom.xml clean package -U -DskipTests \
 
 FROM eclipse-temurin:21-jre
 WORKDIR /app
-COPY --from=builder /app/modules/auth/target/*.jar auth.jar
+COPY --from=auth-builder /app/modules/auth/target/*.jar auth.jar
 ENTRYPOINT ["java","-jar","auth.jar"]
