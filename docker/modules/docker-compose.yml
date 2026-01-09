@@ -25,7 +25,18 @@ services:
     restart: unless-stopped
     container_name: "auth"
     environment:
-      - JWT_SECRET_BASE64=d63e784e7490fb6beed24b4cab1c65b2a83da4b88bb6a522b65ab493bb279bf8
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+
+      - AUTH_PORT=${AUTH_PORT}
+      - JWT_SECRET_BASE64=${JWT_SECRET_BASE64}
+      - MYSQL_DATABASE_URL=${MYSQL_DATABASE_URL}
+      - MYSQL_DATABASE_AUTH=${MYSQL_DATABASE_AUTH}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER_AUTH=${MYSQL_USER_AUTH}
+      - MYSQL_PASSWORD_AUTH=${MYSQL_PASSWORD_AUTH}
+
     networks:
       - moneyisland-network
 
@@ -36,7 +47,17 @@ services:
     restart: unless-stopped
     container_name: "finance"
     environment:
-      - JWT_SECRET_BASE64=d63e784e7490fb6beed24b4cab1c65b2a83da4b88bb6a522b65ab493bb279bf8
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+
+      - FINANCE_PORT=${FINANCE_PORT}
+      - JWT_SECRET_BASE64=${JWT_SECRET_BASE64}
+      - MYSQL_DATABASE_URL=${MYSQL_DATABASE_URL}
+      - MYSQL_DATABASE_FINANCE=${MYSQL_DATABASE_FINANCE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER_FINANCE=${MYSQL_USER_FINANCE}
+      - MYSQL_PASSWORD_FINANCE=${MYSQL_PASSWORD_FINANCE}
     networks:
       - moneyisland-network
 

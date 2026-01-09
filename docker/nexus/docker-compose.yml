@@ -48,7 +48,9 @@ services:
     depends_on:
       - kafka
     ports:
-      - "8090:8080" # UI będzie dostępne pod portem 8090
+      - "8090:8080"
+    env_file:
+      - .env
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
@@ -56,8 +58,31 @@ services:
     networks:
       - moneyisland-network
 
+  mysql:
+    image: mysql:8.0
+    container_name: "mysql"
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE_AUTH: ${MYSQL_DATABASE_AUTH}
+      MYSQL_USER_AUTH: ${MYSQL_USER_AUTH}
+      MYSQL_PASSWORD_AUTH: ${MYSQL_PASSWORD_AUTH}
+      MYSQL_DATABASE_FINANCE: ${MYSQL_DATABASE_FINANCE}
+      MYSQL_USER_FINANCE: ${MYSQL_USER_FINANCE}
+      MYSQL_PASSWORD_FINANCE: ${MYSQL_PASSWORD_FINANCE}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - moneyisland-network
+
 networks:
   moneyisland-network:
     driver: bridge
     name: moneyisland-network
+
+volumes:
+  mysql_data:
 
