@@ -46,7 +46,8 @@ public class WebSecurityConfig {
                         .pathMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/favicon.ico").permitAll()
                         .pathMatchers(Route.MAIN,
                                 Route.MAIN + Route.LOGIN,
-                                Route.MAIN + Route.REGISTER).permitAll()
+                                Route.MAIN + Route.REGISTER,
+                                Route.MAIN + Route.FINANCE).permitAll()
                         .pathMatchers(Route.MAIN + Route.USER + "/**").hasRole("USER")
                         .pathMatchers(Route.MAIN + Route.ADMIN + "/**").hasRole("ADMIN")
                         .anyExchange().authenticated()

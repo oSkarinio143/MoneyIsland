@@ -1,7 +1,6 @@
 package pl.oskarinio.moneyisland.auth.application.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.oskarinio.moneyisland.auth.application.port.DeleteUserUseCase;
 import pl.oskarinio.moneyisland.auth.application.port.GetUserListUseCase;
@@ -17,9 +16,11 @@ import java.util.List;
 @Slf4j
 public class AdminService implements GetUserListUseCase, GrantAdminRoleUseCase, DeleteUserUseCase {
     private final AdminDomainService adminDomainService;
+    private final KafkaEventPublisher kafkaEventPublisher;
 
-    public AdminService(UserRepository userRepository, @Value("${spring.profiles.active:}") String[] activeProfiles, KafkaEventPublisher kafkaEventPublisher) {
-        this.adminDomainService = new AdminDomainService(userRepository, activeProfiles, kafkaEventPublisher);
+    public AdminService(UserRepository userRepository, KafkaEventPublisher kafkaEventPublisher) {
+        this.kafkaEventPublisher = kafkaEventPublisher;
+        this.adminDomainService = new AdminDomainService(userRepository);
     }
 
     @Override
@@ -30,7 +31,8 @@ public class AdminService implements GetUserListUseCase, GrantAdminRoleUseCase, 
 
     public void deleteUser(String username) {
         log.debug("Usuwanie użytkownika. Nazwa = {}", username);
-        adminDomainService.deleteUser(username);
+        User user = adminDomainService.deleteUser(username);
+        kafkaEventPublisher.publishUserDeleted(username, user.getId());
     }
 
     @Override

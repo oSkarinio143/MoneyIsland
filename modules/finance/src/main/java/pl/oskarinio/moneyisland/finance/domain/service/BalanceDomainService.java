@@ -20,8 +20,6 @@ public class BalanceDomainService {
     public void saveUserBalanceData(AssetAddForm assetAddForm){
         Asset asset = new Asset(assetAddForm.getAssetName(), assetAddForm.getAssetValue(), assetAddForm.getUsername());
         asset.setUser(userRepository.findByUsername(asset.getUsername()));
-        System.out.println(asset.getUser());
-        System.out.println("asset user - " + asset.getUser());
         assetRepository.saveAsset(asset);
     }
 

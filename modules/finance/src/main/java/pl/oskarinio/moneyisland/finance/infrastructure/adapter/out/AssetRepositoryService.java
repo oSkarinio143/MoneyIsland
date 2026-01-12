@@ -20,8 +20,6 @@ public class AssetRepositoryService implements AssetRepository {
 
     @Override
     public void saveAsset(Asset asset) {
-        System.out.println(asset);
-        System.out.println("po mapping - " + mapper.toAssetEntity(asset));
         assetRepositoryJpa.save(mapper.toAssetEntity(asset));
     }
 

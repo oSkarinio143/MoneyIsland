@@ -31,14 +31,7 @@ public interface MapStruct {
     public HistoryIncomeEntity toHistoryIncomeEntity(HistoryIncome historyIncome);
     @Mapping(source = "user.id", target = "userId")
     public Target toTarget(TargetEntity targetEntity);
-//    @Mapping(source = "userId", target = "user")
     public TargetEntity toTargetEntity(Target target);
     public Credit toCredit(CreditEntity creditEntity);
     public CreditEntity toCreditEntity(Credit credit);
-//    default UserEntity mapIdToUser(Long id) {
-//        if (id == null)
-//            return null;
-//        UserEntity userEntity = new UserEntity();
-//        return
-//    }
 }

@@ -9,7 +9,6 @@ import pl.oskarinio.moneyisland.auth.infrastructure.service.repo.RefreshTokenRep
 import java.time.Clock;
 import java.time.Instant;
 
-//Czysci wygasłe RefreshTokeny co 24 godziny
 @Component
 @Slf4j
 public class TokenDeleter {

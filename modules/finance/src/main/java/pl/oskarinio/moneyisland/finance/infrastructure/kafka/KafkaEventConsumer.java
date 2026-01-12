@@ -19,7 +19,9 @@ public class KafkaEventConsumer {
     private final ObjectMapper objectMapper;
     private final UserRepository userRepository;
 
-    @KafkaListener(topics = "userRegistered", groupId = "auth")
+    @KafkaListener(
+            topics = "userRegistered",
+            groupId = "auth")
     public void consumeUserRegistered(String message) {
         log.info("Odebrano wiadomość: {}", message);
 
@@ -28,6 +30,7 @@ public class KafkaEventConsumer {
             User user = new User(event.id(), event.username());
             userRepository.save(user);
         } catch (JsonProcessingException e) {
+            log.error("Error podczas odbierania eventu");
             throw new RuntimeException(e);
         }
     }
@@ -42,6 +45,7 @@ public class KafkaEventConsumer {
             UserDeletedEvent event = objectMapper.readValue(message, UserDeletedEvent.class);
             userRepository.delete(event.username());
         } catch (JsonProcessingException e) {
+            log.error("Error podczas odbierania eventu");
             throw new RuntimeException(e);
         }
     }

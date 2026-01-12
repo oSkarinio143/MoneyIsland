@@ -9,7 +9,6 @@ import pl.oskarinio.moneyisland.shared.domain.Role;
 import java.util.HashSet;
 import java.util.Set;
 
-//Używam zamiast user do prostych operacji. User odpowiednik UserEntity, używany wyłącznie, gdy zapisuje do bazy
 @RequiredArgsConstructor
 @Getter
 @Setter

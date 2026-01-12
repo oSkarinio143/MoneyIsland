@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.oskarinio.moneyisland.shared.domain.exception.RegistrationDataException;
 import pl.oskarinio.moneyisland.shared.domain.exception.UsernameNotFoundException;
 import pl.oskarinio.moneyisland.shared.domain.exception.UsernameNotMatchingPassword;
@@ -13,20 +12,20 @@ import pl.oskarinio.moneyisland.shared.domain.exception.UsernameNotMatchingPassw
 @Slf4j
 @ControllerAdvice
 class GlobalExceptionHandler {
-    @ExceptionHandler (exception = {UsernameNotMatchingPassword.class,
-            UsernameNotFoundException.class})
-    public String handleUsernameLogin(RedirectAttributes redirectAttributes,
-                                                    HttpServletRequest request){
-
+    @ExceptionHandler (exception = {
+            UsernameNotMatchingPassword.class,
+            UsernameNotFoundException.class
+    })
+    public String handleUsernameLogin(HttpServletRequest request){
         String urlFromForm = request.getAttribute("requestUrl").toString();
         return Route.LOCALHOST + urlFromForm + "?loginError=BladLogowania";
     }
 
-    @ExceptionHandler (exception = {DataIntegrityViolationException.class,
-            RegistrationDataException.class})
-    public String handleUsernameRegister(RedirectAttributes redirectAttributes,
-                                                    HttpServletRequest request){
-
+    @ExceptionHandler (exception = {
+            DataIntegrityViolationException.class,
+            RegistrationDataException.class
+    })
+    public String handleUsernameRegister(HttpServletRequest request){
         String urlFromForm = request.getAttribute("requestUrl").toString();
         return Route.LOCALHOST + urlFromForm + "?registerError=BladRejestracji";
     }

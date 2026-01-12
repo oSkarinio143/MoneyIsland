@@ -3,10 +3,7 @@ package pl.oskarinio.moneyisland.finance.infrastructure.adapter.in;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.oskarinio.moneyisland.finance.application.port.history.LoadExpenseDataUseCase;
 import pl.oskarinio.moneyisland.finance.application.port.history.LoadIncomeDataUseCase;
@@ -33,6 +30,11 @@ public class HistoryController {
         this.saveHistoryExpenseUseCase = saveHistoryExpenseUseCase;
         this.loadIncomeDataUseCase = loadIncomeDataUseCase;
         this.loadExpenseDataUseCase = loadExpenseDataUseCase;
+    }
+
+    @ModelAttribute()
+    public void setActivePage(Model model) {
+        model.addAttribute("activePage", Route.VIEW_FINANCE);
     }
 
     @GetMapping()

@@ -58,6 +58,7 @@ public class UserRepositoryService implements UserRepository {
     @Override
     @Transactional
     public List<User> findAll() {
+        log.debug("Pobieram z bazy wszystkich uzytkownikow");
         List<UserEntity> userEntities = userRepositoryJpa.findAll();
         Function<UserEntity, User> userMapper = UserMapper::toDomain;
         return userEntities.stream().map(userMapper).toList();

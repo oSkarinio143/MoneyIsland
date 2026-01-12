@@ -9,8 +9,6 @@ public class Route {
     public static final String MAIN = "/oskarinio143/moneyisland";
     public static final String USER = "/user";
     public static final String ADMIN = "/admin";
-    public static final String ERROR = "/error";
-    public static final String SHOW = "/show";
 
     public static final String REGISTER = "/register";
     public static final String LOGIN = "/login";

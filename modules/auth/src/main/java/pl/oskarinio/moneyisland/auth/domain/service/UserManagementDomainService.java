@@ -1,8 +1,5 @@
 package pl.oskarinio.moneyisland.auth.domain.service;
 
-
-//import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 import pl.oskarinio.moneyisland.auth.domain.dto.User;
 import pl.oskarinio.moneyisland.auth.domain.dto.UserServiceData;
 import pl.oskarinio.moneyisland.auth.domain.port.Token;

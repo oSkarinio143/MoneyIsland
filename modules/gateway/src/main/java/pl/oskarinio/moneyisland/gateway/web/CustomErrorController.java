@@ -13,7 +13,7 @@ class CustomErrorController implements ErrorController {
     @RequestMapping(Route.ERROR)
     public String handleError(ServerWebExchange exchange) {
         Object status = exchange.getResponse().getStatusCode();
-        log.error("Wystapil blad - {}", status);
+        log.error("Error - {}", status);
         return Route.REDIRECT;
     }
 }

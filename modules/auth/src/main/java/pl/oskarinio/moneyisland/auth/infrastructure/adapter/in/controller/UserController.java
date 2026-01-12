@@ -81,7 +81,6 @@ public class UserController {
 
         log.info("Uzytkownik rozpoczyna rejestracje");
         request.setAttribute("requestUrl", requestUrl);
-        System.out.println("req - " + requestUrl);
         if(bindingResult.hasErrors()) {
             request.setAttribute("requestUrl", requestUrl);
             log.warn("Rejestracja nie udana, wprowadzono niepoprawne dane");
