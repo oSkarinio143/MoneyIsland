@@ -35,7 +35,9 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_USER_AUTH=${MYSQL_USER_AUTH}
       - MYSQL_PASSWORD_AUTH=${MYSQL_PASSWORD_AUTH}
-
+    depends_on:
+      finance:
+        condition: service_healthy
     networks:
       - moneyisland-network
 
@@ -57,6 +59,12 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_USER_FINANCE=${MYSQL_USER_FINANCE}
       - MYSQL_PASSWORD_FINANCE=${MYSQL_PASSWORD_FINANCE}
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8083/actuator/health" ]
+      interval: 1s
+      timeout: 1s
+      retries: 30
+      start_period: 1s
     networks:
       - moneyisland-network
 

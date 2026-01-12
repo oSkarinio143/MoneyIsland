@@ -6,6 +6,10 @@ services:
     restart: unless-stopped
     ports:
       - "8444:8444"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "-k", "https://localhost:8444/service/rest/v1/status" ]
+      interval: 10s
+      retries: 10
     volumes:
       - ./nexus-data:/nexus-data
     networks:
@@ -74,6 +78,26 @@ services:
       - ./mysql/init:/docker-entrypoint-initdb.d
     networks:
       - moneyisland-network
+
+  shared-installer:
+      image: maven:3.9.9-eclipse-temurin-21
+      container_name: shared-installer
+      volumes:
+        - ../..:/app
+        - ./settings-docker.xml:/usr/share/maven/conf/settings.xml
+        - ~/.m2/repository:/root/.m2/repository
+      working_dir: /app/modules/shared
+      networks:
+        - moneyisland-network
+      depends_on:
+        nexus:
+          condition: service_healthy
+      command: >
+        mvn clean deploy -DskipTests
+        -Dmaven.resolver.transport=wagon
+        -Dmaven.wagon.http.ssl.insecure=true
+        -Dmaven.wagon.http.ssl.allowall=true
+        -DaltDeploymentRepository=MoneyIsland-snapshots::default::https://nexus:8444/repository/moneyisland/
 
 networks:
   moneyisland-network:
