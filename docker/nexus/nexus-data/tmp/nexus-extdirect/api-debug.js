@@ -149,6 +149,11 @@ NX.direct.api.REMOTING_API = {
         formHandler: false
       },
       {
+        name: 'readWithAll'/*() => java.util.List */,
+        len: 0,
+        formHandler: false
+      },
+      {
         name: 'readNames'/*() => java.util.List */,
         len: 0,
         formHandler: false
@@ -164,13 +169,13 @@ NX.direct.api.REMOTING_API = {
         formHandler: false
       },
       {
-        name: 'defaultWorkDirectory'/*() => org.sonatype.nexus.coreui.PathSeparatorXO */,
-        len: 0,
+        name: 'readGroupable'/*(org.sonatype.nexus.extdirect.model.StoreLoadParameters) => java.util.List */,
+        len: 1,
         formHandler: false
       },
       {
-        name: 'readGroupable'/*(org.sonatype.nexus.extdirect.model.StoreLoadParameters) => java.util.List */,
-        len: 1,
+        name: 'defaultWorkDirectory'/*() => org.sonatype.nexus.coreui.PathSeparatorXO */,
+        len: 0,
         formHandler: false
       },
       {
@@ -218,12 +223,12 @@ NX.direct.api.REMOTING_API = {
         formHandler: false
       },
       {
-        name: 'sync'/*() => void */,
+        name: 'done'/*() => void */,
         len: 0,
         formHandler: false
       },
       {
-        name: 'done'/*() => void */,
+        name: 'sync'/*() => void */,
         len: 0,
         formHandler: false
       },
@@ -250,12 +255,12 @@ NX.direct.api.REMOTING_API = {
     ],
     coreui_Component: [
       {
-        name: 'readAsset'/*(String, String) => org.sonatype.nexus.coreui.AssetXO */,
+        name: 'canDeleteAsset'/*(String, String) => boolean */,
         len: 2,
         formHandler: false
       },
       {
-        name: 'canDeleteAsset'/*(String, String) => boolean */,
+        name: 'readAsset'/*(String, String) => org.sonatype.nexus.coreui.AssetXO */,
         len: 2,
         formHandler: false
       },
@@ -338,11 +343,6 @@ NX.direct.api.REMOTING_API = {
       }
     ],
     s3_S3: [
-      {
-        name: 'signertypes'/*() => java.util.List */,
-        len: 0,
-        formHandler: false
-      },
       {
         name: 'regions'/*() => java.util.List */,
         len: 0,
@@ -731,13 +731,13 @@ NX.direct.api.REMOTING_API = {
     ],
     coreui_Repository: [
       {
-        name: 'readReferencesAddingEntriesForAllFormats'/*(org.sonatype.nexus.extdirect.model.StoreLoadParameters) => java.util.List */,
-        len: 1,
+        name: 'getBrowseableFormats'/*() => java.util.List */,
+        len: 0,
         formHandler: false
       },
       {
-        name: 'getBrowseableFormats'/*() => java.util.List */,
-        len: 0,
+        name: 'readReferencesAddingEntriesForAllFormats'/*(org.sonatype.nexus.extdirect.model.StoreLoadParameters) => java.util.List */,
+        len: 1,
         formHandler: false
       },
       {

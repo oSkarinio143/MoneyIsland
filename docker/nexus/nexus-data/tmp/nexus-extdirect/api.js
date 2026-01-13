@@ -140,6 +140,11 @@ NX.direct.api.REMOTING_API = {
         formHandler: false
       },
       {
+        name: 'readWithAll',
+        len: 0,
+        formHandler: false
+      },
+      {
         name: 'readNames',
         len: 0,
         formHandler: false
@@ -155,13 +160,13 @@ NX.direct.api.REMOTING_API = {
         formHandler: false
       },
       {
-        name: 'defaultWorkDirectory',
-        len: 0,
+        name: 'readGroupable',
+        len: 1,
         formHandler: false
       },
       {
-        name: 'readGroupable',
-        len: 1,
+        name: 'defaultWorkDirectory',
+        len: 0,
         formHandler: false
       },
       {
@@ -209,12 +214,12 @@ NX.direct.api.REMOTING_API = {
         formHandler: false
       },
       {
-        name: 'sync',
+        name: 'done',
         len: 0,
         formHandler: false
       },
       {
-        name: 'done',
+        name: 'sync',
         len: 0,
         formHandler: false
       },
@@ -241,12 +246,12 @@ NX.direct.api.REMOTING_API = {
     ],
     coreui_Component: [
       {
-        name: 'readAsset',
+        name: 'canDeleteAsset',
         len: 2,
         formHandler: false
       },
       {
-        name: 'canDeleteAsset',
+        name: 'readAsset',
         len: 2,
         formHandler: false
       },
@@ -329,11 +334,6 @@ NX.direct.api.REMOTING_API = {
       }
     ],
     s3_S3: [
-      {
-        name: 'signertypes',
-        len: 0,
-        formHandler: false
-      },
       {
         name: 'regions',
         len: 0,
@@ -722,13 +722,13 @@ NX.direct.api.REMOTING_API = {
     ],
     coreui_Repository: [
       {
-        name: 'readReferencesAddingEntriesForAllFormats',
-        len: 1,
+        name: 'getBrowseableFormats',
+        len: 0,
         formHandler: false
       },
       {
-        name: 'getBrowseableFormats',
-        len: 0,
+        name: 'readReferencesAddingEntriesForAllFormats',
+        len: 1,
         formHandler: false
       },
       {

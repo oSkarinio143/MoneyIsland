@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+# Warstwa 1
   gateway:
     build:
       context: ../..
@@ -17,6 +18,40 @@ services:
     networks:
       - moneyisland-network
 
+# Warstwa 4
+  finance:
+    build:
+      context: ../..
+      dockerfile: /modules/finance/docker/Dockerfile
+    restart: unless-stopped
+    container_name: "finance"
+    environment:
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+
+      - FINANCE_PORT=${FINANCE_PORT}
+      - JWT_SECRET_BASE64=${JWT_SECRET_BASE64}
+      - MYSQL_DATABASE_URL=${MYSQL_DATABASE_URL}
+      - MYSQL_DATABASE_FINANCE=${MYSQL_DATABASE_FINANCE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER_FINANCE=${MYSQL_USER_FINANCE}
+      - MYSQL_PASSWORD_FINANCE=${MYSQL_PASSWORD_FINANCE}
+    depends_on:
+      shared-installer:
+        condition: service_completed_successfully
+      mysql:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8083" ]
+      interval: 10s
+      retries: 30
+    networks:
+      - moneyisland-network
+
+# Warstwa 5
   auth:
     build:
       context: ../..
@@ -40,34 +75,3 @@ services:
         condition: service_healthy
     networks:
       - moneyisland-network
-
-  finance:
-    build:
-      context: ../..
-      dockerfile: /modules/finance/docker/Dockerfile
-    restart: unless-stopped
-    container_name: "finance"
-    environment:
-      - ADMIN_USERNAME=${ADMIN_USERNAME}
-      - ADMIN_EMAIL=${ADMIN_EMAIL}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
-
-      - FINANCE_PORT=${FINANCE_PORT}
-      - JWT_SECRET_BASE64=${JWT_SECRET_BASE64}
-      - MYSQL_DATABASE_URL=${MYSQL_DATABASE_URL}
-      - MYSQL_DATABASE_FINANCE=${MYSQL_DATABASE_FINANCE}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_USER_FINANCE=${MYSQL_USER_FINANCE}
-      - MYSQL_PASSWORD_FINANCE=${MYSQL_PASSWORD_FINANCE}
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8083/actuator/health" ]
-      interval: 1s
-      timeout: 1s
-      retries: 30
-      start_period: 1s
-    networks:
-      - moneyisland-network
-
-networks:
-  moneyisland-network:
-    external: true

@@ -17,6 +17,8 @@ public class GatewayRoutes {
 
     @Bean
     public RouteLocator authRoutes(RouteLocatorBuilder builder){
+        System.out.println("DEBUG: financeUrl is [" + financeUrl + "]");
+        System.out.println("DEBUG: char at 19? " + (financeUrl.length() > 19 ? (int)financeUrl.charAt(19) : "too short"));
         return builder.routes()
                 .route("auth", r -> r
                         .path(Route.MAIN + Route.REGISTER,
