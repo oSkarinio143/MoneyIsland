@@ -1,0 +1,8 @@
+include:
+  - path: nexus/docker-compose.dev.yml
+  - path: modules/docker-compose.dev.yml
+
+networks:
+  moneyisland-network:
+    name: moneyisland-network
+    driver: bridge

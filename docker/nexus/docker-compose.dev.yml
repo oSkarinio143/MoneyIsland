@@ -1,0 +1,102 @@
+services:
+#  Warstwa 1
+  nexus:
+    image: sonatype/nexus3
+    container_name: nexus
+    hostname: server-auth
+    restart: unless-stopped
+    ports:
+      - "8444:8444"
+    volumes:
+      - ./nexus-data:/nexus-data
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "-k", "https://localhost:8444/service/rest/v1/status" ]
+      interval: 10s
+      retries: 20
+    networks:
+      - moneyisland-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: "mysql"
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE_AUTH: ${MYSQL_DATABASE_AUTH}
+      MYSQL_USER_AUTH: ${MYSQL_USER_AUTH}
+      MYSQL_PASSWORD_AUTH: ${MYSQL_PASSWORD_AUTH}
+      MYSQL_DATABASE_FINANCE: ${MYSQL_DATABASE_FINANCE}
+      MYSQL_USER_FINANCE: ${MYSQL_USER_FINANCE}
+      MYSQL_PASSWORD_FINANCE: ${MYSQL_PASSWORD_FINANCE}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 3s
+      retries: 10
+    networks:
+      - moneyisland-network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    healthcheck:
+      test: echo srvr | nc localhost 2181 || exit 1
+      interval: 5s
+      retries: 10
+    networks:
+      - moneyisland-network
+
+  # Warstwa 2
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    healthcheck:
+      test: nc -z localhost 9092 || exit 1
+      interval: 5s
+      retries: 20
+    networks:
+      - moneyisland-network
+
+  # Warstwa 3
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "8090:8080"
+    env_file:
+      - .env
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      DYNAMIC_CONFIG_ENABLED: 'true'
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - moneyisland-network
+
+volumes:
+  mysql_data:
+
+
