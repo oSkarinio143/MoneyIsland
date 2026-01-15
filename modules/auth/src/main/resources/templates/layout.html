@@ -1,56 +1,79 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
+    <script defer src="https://unpkg.com/alpinejs@3.13.10/dist/cdn.min.js"></script>
     <meta charset="UTF-8">
     <title layout:title-pattern="$CONTENT_TITLE - Money Island">Money Island</title>
 
     <style th:attr="nonce=${cspNonce}">
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap');
 
-/* === ZMIENNE GLOBALNE === */
+        /* ========================================= */
+        /* === NOWA PALETA KOLORÓW (Warm/Vivid) === */
+        /* ========================================= */
         :root {
-            --color-bone: #DAD7CD;
-            --color-sage: #A3B18A;
-            --color-fern: #588157;
-            --color-hunter: #3A5A40;
-            --color-moss: #344E41;
-            --bg-page: var(--color-bone);
-            --card-bg: rgba(163, 177, 138, 0.4);
-            --card-border: var(--color-fern);
-            --text-main: var(--color-moss);
+        /* --- 1. Nowe kolory bazowe (z MainPanel) --- */
+            --bg-warm-base: #F0E5D3;   /* Ciepły beż / Piasek */
+            --bg-decor-1: #DDA15E;     /* Złoty / Jasny brąz */
+            --bg-decor-2: #BC6C25;     /* Ciemniejszy brąz */
+
+            /* --- 2. Nowe, żywsze zielenie --- */
+            --color-sage: #9caf88;       /* Jaśniejsza, żywa szałwia */
+            --color-moss: #386641;       /* Soczysty mech */
+            --color-fern: #6a994e;       /* Paproć (jasna zieleń) */
+            --color-hunter: #2b4c3b;     /* Głęboka zieleń myśliwska */
+            --color-dark-green: #234d20; /* Najciemniejsza zieleń (prawie czarna) */
+
+            /* --- 3. Mapowanie na zmienne Layoutu --- */
+
+            /* Tło całej strony - teraz ciepły beż */
+            --bg-page: var(--bg-warm-base);
+
+            /* Zastępujemy stary 'bone' ciepłym beżem, żeby zachować spójność */
+            --color-bone: var(--bg-warm-base);
+
+            /* Kolor tekstu i głównych elementów (używamy najciemniejszej zieleni dla kontrastu) */
+            --text-main: var(--color-dark-green);
+
+            /* Karty - lekko przezroczyste białe tło, żeby ładnie leżało na beżu */
+            --card-bg: rgba(255, 255, 255, 0.85);
+
+            /* Obramowania - używamy żywej zieleni */
+            --card-border: var(--color-sage);
         }
 
-/* === STYLE PODSTAWOWE === */
+        /* === STYLE PODSTAWOWE === */
         body {
             margin: 0;
             padding: 0;
             font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-page);
+            background-color: var(--bg-page); /* Teraz: #F0E5D3 */
             display: flex;
             height: 100vh;
-            color: var(--text-main);
+            color: var(--text-main);          /* Teraz: #234d20 */
             overflow: hidden;
         }
 
-/* === STYLE SIDEBARA === */
+        /* === STYLE SIDEBARA === */
         .sidebar {
             width: 340px;
-            background-color: #fff;
+            background-color: #ffffff; /* Sidebar zostaje biały dla kontrastu */
             flex-shrink: 0;
             z-index: 10;
-            box-shadow: 10px 0 40px rgba(52, 78, 65, 0.05);
+            box-shadow: 10px 0 40px rgba(35, 77, 32, 0.08); /* Lekko zielonkawy cień */
             display: flex;
             flex-direction: column;
             align-items: center;
             padding-top: 50px;
             padding-bottom: 30px;
-            position: relative;
+            box-sizing: border-box;
         }
+
         .brand-header {
             text-align: center;
             width: 100%;
         }
+
         .title {
             display: flex;
             flex-direction: column;
@@ -60,7 +83,11 @@
             font-weight: 900;
             letter-spacing: -2px;
         }
-        .text-dark { color: var(--color-moss); }
+
+        .text-dark {
+            color: var(--color-dark-green); /* Używamy najmocniejszej zieleni */
+        }
+
         .island-row {
             display: flex;
             align-items: baseline;
@@ -69,13 +96,21 @@
             font-size: 68px;
             font-weight: 800;
         }
-        .text-light { color: var(--color-fern); }
-        .dollar-sign { color: var(--color-moss); font-weight: 900; }
+
+        .text-light {
+            color: var(--color-fern); /* Żywsza zieleń (paproć) */
+        }
+
+        .dollar-sign {
+            color: var(--color-moss);
+            font-weight: 900;
+        }
+
         .nav-container {
             width: 100%;
             box-sizing: border-box;
-            background-color: rgba(163, 177, 138, 0.2);
-            border: 3px solid var(--color-fern);
+            background-color: rgba(156, 175, 136, 0.15); /* Delikatne tło (sage) */
+            border: 3px solid var(--color-fern); /* Obramowanie żywą zielenią */
             border-left: none;
             border-radius: 0 24px 24px 0;
             margin-top: 50px;
@@ -85,6 +120,7 @@
             flex-direction: column;
             gap: 15px;
         }
+
         .nav-btn {
             position: relative;
             background: transparent;
@@ -94,7 +130,7 @@
             border-radius: 0 12px 12px 0;
             cursor: pointer;
             text-align: left;
-            color: var(--color-hunter);
+            color: var(--color-hunter); /* Ciemna zieleń dla tekstu przycisków */
             font-size: 20px;
             font-weight: 700;
             overflow: hidden;
@@ -103,6 +139,7 @@
             text-decoration: none;
             display: block;
         }
+
         .nav-btn::before {
             content: '';
             position: absolute;
@@ -110,14 +147,24 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--color-moss);
+            /* Tło aktywnego przycisku - teraz głęboka zieleń 'hunter' */
+            background: var(--color-dark-green);
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 0.4s cubic-bezier(0.65, 0.05, 0.36, 1);
             z-index: -1;
         }
-        .nav-btn:hover::before, .nav-btn.active::before { transform: scaleX(1); }
-        .nav-btn:hover, .nav-btn.active { color: var(--color-bone); }
+
+        .nav-btn:hover::before,
+        .nav-btn.active::before {
+            transform: scaleX(1);
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            color: #F0E5D3; /* Tekst na aktywnym przycisku - kolor tła strony (beż) */
+        }
+
         .nav-btn span {
             position: relative;
             display: flex;
@@ -128,13 +175,19 @@
             height: 100%;
             box-sizing: border-box;
         }
+
         .nav-btn .nav-icon {
             width: 24px;
             height: 24px;
             fill: currentColor;
             transition: transform 0.3s ease;
         }
-        .nav-btn:hover .nav-icon, .nav-btn.active .nav-icon { transform: scale(1.1); }
+
+        .nav-btn:hover .nav-icon,
+        .nav-btn.active .nav-icon {
+            transform: scale(1.1);
+        }
+
         .bottom-profile {
             position: absolute;
             bottom: 30px;
@@ -143,7 +196,11 @@
             align-items: center;
             gap: 15px;
         }
-        .bottom-profile form { margin: 0; }
+
+        .bottom-profile form {
+            margin: 0;
+        }
+
         .logo-img {
             width: 50px;
             height: 50px;
@@ -153,9 +210,10 @@
             display: block;
             background-color: var(--color-sage);
         }
+
         .btn-bottom-action {
             background-color: var(--color-moss);
-            color: var(--color-bone);
+            color: var(--bg-warm-base);
             font-family: 'Outfit', sans-serif;
             padding: 14px 40px;
             border-radius: 50px;
@@ -170,27 +228,28 @@
             text-align: center;
             box-sizing: border-box;
         }
+
         .btn-bottom-action:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(52, 78, 65, 0.3);
+            background-color: var(--color-dark-green);
+            box-shadow: 0 8px 15px rgba(35, 77, 32, 0.3);
         }
 
-/* === STYLE GŁÓWNEJ CONTENT === */
+        /* === STYLE GŁÓWNEJ CONTENT === */
         .main-content {
             flex-grow: 1;
-            padding: 30px;
+            padding: 0px;
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
         }
+
         .main-content > div {
             width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
         }
+
         .content-card {
             width: 100%;
-            height: 100%;
             background-color: var(--card-bg);
             border: 2px solid var(--card-border);
             border-radius: 36px;
@@ -201,21 +260,24 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(52, 78, 65, 0.1);
+            box-shadow: 0 20px 60px rgba(35, 77, 32, 0.1); /* Cień dostosowany do zieleni */
         }
+
         .content-title {
             font-size: 72px;
             font-weight: 900;
-            color: var(--color-moss);
+            color: var(--color-dark-green);
             letter-spacing: -2.5px;
             line-height: 1.1;
             margin-bottom: 15px;
-            text-shadow: 3px 3px 0px rgba(163, 177, 138, 0.4);
+            text-shadow: 2px 2px 0px rgba(163, 177, 138, 0.2);
         }
+
         .dollar-sign-content {
-            color: var(--color-fern);
+            color: var(--bg-decor-1); /* Używamy złotego akcentu dla dolara w tytule */
             font-weight: 900;
         }
+
         .content-subtitle {
             font-size: 24px;
             color: var(--color-hunter);
@@ -224,7 +286,7 @@
             font-weight: 500;
         }
 
-/* === STYLE MODALI === */
+        /* === POZOSTAŁE STYLE (MODAL, TABELE) - ZAKTUALIZOWANE KOLORY === */
         .modal-backdrop {
             display: none;
             position: fixed;
@@ -232,254 +294,99 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(35, 77, 32, 0.6); /* Ciemna zieleń w tle modala */
             z-index: 1000;
             -webkit-backdrop-filter: blur(5px);
             backdrop-filter: blur(5px);
             justify-content: center;
             align-items: center;
         }
-        .modal-visible { display: flex; }
+
+        .modal-visible {
+            display: flex;
+        }
+
         .modal-content {
             background-color: #ffffff;
-            color: #333;
+            color: var(--color-dark-green);
             padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(35, 77, 32, 0.2);
             position: relative;
             width: 90%;
             max-width: 400px;
             text-align: center;
+            border: 2px solid var(--color-sage);
         }
+
         .modal-close-btn {
             position: absolute;
-            top: 10px;
-            right: 15px;
+            top: 15px;
+            right: 20px;
             font-size: 2rem;
-            color: #555;
+            color: var(--color-sage);
             cursor: pointer;
             line-height: 1;
+            transition: color 0.2s;
         }
-        .modal-close-btn:hover { color: #000; }
-        .modal-content form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-top: 1.5rem;
+
+        .modal-close-btn:hover {
+            color: var(--color-dark-green);
         }
-        .modal-content .form-group { text-align: left; }
-        .modal-content label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .modal-content input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
+
         .modal-content button[type="submit"] {
             padding: 12px;
             border: none;
-            border-radius: 4px;
-            background-color: #344E41;
-            color: white;
+            border-radius: 12px;
+            background-color: var(--color-moss);
+            color: var(--bg-warm-base);
             font-size: 1rem;
+            font-weight: 700;
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        .modal-content button[type="submit"]:hover { background-color: #4A685D; }
-        .modal-content .error-message {
-            color: #D8000C;
-            background-color: #FFD2D2;
-            border: 1px solid;
-            padding: 10px;
-            border-radius: 4px;
-        }
-        .modal-content .register-link { margin-top: 1rem; }
-        .modal-content .register-link a {
-            color: #344E41;
-            text-decoration: none;
-            font-weight: bold;
-        }
 
-/*Przycisk admina*/
-        .admin-btn-container {
-            margin-top: 30px;
-            margin-bottom: 20px;
-            padding: 0 30px;
-            box-sizing: border-box;
-        }
-
-        .admin-btn-container .btn-admin-panel .nav-icon {
-            display: none;
+        .modal-content button[type="submit"]:hover {
+            background-color: var(--color-dark-green);
         }
 
         .admin-btn-container .btn-admin-panel {
-            display: block;
-            width: 100%;
             background-color: var(--color-moss);
-            color: var(--color-bone);
-            font-family: 'Outfit', sans-serif;
-            padding: 14px 20px;
-            border-radius: 50px;
-            border: none;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-sizing: border-box;
-            text-align: center; /* Wyśrodkowanie tekstu wewnątrz */
-        }
-
-        .admin-btn-container .btn-admin-panel span {
-            padding: 0;
-            display: inline;
-            gap: 0;
-        }
-
-        .admin-btn-container .btn-admin-panel:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(52, 78, 65, 0.3);
-        }
-
-/* === STYLE PANELU ADMINA === */
-        .admin-actions-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-top: 40px;
-            width: 100%;
-            max-width: 1200px;
+            color: var(--bg-warm-base);
         }
 
         .admin-action-card {
-            flex: 1;
-            min-width: 300px;
-            background-color: rgba(255, 255, 255, 0.4);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 25px 30px;
-            box-shadow: 0 8px 20px rgba(52, 78, 65, 0.08);
-            display: flex;
-            flex-direction: column;
-            text-align: left;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--color-sage);
+            box-shadow: 0 8px 20px rgba(35, 77, 32, 0.08);
         }
 
         .action-card-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--color-moss);
-            margin: 0 0 10px 0;
-        }
-
-        .action-card-description {
-            font-size: 16px;
-            color: var(--color-hunter);
-            line-height: 1.6;
-            margin-bottom: auto;
-            padding-bottom: 20px;
-        }
-
-        .admin-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .admin-form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .admin-form-group label {
-            font-weight: 500;
-            margin-bottom: 5px;
-            font-size: 14px;
-            color: var(--color-hunter);
+            color: var(--color-dark-green);
         }
 
         .admin-form-group input[type="text"] {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 8px;
             border: 2px solid var(--color-sage);
-            background-color: #fff;
-            font-family: 'Outfit', sans-serif;
-            font-size: 16px;
-            color: var(--color-moss);
-            box-sizing: border-box;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            color: var(--color-dark-green);
         }
 
         .admin-form-group input[type="text"]:focus {
-            outline: none;
             border-color: var(--color-hunter);
-            box-shadow: 0 0 0 3px rgba(58, 90, 64, 0.2);
+            box-shadow: 0 0 0 3px rgba(106, 153, 78, 0.2);
         }
 
         .btn-admin-action {
             background-color: var(--color-moss);
-            color: var(--color-bone);
-            font-family: 'Outfit', sans-serif;
-            padding: 14px 20px;
-            border-radius: 50px;
-            border: none;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            display: inline-block;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: auto;
-        }
-
-        .btn-admin-action:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(52, 78, 65, 0.3);
-        }
-
-        .btn-admin-action.btn-danger {
-            background-color: #c94a4a;
-        }
-        .btn-admin-action.btn-danger:hover {
-            background-color: #e15656;
-            box-shadow: 0 8px 15px rgba(201, 74, 74, 0.3);
-        }
-
-        /* === STYLE TABELI UŻYTKOWNIKÓW === */
-        .user-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 30px;
-            font-size: 16px;
-            box-shadow: 0 8px 20px rgba(52, 78, 65, 0.08);
-            border-radius: 12px;
-            overflow: hidden; /* Potrzebne, aby zaokrąglenie działało na komórkach tabeli */
+            color: var(--bg-warm-base);
         }
 
         .user-table thead tr {
             background-color: var(--color-moss);
-            color: #ffffff;
-            text-align: left;
-            font-weight: bold;
-        }
-
-        .user-table th, .user-table td {
-            padding: 12px 15px;
+            color: var(--bg-warm-base);
         }
 
         .user-table tbody tr {
             border-bottom: 1px solid var(--color-sage);
-            background-color: #fff;
-        }
-
-        .user-table tbody tr:nth-of-type(even) {
-            background-color: #f3f3f3;
         }
 
         .user-table tbody tr:last-of-type {
@@ -487,56 +394,18 @@
         }
 
         .user-table tbody tr:hover {
-            background-color: var(--color-bone);
-        }
-
-        .empty-table-message {
-            text-align: center;
-            padding: 20px;
-            font-style: italic;
-            color: var(--color-hunter);
-        }
-
-        /* === STYLE PRZYCISKU POWROTU I PASKA AKCJI === */
-        .action-bar {
-            width: 100%;
-            max-width: 1200px;
-            margin-top: 20px;
-            display: flex;
-            justify-content: flex-start;
+            background-color: rgba(240, 229, 211, 0.5); /* Lekki beż przy hoverze */
         }
 
         .btn-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
             background-color: var(--color-sage);
-            color: var(--color-moss);
-            font-family: 'Outfit', sans-serif;
-            padding: 10px 20px;
-            border-radius: 50px;
+            color: #fff;
             border: 2px solid var(--color-fern);
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.2s ease;
         }
 
         .btn-back:hover {
             background-color: var(--color-fern);
-            color: var(--color-bone);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(52, 78, 65, 0.2);
         }
-
-        .user-table th,
-        .user-table td {
-            text-align: center; /* To jest kluczowa właściwość - wyśrodkowuje tekst w poziomie */
-            vertical-align: middle; /* Opcjonalnie, ale polecane - wyśrodkowuje tekst w pionie */
-            padding: 12px 15px; /* Dodaje wewnętrzny odstęp, aby komórki nie były "ściśnięte" */
-        }
-
     </style>
 </head>
 <body>
@@ -563,6 +432,7 @@
         const closeLoginModal = () => { if(loginModal) loginModal.classList.remove('modal-visible'); };
         const openRegisterModal = () => { if(registerModal) registerModal.classList.add('modal-visible'); };
         const closeRegisterModal = () => { if(registerModal) registerModal.classList.remove('modal-visible'); };
+
         const closeAllModals = () => {
             closeLoginModal();
             closeRegisterModal();
@@ -574,6 +444,7 @@
                 openLoginModal();
             });
         }
+
         if (switchToRegisterLink) {
             switchToRegisterLink.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -581,6 +452,7 @@
                 openRegisterModal();
             });
         }
+
         if (switchToLoginLink) {
             switchToLoginLink.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -588,23 +460,29 @@
                 openLoginModal();
             });
         }
+
         closeButtons.forEach(btn => {
             btn.addEventListener('click', closeAllModals);
         });
+
         if(loginModal) loginModal.addEventListener('click', (e) => {
             if (e.target === loginModal) closeAllModals();
         });
+
         if(registerModal) registerModal.addEventListener('click', (e) => {
             if (e.target === registerModal) closeAllModals();
         });
 
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('error')) {
+        if (urlParams.has('loginError')) {
             openLoginModal();
         } else if (urlParams.has('registerError')) {
             openRegisterModal();
         }
     });
 </script>
+
+<th:block layout:fragment="scripts">
+</th:block>
 </body>
 </html>

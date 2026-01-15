@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class GatewayRoutes {
 
-    @Value("${auth.container:http://localhost:8082}")
+    @Value("${auth.container}")
     private String authUrl;
 
-    @Value("${finance.container:http://localhost:8083}")
+    @Value("${finance.container}")
     private String financeUrl;
 
     @Bean

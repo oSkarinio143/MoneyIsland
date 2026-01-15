@@ -41,4 +41,6 @@ public class Route {
     public static final String VIEW_HISTORY = "history";
     public static final String VIEW_GOAL = "goal";
     public static final String VIEW_CREDIT = "credit";
+
+    public static final String VIEW_INVESTMENT = "investment";
 }

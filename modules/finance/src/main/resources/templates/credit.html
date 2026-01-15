@@ -5,9 +5,6 @@
 
 <head>
     <title>Dashboard Zobowiązań</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -16,94 +13,149 @@
 <div layout:fragment="content" style="height: 100%; display: flex; flex-direction: column;">
 
     <style th:attr="nonce=${cspNonce}">
-        :root {
-            --color-moss: #344E44; --color-fern: #588157; --color-sage: #A3B18A;
-            --color-bone: #DAD7CD; --color-warning: #D34E24;
-            --font-primary: 'Poppins', sans-serif;
-        }
-        body { font-family: var(--font-primary); }
         .credit-wrapper {
-            width: 100%; height: 100%; padding: 40px; box-sizing: border-box;
+            width: 100%; height: 100%; padding: 48px; box-sizing: border-box;
             display: grid; grid-template-columns: 1fr 1.3fr;
             grid-template-rows: auto 1fr;
             grid-template-areas: "form list" "summary list";
-            gap: 40px; align-items: start;
+            gap: 32px; align-items: start;
+            max-width: 1600px; margin: 0 auto;
         }
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
             .credit-wrapper { grid-template-columns: 1fr; grid-template-areas: "form" "list" "summary"; }
         }
         #formPanel { grid-area: form; }
         #listPanel { grid-area: list; }
         #summaryPanel { grid-area: summary; }
 
-        .credit-panel { background-color: #ffffff; border-radius: 30px; padding: 40px; box-shadow: 0 20px 60px rgba(52, 78, 65, 0.1); position: relative; overflow: hidden; }
-        .credit-panel::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 8px; background: linear-gradient(90deg, var(--color-moss), var(--color-fern)); }
-        .credit-header { text-align: center; margin-bottom: 30px; }
-        .credit-title { font-size: 26px; font-weight: 700; color: var(--color-moss); margin: 0; display: flex; align-items: center; justify-content: center; gap: 12px; }
+        .credit-panel {
+            background-color: #ffffff;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(35, 77, 32, 0.1);
+            border: 2px solid var(--card-border);
+        }
 
-        .credit-form-group { margin-bottom: 20px; }
-        .form-row { display: flex; gap: 20px; }
-        .credit-label { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-moss); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-        .credit-input { width: 100%; padding: 12px 16px; border-radius: 10px; border: 2px solid var(--color-sage); background-color: #FAFAF8; font-size: 15px; color: var(--color-moss); box-sizing: border-box; font-family: var(--font-primary); }
-        .calculation-summary { background-color: #FAFAF8; border: 2px dashed var(--color-sage); border-radius: 16px; padding: 15px; margin-top: 20px; }
+        .credit-header { text-align: left; margin-bottom: 24px; }
+        .credit-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--color-dark-green);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .credit-form-group { margin-bottom: 16px; }
+        .form-row { display: flex; gap: 16px; }
+
+        .credit-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--color-hunter);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .credit-input {
+            width: 100%;
+            padding: 12px 18px;
+            border: 2px solid var(--color-sage);
+            border-radius: 12px;
+            background-color: #fdfdfb;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--color-dark-green);
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+        .credit-input:focus {
+            outline: none;
+            border-color: var(--color-moss);
+            box-shadow: 0 0 0 4px rgba(56, 102, 65, 0.15);
+        }
+
+        .calculation-summary { background-color: rgba(240, 229, 211, 0.5); border: 2px dashed var(--card-border); border-radius: 16px; padding: 15px; margin-top: 20px; }
         .summary-row { display: flex; justify-content: space-between; align-items: center; }
-        .summary-label { font-size: 13px; color: var(--color-fern); }
-        .summary-value { font-weight: 700; font-size: 15px; color: var(--color-moss); }
-        .credit-btn-add { width: 100%; margin-top: 25px; background-color: var(--color-moss); color: white; padding: 16px; border-radius: 12px; border: none; font-size: 16px; font-weight: 600; cursor: pointer; }
+        .summary-label { font-size: 13px; color: var(--color-hunter); }
+        .summary-value { font-weight: 700; font-size: 15px; color: var(--color-dark-green); }
 
-        #summaryPanel .credit-title { font-size: 22px; }
+        .credit-btn-add {
+            width: 100%;
+            margin-top: 25px;
+            background-color: var(--color-moss);
+            color: var(--bg-warm-base);
+            border: 2px solid var(--color-moss);
+            padding: 14px 20px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .credit-btn-add:hover:not(:disabled) {
+            background-color: var(--bg-warm-base);
+            color: var(--color-moss);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(35, 77, 32, 0.3);
+        }
+        .credit-btn-add:disabled {
+            background-color: var(--color-sage);
+            color: var(--bg-warm-base);
+            border-color: var(--color-sage);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.7;
+        }
+
+        #summaryPanel .credit-title { font-size: 1.5rem; }
         .summary-widget { display: flex; flex-direction: column; gap: 20px; }
-        .widget-progress-bar-container { width: 100%; background-color: #F0F0F0; border-radius: 12px; height: 30px; position: relative; overflow: hidden; }
-        .widget-progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--color-sage), var(--color-fern)); border-radius: 12px; transition: width 0.5s ease-out; display: flex; align-items: center; justify-content: center; }
+        .widget-progress-bar-container { width: 100%; background-color: rgba(156, 175, 136, 0.2); border-radius: 12px; height: 30px; position: relative; overflow: hidden; }
+        .widget-progress-bar-fill { height: 100%; width: 0%; background: var(--color-moss); border-radius: 12px; transition: width 0.5s ease-out; display: flex; align-items: center; justify-content: center; }
         .widget-progress-percentage { color: white; font-weight: 700; font-size: 14px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
         .widget-details-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
         .widget-details-item { display: flex; justify-content: space-between; align-items: baseline; background-color: #FAFAF8; padding: 10px 15px; border-radius: 10px; }
-        .widget-details-label { font-size: 14px; font-weight: 500; color: var(--color-fern); }
-        .widget-details-value { font-size: 18px; font-weight: 700; color: var(--color-moss); }
+        .widget-details-label { font-size: 14px; font-weight: 500; color: var(--color-hunter); }
+        .widget-details-value { font-size: 18px; font-weight: 700; color: var(--color-dark-green); }
         .widget-details-value.paid { color: var(--color-fern); }
-        .widget-details-value.remaining { color: var(--color-warning); }
+        .widget-details-value.remaining { color: var(--bg-decor-2); }
 
         #listPanel { height: 100%; display: flex; flex-direction: column; }
         .liabilities-list { flex-grow: 1; overflow-y: auto; padding: 5px 10px 5px 0; display: flex; flex-direction: column; gap: 20px; }
-        .liability-card { background-color: #FAFAF8; border: 2px solid var(--color-sage); border-radius: 20px; padding: 20px; transition: all 0.3s ease; }
-        .liability-card:hover { border-color: var(--color-fern); box-shadow: 0 5px 15px rgba(52, 78, 65, 0.1); transform: translateY(-2px); }
+        .liability-card { background-color: #FAFAF8; border: 2px solid var(--card-border); border-radius: 20px; padding: 20px; transition: all 0.3s ease; }
+        .liability-card:hover { border-color: var(--color-moss); box-shadow: 0 5px 15px rgba(35, 77, 32, 0.1); transform: translateY(-2px); }
 
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .card-title { font-weight: 800; color: var(--color-moss); font-size: 18px; }
+        .card-title { font-weight: 800; color: var(--color-dark-green); font-size: 18px; }
 
-        .delete-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #aaa;
-            transition: color 0.3s;
-            padding: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-        }
-        .delete-btn:hover { color: var(--color-warning); transform: scale(1.1); }
+        .delete-btn { background: none; border: none; cursor: pointer; color: var(--color-sage); transition: all 0.3s; font-size: 1.1rem; }
+        .delete-btn:hover { color: var(--bg-decor-2); transform: scale(1.1); }
 
         .card-progress-section { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
-        .card-progress-bar-container { flex-grow: 1; background-color: var(--color-bone); border-radius: 10px; height: 12px; overflow: hidden; }
-        .card-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--color-sage), var(--color-fern)); border-radius: 10px; transition: width 0.5s ease-out; }
+        .card-progress-bar-container { flex-grow: 1; background-color: rgba(156, 175, 136, 0.2); border-radius: 10px; height: 12px; overflow: hidden; }
+        .card-progress-bar { height: 100%; width: 0%; background: var(--color-fern); border-radius: 10px; transition: width 0.5s ease-out; }
         .progress-percentage { font-size: 14px; font-weight: 700; color: var(--color-fern); }
 
-        .card-interaction-form { display: flex; gap: 10px; align-items: center; background-color: #fff; padding: 10px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--color-bone); }
-        .interaction-label { font-size: 12px; font-weight: 500; color: var(--color-moss); flex-grow: 1; }
+        .card-interaction-form { display: flex; gap: 10px; align-items: center; background-color: #fff; padding: 10px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--card-border); }
+        .interaction-label { font-size: 12px; font-weight: 500; color: var(--color-dark-green); flex-grow: 1; }
         .paid-installments-input { width: 60px; text-align: center; border-radius: 8px; border: 1px solid var(--color-sage); padding: 5px; }
         .update-progress-btn { background-color: var(--color-fern); color: white; border: none; border-radius: 8px; padding: 5px 10px; font-size: 12px; cursor: pointer; }
 
         .card-financials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
         .financial-item { text-align: center; }
-        .financial-label { font-size: 12px; color: var(--color-fern); margin-bottom: 4px; }
-        .financial-value { font-size: 18px; font-weight: 700; color: var(--color-moss); }
-        .financial-value.remaining { color: var(--color-warning); }
-        .card-footer { display: flex; justify-content: space-around; text-align: center; border-top: 1px solid var(--color-bone); padding-top: 15px; }
-        .footer-item { font-size: 12px; color: var(--color-moss); }
+        .financial-label { font-size: 12px; color: var(--color-hunter); margin-bottom: 4px; }
+        .financial-value { font-size: 18px; font-weight: 700; color: var(--color-dark-green); }
+        .financial-value.remaining { color: var(--bg-decor-2); }
+        .card-footer { display: flex; justify-content: space-around; text-align: center; border-top: 1px solid var(--card-border); padding-top: 15px; }
+        .footer-item { font-size: 12px; color: var(--color-dark-green); }
         .footer-value { font-weight: 700; display: block; font-size: 14px; }
-        .empty-state { text-align: center; color: var(--color-fern); font-style: italic; margin-top: 40px; opacity: 0.7; }
+        .empty-state { text-align: center; color: var(--color-hunter); font-style: italic; margin-top: 40px; opacity: 0.7; }
         .hidden { display: none; }
     </style>
 
@@ -112,7 +164,7 @@
         <div id="formPanel" class="credit-panel">
             <form id="creditForm" method="post" th:action="@{/oskarinio143/moneyisland/finance/user/credit/add}">
                 <div class="credit-header">
-                    <h2 class="credit-title"><i class="fa-solid fa-file-invoice-dollar"></i> Dodaj Zobowiązanie</h2>
+                    <h2 class="credit-title"><i class="fa-solid fa-file-invoice-dollar" style="color: var(--color-fern);"></i> Dodaj Zobowiązanie</h2>
                 </div>
 
                 <input type="hidden" name="username" th:value="${currentUsername}">
@@ -151,7 +203,7 @@
         <!-- LISTA KREDYTÓW -->
         <div id="listPanel" class="credit-panel">
             <div class="credit-header">
-                <h2 class="credit-title" style="font-size: 22px;">Twoje Zobowiązania</h2>
+                <h2 class="credit-title">Twoje Zobowiązania</h2>
             </div>
             <div class="liabilities-list">
 
@@ -160,8 +212,6 @@
                     <p>Brak dodanych kredytów.</p>
                 </div>
 
-                <!-- Pętla po liście kredytów -->
-                <!-- th:with oblicza bezpiecznie procent postępu (liczba rat / liczba miesięcy) -->
                 <div th:each="credit : ${credits}"
                      class="liability-card"
                      th:with="progress=${(credit.repaymentQuantity != null and credit.months != null and credit.months > 0) ? (credit.repaymentQuantity * 100.0 / credit.months) : 0}"
@@ -169,8 +219,6 @@
 
                     <div class="card-header">
                         <span class="card-title" th:text="${credit.creditName}">Nazwa kredytu</span>
-
-                        <!-- PRZYCISK USUWANIA (FORMULARZ) -->
                         <form th:action="@{/oskarinio143/moneyisland/finance/user/credit/delete}" method="post" style="margin: 0;">
                             <input type="hidden" name="username" th:value="${currentUsername}">
                             <input type="hidden" name="creditName" th:value="${credit.creditName}">
@@ -180,27 +228,20 @@
                         </form>
                     </div>
 
-                    <!-- PASEK POSTĘPU -->
                     <div class="card-progress-section">
                         <div class="card-progress-bar-container">
-                            <div class="card-progress-bar"
-                                 th:style="'width: ' + ${progress} + '%;'">
-                            </div>
+                            <div class="card-progress-bar" th:style="'width: ' + ${progress} + '%;'"></div>
                         </div>
-                        <span class="progress-percentage"
-                              th:text="${#numbers.formatDecimal(progress, 0, 0)} + '%'">0%</span>
+                        <span class="progress-percentage" th:text="${#numbers.formatDecimal(progress, 0, 0)} + '%'">0%</span>
                     </div>
 
-                    <!-- FORMULARZ PŁATNOŚCI -->
                     <form th:action="@{/oskarinio143/moneyisland/finance/user/credit/pay}" method="post" class="card-interaction-form">
                         <input type="hidden" name="username" th:value="${currentUsername}">
                         <input type="hidden" name="creditName" th:value="${credit.creditName}">
-
                         <label class="interaction-label">Ile rat zapłacono łącznie?</label>
-                        <input type="number" name="quantity" class="paid-installments-input" min="0"
+                        <input type="number" name="quantity" class="paid-installments-input" min="0" step="1"
                                th:max="${credit.months}"
-                               th:value="${credit.repaymentQuantity != null ? credit.repaymentQuantity : 0}">
-
+                               th:value="${credit.repaymentQuantity != null ? #numbers.formatInteger(credit.repaymentQuantity, 0) : 0}">
                         <button type="submit" class="update-progress-btn">Zapisz</button>
                     </form>
 
@@ -218,8 +259,7 @@
 
                     <div class="card-footer">
                         <div class="footer-item">
-                            <span class="footer-value"
-                                  th:text="${#numbers.formatDecimal(credit.finalValue / credit.months, 1, 'WHITESPACE', 2, 'COMMA')} + ' zł'"></span>
+                            <span class="footer-value" th:text="${#numbers.formatDecimal(credit.finalValue / credit.months, 1, 'WHITESPACE', 2, 'COMMA')} + ' zł'"></span>
                             Rata mies.
                         </div>
                         <div class="footer-item">
@@ -232,13 +272,13 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
+        <!-- PODSUMOWANIE OGÓLNE -->
         <div id="summaryPanel" class="credit-panel">
             <div class="credit-header">
-                <h2 class="credit-title" style="font-size: 22px;">Ogólny Postęp Spłaty</h2>
+                <h2 class="credit-title">Ogólny Postęp Spłaty</h2>
             </div>
             <div class="summary-widget">
                 <div class="widget-progress-bar-container">
@@ -342,24 +382,36 @@
 
             calculateGlobalStats();
 
-            document.querySelectorAll('.paid-installments-input').forEach(input => {
-                input.addEventListener('input', function() {
-                    const card = this.closest('.liability-card');
-                    const months = parseFloat(card.dataset.months) || 1;
-                    let val = parseInt(this.value);
+            function initializeCardInteractions() {
+                const installmentInputs = document.querySelectorAll('.paid-installments-input');
 
-                    if (isNaN(val) || val < 0) val = 0;
-                    if (val > months) val = months;
+                installmentInputs.forEach(input => {
+                    input.addEventListener('input', function() {
+                        const card = this.closest('.liability-card');
+                        if (!card) return;
 
-                    const percentage = (val / months) * 100;
+                        const progressBar = card.querySelector('.card-progress-bar');
+                        const progressText = card.querySelector('.progress-percentage');
+                        if (!progressBar || !progressText) return;
 
-                    const bar = card.querySelector('.card-progress-bar');
-                    const text = card.querySelector('.progress-percentage');
+                        const totalMonths = parseInt(card.dataset.months, 10);
+                        let paidInstallments = parseInt(this.value, 10);
 
-                    if(bar) bar.style.width = `${percentage}%`;
-                    if(text) text.textContent = `${Math.round(percentage)}%`;
+                        if (isNaN(totalMonths) || totalMonths <= 0 || isNaN(paidInstallments)) {
+                            return;
+                        }
+
+                        paidInstallments = Math.max(0, Math.min(paidInstallments, totalMonths));
+
+                        const percentage = (paidInstallments / totalMonths) * 100;
+
+                        progressBar.style.width = percentage + '%';
+                        progressText.textContent = Math.round(percentage) + '%';
+                    });
                 });
-            });
+            }
+
+            initializeCardInteractions();
         });
     </script>
 </th:block>

@@ -13,5 +13,6 @@ public class Route {
     public static final String LOGOUT = "/logout";
     public static final String ERROR = "/error";
     public static final String FINANCE = "/finance";
+    public static final String INVESTMENT = "/investment";
 
 }

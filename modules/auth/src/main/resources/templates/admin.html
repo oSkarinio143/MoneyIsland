@@ -8,52 +8,279 @@
 <body>
 
 <div layout:fragment="content">
+
+    <style th:attr="nonce=${cspNonce}">
+        /* === 1. GŁÓWNY WRAPPER (Centrowanie + Ochrona Sidebara) === */
+        .admin-view-wrapper {
+            width: 100%;
+            min-height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* === 2. GŁÓWNA BIAŁA KARTA === */
+        .content-card {
+            width: 100%;
+            max-width: 1000px;
+            background-color: #ffffff;
+            border-radius: 36px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+        }
+
+        /* === 3. NAGŁÓWKI === */
+        .content-title {
+            font-size: 42px;
+            font-weight: 900;
+            color: var(--color-dark-green);
+            margin: 0 0 10px 0;
+            text-align: center;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .dollar-sign-content {
+            color: var(--bg-decor-1);
+        }
+
+        .content-subtitle {
+            font-size: 16px;
+            color: var(--color-hunter);
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 700px;
+            line-height: 1.5;
+        }
+
+        /* === 4. SIATKA KART (FLEX) === */
+        .admin-grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            width: 100%;
+        }
+
+        /* === 5. POJEDYNCZA KARTA AKCJI === */
+        .admin-card {
+            flex: 1 1 280px;      /* Bazowa szerokość */
+            max-width: 320px;     /* Maksymalna szerokość */
+
+            background-color: rgba(255, 255, 255, 0.6);
+            border: 2px solid var(--color-sage);
+            border-radius: 24px;
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 15px rgba(35, 77, 32, 0.05);
+        }
+
+        .admin-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-moss);
+            box-shadow: 0 15px 30px rgba(35, 77, 32, 0.15);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Kontener na ikonę (zastępuje inline style) */
+        .admin-icon-wrapper {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .admin-card-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--color-dark-green);
+            margin: 0 0 15px 0;
+            line-height: 1.2;
+        }
+
+        .admin-card-desc {
+            font-size: 15px;
+            color: var(--color-hunter);
+            margin-bottom: 25px;
+            line-height: 1.5;
+            /* To jest ważne: wypycha dolną sekcję (przycisk) na sam dół */
+            flex-grow: 1;
+        }
+
+        /* === 6. FORMULARZE I KONTENERY DOLNE === */
+        /* Klasa zastępująca inline style dla buttona i forma */
+        .admin-card-bottom {
+            margin-top: auto; /* Dopychanie do dołu */
+            width: 100%;      /* Pełna szerokość */
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Inputy */
+        .admin-input-group {
+            text-align: left;
+            width: 100%;
+        }
+
+        .admin-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-moss);
+            margin-bottom: 6px;
+            margin-left: 8px;
+        }
+
+        .admin-input {
+            width: 100%;
+            padding: 12px 18px;
+            border: 2px solid var(--color-sage);
+            border-radius: 12px;
+            background-color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            color: var(--color-dark-green);
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .admin-input:focus {
+            border-color: var(--color-moss);
+        }
+
+        .admin-input::placeholder {
+            color: #aebfab;
+        }
+
+        /* === 7. PRZYCISKI (Button i Link A) === */
+        .admin-btn {
+            background-color: var(--color-moss);
+            color: var(--bg-warm-base);
+            font-family: 'Outfit', sans-serif;
+            padding: 14px 0;       /* Duży padding góra/dół */
+            border-radius: 50px;
+            border: none;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+
+            /* Gwarancja pełnej szerokości */
+            display: block;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 5px; /* Mały odstęp od inputa */
+        }
+
+        .admin-btn:hover {
+            background-color: var(--color-dark-green);
+            transform: scale(1.02);
+        }
+
+        .admin-btn-danger {
+            background-color: var(--bg-decor-2);
+        }
+
+        .admin-btn-danger:hover {
+            background-color: #9c5518;
+        }
+    </style>
+
     <script th:inline="javascript" th:attr="nonce=${cspNonce}">
         /*<![CDATA[*/
         var activePage = /*[[${ T(java.util.Optional).ofNullable(activePage).orElse('admin') }]]*/ 'admin';
         /*]]>*/
     </script>
 
-    <div class="content-card">
-        <h1 class="content-title">
-            Panel Ad<span class="dollar-sign-content">m</span>inistracyjny
-        </h1>
-        <p class="content-subtitle">
-            Zarządzaj użytkownikami i uprawnieniami w systemie. Wybierz jedną z dostępnych akcji poniżej.
-        </p>
+    <div class="admin-view-wrapper">
 
-        <div class="admin-actions-container">
+        <div class="content-card">
+            <h1 class="content-title">
+                Panel Ad<span class="dollar-sign-content">m</span>inistracyjny
+            </h1>
+            <p class="content-subtitle">
+                Zarządzaj użytkownikami i uprawnieniami w systemie. Poniżej znajdziesz narzędzia administracyjne.
+            </p>
 
-            <div class="admin-action-card">
-                <h2 class="action-card-title">Lista Użytkowników</h2>
-                <p class="action-card-description">Przejdź do widoku tabeli ze wszystkimi zarejestrowanymi użytkownikami w systemie.</p>
-                <a th:href="@{admin/users}" class="btn-admin-action">Wyświetl użytkowników</a>
-            </div>
+            <div class="admin-grid-container">
 
-            <div class="admin-action-card">
-                <h2 class="action-card-title">Usuń Użytkownika</h2>
-                <p class="action-card-description">Wpisz nazwę użytkownika, którego konto chcesz trwale usunąć z bazy danych.</p>
-                <form th:action="@{admin/delete}" method="post" class="admin-form">
-                    <div class="admin-form-group">
-                        <label for="delete-username">Nazwa użytkownika:</label>
-                        <input type="text" id="delete-username" name="username" placeholder="np. jankowalski123" required>
+                <!-- KARTA 1: Lista Użytkowników -->
+                <div class="admin-card">
+                    <div class="admin-icon-wrapper">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="#386641" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M17 11C18.6569 11 20 9.65685 20 8C20 6.34315 18.6569 5 17 5" stroke="#9caf88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1 21V19C1 16.7909 2.79086 15 5 15H13C15.2091 15 17 16.7909 17 19V21" stroke="#386641" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
-                    <button type="submit" class="btn-admin-action btn-danger">Usuń konto</button>
-                </form>
-            </div>
+                    <h2 class="admin-card-title">Lista Użytkowników</h2>
+                    <p class="admin-card-desc">Przejrzyj pełną tabelę zarejestrowanych użytkowników, ich role oraz statusy.</p>
 
-            <div class="admin-action-card">
-                <h2 class="action-card-title">Nadaj Uprawnienia Admina</h2>
-                <p class="action-card-description">Wpisz nazwę użytkownika, któremu chcesz przyznać pełne uprawnienia administratora.</p>
-                <form th:action="@{admin/grant}" method="post" class="admin-form">
-                    <div class="admin-form-group">
-                        <label for="grant-username">Nazwa użytkownika:</label>
-                        <input type="text" id="grant-username" name="username" placeholder="np. nowymoderator" required>
+                    <!-- Wrapper dolny dla linku (zamiast inline style) -->
+                    <div class="admin-card-bottom">
+                        <a th:href="@{admin/users}" class="admin-btn">Wyświetl tabelę</a>
                     </div>
-                    <button type="submit" class="btn-admin-action">Przyznaj rolę ADMIN</button>
-                </form>
-            </div>
+                </div>
 
+                <!-- KARTA 2: Nadaj Uprawnienia -->
+                <div class="admin-card">
+                    <div class="admin-icon-wrapper">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#386641" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M19.4 15A1.65 1.65 0 0 0 20 12A1.65 1.65 0 0 0 19.4 9M16.6 5.4A1.65 1.65 0 0 0 14 3.5A1.65 1.65 0 0 0 12 4M7.4 5.4A1.65 1.65 0 0 1 10 3.5A1.65 1.65 0 0 1 12 4M4.6 8.6A1.65 1.65 0 0 1 3.5 11A1.65 1.65 0 0 1 4 13M4.6 15.4A1.65 1.65 0 0 0 7.2 17.3A1.65 1.65 0 0 0 9.2 16.8" stroke="#386641" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h2 class="admin-card-title">Awansuj na Admina</h2>
+                    <p class="admin-card-desc">Nadaj wybranemu użytkownikowi pełne uprawnienia administracyjne.</p>
+
+                    <!-- Formularz używa tej samej klasy dolnej -->
+                    <form th:action="@{admin/grant}" method="post" class="admin-card-bottom">
+                        <div class="admin-input-group">
+                            <label for="grant-username" class="admin-label">Nazwa użytkownika</label>
+                            <input type="text" id="grant-username" name="username" class="admin-input" placeholder="np. nowymoderator" required>
+                        </div>
+                        <button type="submit" class="admin-btn">Przyznaj rolę</button>
+                    </form>
+                </div>
+
+                <!-- KARTA 3: Usuń Użytkownika -->
+                <div class="admin-card">
+                    <div class="admin-icon-wrapper">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 6H21" stroke="#BC6C25" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M19 6V20C19 21 18 22 17 22H7C6 22 5 21 5 20V6" stroke="#BC6C25" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 6V4C8 3 9 2 10 2H14C15 2 16 3 16 4V6" stroke="#BC6C25" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h2 class="admin-card-title">Usuń Konto</h2>
+                    <p class="admin-card-desc">Trwale usuń konto użytkownika.</p>
+
+                    <form th:action="@{admin/delete}" method="post" class="admin-card-bottom">
+                        <div class="admin-input-group">
+                            <label for="delete-username" class="admin-label">Nazwa użytkownika</label>
+                            <input type="text" id="delete-username" name="username" class="admin-input" placeholder="np. jan123" required>
+                        </div>
+                        <button type="submit" class="admin-btn admin-btn-danger">Usuń konto</button>
+                    </form>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

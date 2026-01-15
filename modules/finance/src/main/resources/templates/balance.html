@@ -6,37 +6,184 @@
     <title>Zarządzanie Majątkiem</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" th:attr="nonce=${cspNonce}"></script>
     <style layout:fragment="styles" th:attr="nonce=${cspNonce}">
-        /* Twoje style pozostają bez zmian */
-        body { background-color: #e6e5dd; }
-        .balance-wealth-container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; padding: 32px; width: 100%; box-sizing: border-box; align-items: start; }
-        .balance-summary-panel { background-color: #fdfdfb; border-radius: 20px; padding: 24px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); display: flex; flex-direction: column; align-items: center; min-height: 400px; }
-        .balance-summary-panel h2 { font-size: 1.25rem; font-weight: 700; color: var(--color-hunter); margin: 0; }
-        .balance-total-value { font-size: 2rem; font-weight: 700; color: var(--color-hunter); margin: 8px 0 16px 0; }
-        .balance-chart-container { position: relative; width: 100%; max-width: 250px; flex-grow: 1; display: flex; align-items: center; margin: auto 0; }
-        .balance-summary-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px 24px; width: 100%; margin-top: auto; }
+        /* === GŁÓWNY UKŁAD I TŁO === */
+        .balance-wealth-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 32px;
+            padding: 48px;
+            width: 100%;
+            max-width: 1500px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            align-items: start;
+        }
+
+        /* === LEWY PANEL Z WYKRESEM (Karta Podsumowania) === */
+        .balance-summary-panel {
+            background-color: #ffffff;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(35, 77, 32, 0.1);
+            border: 2px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 450px;
+        }
+
+        .balance-summary-panel h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--color-dark-green);
+            margin: 0;
+        }
+
+        .balance-total-value {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--color-dark-green);
+            margin: 12px 0 24px 0;
+        }
+
+        .balance-chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 280px;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            margin: auto 0;
+        }
+
+        .balance-summary-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px 24px;
+            width: 100%;
+            margin-top: auto;
+        }
         .balance-legend-item { display: flex; align-items: baseline; gap: 8px; }
         .balance-legend-percentage { font-size: 1.1rem; font-weight: 700; color: var(--color-hunter); }
         .balance-legend-label { font-size: 0.875rem; color: var(--color-moss); }
-        .balance-assets-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-        .balance-asset-card { background-color: #fdfdfb; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); min-height: 160px; }
+
+        /* === SIATKA Z KARTAMI AKTYWÓW === */
+        .balance-assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+
+        /* === POJEDYNCZA KARTA AKTYWA === */
+        .balance-asset-card {
+            background-color: #ffffff;
+            border-radius: 24px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            box-shadow: 0 10px 30px rgba(35, 77, 32, 0.1);
+            border: 2px solid var(--card-border);
+            min-height: 200px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .balance-asset-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(35, 77, 32, 0.15);
+        }
         .balance-asset-details { display: flex; flex-direction: column; gap: 4px; }
-        .balance-asset-name { font-size: 0.875rem; font-weight: 500; color: var(--color-moss); }
-        .balance-asset-value { font-size: 1.5rem; font-weight: 700; color: var(--color-hunter); }
+        .balance-asset-name { font-size: 1rem; font-weight: 500; color: var(--color-hunter); }
+        .balance-asset-value { font-size: 1.75rem; font-weight: 800; color: var(--color-dark-green); }
+
+        /* === ZMIENIONY, SPÓJNY STYL PRZYCISKÓW Z EFEKTEM "ODWRÓCENIA" === */
         .balance-asset-actions { display: flex; gap: 10px; margin-top: auto; }
-        .balance-asset-button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 12px; border-radius: 9999px; border: none; font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: opacity 0.2s; }
-        .balance-asset-button:hover { opacity: 0.85; }
-        .balance-asset-button--edit { background-color: #dce5d1; color: #588157; }
-        .balance-asset-button--delete { background-color: #f5d8d8; color: #c94a4a; }
-        .balance-asset-button--confirm { background-color: var(--color-sage); color: #fff; flex-grow: 1; }
-        .balance-asset-button--cancel { background-color: #e2e2e2; color: #555; }
-        .balance-asset-card--add { background-color: transparent; border: 2px dashed #d1d8cb; align-items: center; justify-content: center; cursor: pointer; box-shadow: none; transition: border-color 0.2s, background-color 0.2s; }
-        .balance-asset-card--add:hover { border-color: var(--color-fern); background-color: #f4f3ed; }
-        .balance-form-inputs { display: flex; flex-direction: column; gap: 10px; width: 100%; }
-        .balance-form-input { width: 100%; padding: 10px; border: 1px solid var(--color-bone); border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 0.875rem; box-sizing: border-box; }
+        .balance-asset-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 16px;
+            border-radius: 50px;
+            border: 2px solid; /* Ustawienie grubości ramki globalnie */
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .balance-asset-button svg { width: 16px; height: 16px; }
+
+        /* Przycisk Główny (Potwierdź / Dodaj) */
+        .balance-asset-button--confirm {
+            background-color: var(--color-moss); color: var(--bg-warm-base); border-color: var(--color-moss);
+            flex-grow: 1; /* Zachowujemy rozciągnięcie */
+        }
+        .balance-asset-button--confirm:hover { background-color: var(--bg-warm-base); color: var(--color-moss); }
+
+        /* Przycisk Edycji */
+        .balance-asset-button--edit { background-color: var(--bg-warm-base); color: var(--color-hunter); border-color: var(--bg-warm-base); }
+        .balance-asset-button--edit:hover { background-color: var(--color-hunter); color: var(--bg-warm-base); border-color: var(--color-hunter); }
+
+        /* Przycisk Usunięcia */
+        .balance-asset-button--delete { background-color: var(--bg-decor-2); color: #fff; border-color: var(--bg-decor-2); }
+        .balance-asset-button--delete:hover { background-color: #fff; color: var(--bg-decor-2); }
+
+        /* Przycisk Anuluj */
+        .balance-asset-button--cancel { background-color: #e8e8e8; color: #555; border-color: #e8e8e8; }
+        .balance-asset-button--cancel:hover { background-color: #555; color: #e8e8e8; border-color: #555; }
+
+
+        /* === KARTA DODAWANIA NOWEGO AKTYWA (ULEPSZONA) === */
+        .balance-asset-card--add {
+            background-color: transparent;
+            border: 2px dashed var(--color-sage);
+            align-items: center;
+            justify-content: center;
+            cursor: default;
+            box-shadow: none;
+        }
+        .balance-asset-card--add:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: var(--color-moss);
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+        .balance-asset-card--add .balance-asset-button--confirm { font-size: 0.9rem; }
+
+        /* === POLA FORMULARZA (NOWY, SPÓJNY STYL) === */
+        .balance-form-inputs { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+        .balance-form-input {
+            width: 100%;
+            padding: 12px 18px;
+            border: 2px solid var(--color-sage);
+            border-radius: 12px;
+            background-color: #fdfdfb;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            color: var(--color-dark-green);
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+        .balance-form-input:focus {
+            outline: none;
+            border-color: var(--color-moss);
+            box-shadow: 0 0 0 4px rgba(56, 102, 65, 0.15);
+        }
         .balance-form-contents { display: contents; }
-        .balance-asset-edit { display: none; } /* Domyślnie ukryj formularz edycji */
-        @media (max-width: 1024px) { .balance-wealth-container { grid-template-columns: 1fr; } }
-        @media (max-width: 600px) { .balance-assets-grid { grid-template-columns: 1fr; } }
+        .balance-asset-edit { display: none; }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 1200px) {
+            .balance-wealth-container { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .balance-wealth-container { padding: 24px; }
+            .balance-assets-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>

@@ -47,7 +47,8 @@ public class WebSecurityConfig {
                         .pathMatchers(Route.MAIN,
                                 Route.MAIN + Route.LOGIN,
                                 Route.MAIN + Route.REGISTER,
-                                Route.MAIN + Route.FINANCE).permitAll()
+                                Route.MAIN + Route.FINANCE,
+                                Route.MAIN + Route.INVESTMENT).permitAll()
                         .pathMatchers(Route.MAIN + Route.USER + "/**").hasRole("USER")
                         .pathMatchers(Route.MAIN + Route.ADMIN + "/**").hasRole("ADMIN")
                         .anyExchange().authenticated()
@@ -66,7 +67,7 @@ public class WebSecurityConfig {
                                 .policyDirectives("default-src 'self'; " +
                                         "style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com 'nonce-{nonce}';" +
                                         "script-src 'self' https://cdn.jsdelivr.net https://unpkg.com https://cdn.jsdelivr.net 'nonce-{nonce}';" +
-                                        "img-src 'self' data: https://oskarinio143.github.io; " +
+                                        "img-src 'self' data: https://oskarinio143.github.io https://i.imgur.com https://imgur.com;" +
                                         "font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; " +
                                         "frame-ancestors 'none'; " +
                                         "form-action 'self'; " +

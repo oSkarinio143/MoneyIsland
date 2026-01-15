@@ -1,7 +1,165 @@
 <aside class="sidebar" th:fragment="sidebar(activePage)"
        xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
-    <!-- Tytuł -->
+    <style th:attr="nonce=${cspNonce}">
+        /* --- WYMUSZENIE POZYCJONOWANIA NA SIDEBARZE --- */
+        .sidebar {
+            position: relative !important;
+            padding-bottom: 0 !important;
+            overflow: visible !important;
+        }
+
+        /* --- PRZYCISK ADMINA --- */
+        .admin-wrapper {
+            width: calc(100% - 30px);
+            margin-right: 30px;
+            margin-top: 25px;
+            box-sizing: border-box;
+        }
+
+        .btn-admin-custom {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 14px 15px;
+
+            /* DOMYŚLNIE: Ciemna zieleń tło, Złoty tekst */
+            background: linear-gradient(145deg, #2b4c3b, #1a3326);
+            border: 2px solid #DDA15E;
+            border-radius: 16px;
+            color: #DDA15E;
+
+            text-decoration: none !important;
+            font-weight: 800;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-sizing: border-box;
+        }
+
+        /* --- HOVER ADMINA: ZAMIANA KOLORÓW --- */
+        .btn-admin-custom:hover {
+            transform: translateY(-3px);
+            background: #DDA15E;         /* Tło złote */
+            color: #2b4c3b !important;   /* Tekst zielony */
+            border-color: #2b4c3b;       /* Ramka zielona */
+            box-shadow: 0 10px 25px rgba(221, 161, 94, 0.4);
+        }
+
+        .btn-admin-custom svg {
+            fill: #DDA15E;
+            transition: transform 0.3s ease, fill 0.3s ease;
+        }
+
+        .btn-admin-custom:hover svg {
+            fill: #2b4c3b;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+
+        /* --- DOLNA SEKCJA (BEŻOWY PASEK) --- */
+        .bottom-profile-full {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+
+            /* Sztywna szerokość sidebara */
+            width: 340px !important;
+
+            background-color: #F4F1EA;
+            border-top: 1px solid #dcdcdc;
+
+            padding: 25px 30px;
+            box-sizing: border-box;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .user-info-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-label {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #2b4c3b;
+            line-height: 1.1;
+        }
+
+        .user-status {
+            font-size: 0.75rem;
+            color: #6a994e;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 3px;
+        }
+
+        .bottom-profile-form {
+            margin: 0;
+        }
+
+        /* --- POWIĘKSZONY PRZYCISK WYLOGUJ --- */
+        .btn-logout-large {
+            font-family: 'Outfit', sans-serif;
+            background-color: #ffffff;
+            color: #2b4c3b;
+            border: 2px solid #2b4c3b;
+            border-radius: 12px;
+
+            padding: 12px 32px;
+            font-size: 1rem;
+            font-weight: 700;
+
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-logout-large:hover {
+            background-color: #2b4c3b;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(43, 76, 59, 0.15);
+        }
+
+        /* --- PRZYCISK ZALOGUJ (Stylizowany tak samo jak Wyloguj) --- */
+        .login-link-btn {
+            font-family: 'Outfit', sans-serif;
+            display: block;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+
+            /* Style identyczne jak .btn-logout-large */
+            background-color: #ffffff;
+            color: #2b4c3b;
+            border: 2px solid #2b4c3b;
+            border-radius: 12px;
+
+            padding: 12px 32px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+
+            transition: all 0.2s;
+        }
+
+        .login-link-btn:hover {
+            background-color: #2b4c3b;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(43, 76, 59, 0.15);
+        }
+    </style>
+
+    <!-- Tytuł / Logo -->
     <div class="brand-header">
         <div class="title">
             <span class="text-dark">Money</span>
@@ -11,7 +169,7 @@
         </div>
     </div>
 
-    <!-- Linki nawigacyjne -->
+    <!-- Główne Menu -->
     <nav class="nav-container">
         <a th:href="@{/oskarinio143/moneyisland}" class="nav-btn" th:classappend="${activePage == 'mainPanel'} ? 'active'">
             <span>
@@ -25,40 +183,40 @@
                 Finanse
             </span>
         </a>
-        <a th:href="@{/inwestycje}" class="nav-btn" th:classappend="${activePage == 'inwestycje'} ? 'active'">
+        <a th:href="@{/oskarinio143/moneyisland/investment}" class="nav-btn" th:classappend="${activePage == 'investment'} ? 'active'">
             <span>
                 <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
                 Inwestycje
             </span>
         </a>
-        <a th:href="@{/sklep}" class="nav-btn" th:classappend="${activePage == 'sklep'} ? 'active'">
-            <span>
-                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M16 6V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H2v13c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6h-6zm-6-2h4v2h-4V4zM4 21V8h2v2h2V8h8v2h2V8h2v13H4z"/></svg>
-                Sklep
-            </span>
-        </a>
     </nav>
 
-    <!-- Sekcja Panelu Admina -->
-    <div th:if="${role == 'ROLE_ADMIN'}" class="admin-btn-container">
-        <a th:href="@{/oskarinio143/moneyisland/admin}" class="btn-admin-panel" th:classappend="${activePage == 'admin'} ? 'active'">
-        <span>
-            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-12h2v2h-2v-2zm0 4h2v6h-2v-6z"/></svg>
-            Panel Administracyjny
-        </span>
+    <!-- PRZYCISK ADMINA -->
+    <div th:if="${role == 'ROLE_ADMIN'}" class="admin-wrapper">
+        <a th:href="@{/oskarinio143/moneyisland/admin}" class="btn-admin-custom" th:classappend="${activePage == 'admin'} ? 'active'">
+            <svg width="24" height="24" viewBox="0 0 24 24" style="flex-shrink: 0;">
+                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+            </svg>
+            <span>PANEL ADMINA</span>
         </a>
     </div>
 
-    <!-- Logo + Przycisk -->
-    <div class="bottom-profile">
+    <!-- DOLNA SEKCJA (BEŻOWY PASEK 340px) -->
+    <div class="bottom-profile-full">
         <th:block th:if="${#strings.isEmpty(currentUsername)}">
-            <a id="openLoginModalBtn" href="#" class="btn-bottom-action">Zaloguj się</a>
+            <a id="openLoginModalBtn" href="#" class="login-link-btn">Zaloguj się</a>
         </th:block>
 
         <th:block th:unless="${#strings.isEmpty(currentUsername)}">
-            <span class="username-display" th:text="${currentUsername}"></span>
-            <form th:action="@{/oskarinio143/moneyisland/logout}" method="post">
-                <button type="submit" class="btn-bottom-action">Wyloguj</button>
+            <div class="user-info-group">
+                <span class="user-label" th:text="${currentUsername}">User</span>
+                <span class="user-status">Online</span>
+            </div>
+
+            <form th:action="@{/oskarinio143/moneyisland/logout}" method="post" class="bottom-profile-form">
+                <button type="submit" class="btn-logout-large">
+                    Wyloguj
+                </button>
             </form>
         </th:block>
     </div>

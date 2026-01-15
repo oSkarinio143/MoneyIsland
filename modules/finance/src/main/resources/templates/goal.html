@@ -10,232 +10,211 @@
 <div layout:fragment="content">
 
     <style th:attr="nonce=${cspNonce}">
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap');
-
-        :root {
-            --bg-cream: #fffcf5;
-            --card-white: #ffffff;
-            --text-dark: #2d3436;
-            --text-gray: #636e72;
-            --color-sage: #A3B18A;
-            --color-deep: #588157;
-            --color-warm: #d4a373;
-            --font-main: 'Montserrat', sans-serif;
-        }
-
-        body {
-            font-family: var(--font-main);
-            background-color: var(--bg-cream);
-            color: var(--text-dark);
-        }
-
         .dashboard-wrapper {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 48px;
+            box-sizing: border-box;
         }
 
-        /* NAGŁÓWEK */
-        .dashboard-header { text-align: center; margin-bottom: 60px; }
-        .dashboard-title { font-size: 2.2rem; font-weight: 800; color: var(--color-deep); margin: 0; letter-spacing: -1px; }
-        .dashboard-subtitle { font-size: 1rem; color: var(--text-gray); font-weight: 500; margin-top: 10px; }
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .dashboard-title {
+            font-size: 56px;
+            font-weight: 900;
+            color: var(--color-dark-green);
+            margin: 0 0 12px 0;
+        }
+        .dashboard-subtitle {
+            font-size: 20px;
+            color: var(--color-hunter);
+            margin: 0;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-        /* GRID */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1fr 1.1fr 1fr;
-            gap: 30px;
-            align-items: center;
+            gap: 32px;
+            align-items: stretch;
         }
-        @media (max-width: 900px) { .dashboard-grid { grid-template-columns: 1fr; gap: 40px; } }
+        @media (max-width: 900px) { .dashboard-grid { grid-template-columns: 1fr; gap: 32px; } }
 
-        /* KARTY */
         .dash-card {
-            background: var(--card-white);
-            border-radius: 30px;
-            padding: 30px 20px;
+            background-color: #ffffff;
+            border-radius: 24px;
+            padding: 32px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 30px rgba(35, 77, 32, 0.1);
+            border: 2px solid var(--card-border);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            border: 1px solid rgba(163, 177, 138, 0.2);
-            gap: 15px; /* Odstępy między elementami w karcie */
+            gap: 15px;
         }
-        .dash-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(163, 177, 138, 0.15); }
+        .dash-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(35, 77, 32, 0.15);
+        }
 
-        /* WYRÓŻNIONA KARTA (ŚRODEK) */
         .dash-card.card-highlight {
-            padding: 50px 30px;
-            border: 2px solid var(--color-sage);
-            background: #ffffff;
+            padding: 40px 32px;
+            border-color: var(--color-moss);
             z-index: 2;
-            box-shadow: 0 25px 60px rgba(88, 129, 87, 0.12);
         }
 
-        /* WYKRESY */
-        .chart-container { position: relative; width: 110px; height: 110px; margin-bottom: 5px; }
+        .chart-container { position: relative; width: 110px; height: 110px; }
         .card-highlight .chart-container { width: 160px; height: 160px; }
-
         .chart-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-        .chart-bg { fill: none; stroke: #f0f0f0; stroke-width: 8; }
-        .chart-bar { fill: none; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1.5s ease-out; }
+        .chart-bg { fill: none; stroke: rgba(156, 175, 136, 0.2); stroke-width: 10; }
+        .chart-bar { fill: none; stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 1.5s ease-out; }
 
-        .color-income { stroke: var(--color-sage); }
-        .color-expense { stroke: var(--color-warm); }
-        .color-savings { stroke: var(--color-deep); }
+        .color-income { stroke: var(--color-fern); }
+        .color-expense { stroke: var(--bg-decor-2); }
+        .color-savings { stroke: var(--color-dark-green); }
 
         .chart-label {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             display: flex; justify-content: center; align-items: center;
-            font-size: 1.4rem; font-weight: 800; color: var(--text-dark);
+            font-size: 1.4rem; font-weight: 800; color: var(--text-main);
         }
-        .card-highlight .chart-label { font-size: 2.2rem; color: var(--color-deep); }
+        .card-highlight .chart-label { font-size: 2.2rem; color: var(--color-dark-green); }
         .chart-label span { font-size: 0.5em; margin-top: 5px; margin-left: 2px; opacity: 0.6; }
 
-        /* === STYLIZACJA TEKSTÓW W KARTA === */
         .card-title {
-            font-size: 0.9rem; font-weight: 700; color: var(--text-gray);
+            font-size: 0.9rem; font-weight: 700; color: var(--color-hunter);
             text-transform: uppercase; letter-spacing: 1px;
         }
-
         .card-amount {
-            font-size: 1.6rem; font-weight: 800; color: var(--text-dark);
-            margin-top: 5px; line-height: 1;
+            font-size: 1.8rem; font-weight: 800; color: var(--text-main); line-height: 1;
         }
-        .card-highlight .card-amount { font-size: 2.2rem; color: var(--color-deep); }
+        .card-highlight .card-amount { font-size: 2.5rem; color: var(--color-dark-green); }
 
-        /* POPRAWIONA WIDOCZNOŚĆ CELU */
         .card-target {
-            font-size: 1rem;       /* Większa czcionka */
-            color: var(--color-deep); /* Ciemny zielony kolor */
-            opacity: 1;            /* Pełna widoczność */
-            font-weight: 700;      /* Pogrubienie */
-            margin-top: 5px;
-            background-color: rgba(163, 177, 138, 0.15); /* Lekkie tło dla wyróżnienia */
-            padding: 6px 14px;
-            border-radius: 12px;
+            font-size: 1rem; color: var(--color-dark-green); font-weight: 700;
+            background-color: rgba(163, 177, 138, 0.15);
+            padding: 6px 14px; border-radius: 12px;
         }
-        .card-target span {
-            font-weight: 500;
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            margin-right: 4px;
-        }
+        .card-target span { font-weight: 500; color: var(--color-hunter); font-size: 0.9rem; margin-right: 4px; }
 
-        /* BUTTONY */
+        /* === ZMIENIONY STYL PRZYCISKÓW === */
         .action-btn {
-            background-color: transparent;
-            color: var(--color-sage);
-            border: 2px solid var(--color-sage);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-family: var(--font-main);
-            font-weight: 700;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 10px;
+        /* ZMIANA: Zamieniono kolor tła z kolorem tekstu */
+            background-color: var(--color-hunter); color: var(--bg-warm-base);
+            border: 2px solid var(--color-hunter); /* ZMIANA: Dodano obramowanie */
+            padding: 10px 24px; border-radius: 50px;
+            font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.8rem;
+            cursor: pointer; transition: all 0.2s; margin-top: auto;
+            text-transform: uppercase; letter-spacing: 0.03em;
         }
-        .action-btn:hover { background-color: var(--color-sage); color: #fff; }
-        .action-btn.hidden { visibility: hidden; pointer-events: none; }
+        .action-btn:hover {
+        /* ZMIANA: Efekt "odwrócenia" po najechaniu */
+            background-color: var(--bg-warm-base);
+            color: var(--color-hunter);
+        }
 
-        /* === MODAL STYLIZACJA === */
+        /* === POPRAWIONA LOGIKA I WYGLĄD MODALA === */
         .modal-overlay {
+            display: none;
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(45, 52, 54, 0.6); /* Ciemniejsze tło */
+            background: rgba(45, 52, 54, 0.7);
             backdrop-filter: blur(5px);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 9999;
-            opacity: 0;
-            visibility: hidden;
+            justify-content: center; align-items: center; z-index: 1000;
             transition: all 0.3s ease;
         }
-        .modal-overlay.visible { opacity: 1; visibility: visible; }
+        .modal-visible {
+            display: flex;
+        }
 
         .modal-content {
-            background: #fff;
-            padding: 40px;
-            border-radius: 30px;
-            width: 90%; max-width: 400px;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-            border: none;
-            transform: scale(0.9); transition: transform 0.3s ease;
+            background: #fff; padding: 2rem; border-radius: 24px;
+            width: 90%; max-width: 400px; text-align: center;
+            box-shadow: 0 15px 40px rgba(35, 77, 32, 0.2);
+            border: 2px solid var(--color-sage);
+            animation: fadeInScale 0.3s ease-out forwards;
         }
-        .modal-overlay.visible .modal-content { transform: scale(1); }
+        @keyframes fadeInScale {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
 
-        .modal-header h3 { font-size: 1.6rem; color: var(--color-deep); margin: 0 0 10px 0; font-weight: 800; }
-        .modal-desc { color: var(--text-gray); font-size: 0.95rem; margin-bottom: 25px; line-height: 1.5; }
+        .modal-header h3 { font-size: 1.6rem; color: var(--color-dark-green); margin: 0 0 10px 0; font-weight: 800; }
+        .modal-desc { color: var(--color-hunter); font-size: 0.95rem; margin-bottom: 25px; line-height: 1.5; }
 
         .modal-input {
-            width: 100%; padding: 15px;
-            font-family: var(--font-main); font-size: 1.8rem; font-weight: 700;
-            text-align: center; color: var(--text-dark);
-            border: 2px solid #eee; border-radius: 16px;
-            background: #fafafa;
-            box-sizing: border-box; margin-bottom: 30px;
-            transition: border-color 0.2s;
+            width: 100%; padding: 12px 18px; border: 2px solid var(--color-sage);
+            border-radius: 12px; background-color: #fdfdfb; font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem; font-weight: 700; text-align: center; color: var(--color-dark-green);
+            box-sizing: border-box; margin-bottom: 30px; transition: all 0.2s ease;
         }
-        .modal-input:focus { outline: none; border-color: var(--color-sage); background: #fff; }
+        .modal-input:focus {
+            outline: none; border-color: var(--color-moss);
+            box-shadow: 0 0 0 4px rgba(56, 102, 65, 0.15);
+        }
 
         .modal-actions { display: flex; gap: 15px; justify-content: center; }
         .modal-btn {
-            padding: 12px 30px; border-radius: 50px; border: none; font-weight: 700;
-            cursor: pointer; font-family: var(--font-main); font-size: 0.9rem; transition: transform 0.2s;
+            padding: 12px 30px; border-radius: 50px;
+            border: 2px solid; /* ZMIANA: Zmieniono z 'none' na '2px solid' */
+            font-weight: 700;
+            cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 0.9rem;
+            transition: all 0.2s;
         }
         .modal-btn:hover { transform: translateY(-2px); }
-        .btn-save { background: var(--color-deep); color: #fff; box-shadow: 0 5px 15px rgba(88, 129, 87, 0.3); }
-        .btn-cancel { background: #f0f0f0; color: var(--text-gray); }
-        .btn-cancel:hover { background: #e0e0e0; }
+        .btn-save {
+        /* ZMIANA: Zamieniono kolor tła z kolorem tekstu */
+            background: var(--bg-warm-base); color: var(--color-moss);
+            border-color: var(--color-moss); /* Dopasowanie obramowania */
+            box-shadow: 0 5px 15px rgba(56, 102, 65, 0.2);
+        }
+        .btn-save:hover {
+        /* ZMIANA: Efekt "wypełnienia" po najechaniu */
+            background-color: var(--color-moss); color: var(--bg-warm-base);
+        }
+        .btn-cancel {
+        /* ZMIANA: Zamieniono kolor tła z kolorem tekstu */
+            background-color: #555; color: #e8e8e8;
+            border-color: #555; /* Dopasowanie obramowania */
+        }
+        .btn-cancel:hover {
+        /* ZMIANA: Efekt "odwrócenia" po najechaniu */
+            background-color: #e8e8e8; color: #555;
+            border-color: #e8e8e8;
+        }
 
     </style>
 
     <div class="dashboard-wrapper">
         <div class="dashboard-header">
             <h2 class="dashboard-title">Bilans Finansowy 2025</h2>
-            <div class="dashboard-subtitle">Zarządzaj swoimi celami i obserwuj wzrost</div>
+            <p class="dashboard-subtitle">Zarządzaj swoimi celami i obserwuj wzrost</p>
         </div>
-
-        <!-- KONTENER NA KAFELKI -->
         <div id="dashboardGrid" class="dashboard-grid"></div>
     </div>
 
-    <!-- MODAL (Edycja celu) -->
-    <!-- MODAL (Edycja celu) -->
     <div id="editModal" class="modal-overlay">
-        <!-- FORMULARZ POST -->
-        <!-- Ustaw th:action na swój endpoint w kontrolerze, np. /save -->
         <form id="modalForm" method="post" th:action="@{/oskarinio143/moneyisland/finance/user/goal}" class="modal-content">
-
-            <!-- Ukryte pole username (przekazywane zawsze) -->
             <input type="hidden" name="username" th:value="${currentUsername}" />
-
             <div class="modal-header">
                 <h3 id="modalTitle">Edytuj Cel</h3>
-                <div class="modal-desc">Wprowadź nową kwotę roczną.</div>
+                <p class="modal-desc">Wprowadź nową kwotę roczną.</p>
             </div>
-
-            <!-- Input, którego "name" będziemy zmieniać JS-em -->
-            <input type="number" id="modalInput" class="modal-input" placeholder="0" required />
-
+            <input type="number" id="modalInput" class="modal-input" placeholder="0" required step="100" />
             <div class="modal-actions">
-                <!-- Typ button, żeby nie wysyłał formularza automatycznie -->
                 <button type="button" id="modalCancel" class="modal-btn btn-cancel">Anuluj</button>
-                <!-- Typ submit wyśle formularz -->
                 <button type="submit" id="modalSave" class="modal-btn btn-save">Zapisz</button>
             </div>
         </form>
     </div>
-
 </div>
 
 <th:block layout:fragment="scripts">
     <script th:inline="javascript" th:attr="nonce=${cspNonce}">
         document.addEventListener('DOMContentLoaded', () => {
-
-            // === DANE ===
             const parseVal = (val) => parseFloat(val) || 0;
 
             const backendData = {
@@ -256,14 +235,11 @@
         const modalInput = document.getElementById('modalInput');
         const modalTitle = document.getElementById('modalTitle');
 
-        // === RENDEROWANIE KAFELKÓW ===
         const formatMoney = (val) => new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN', maximumFractionDigits: 0 }).format(val);
 
         const render = () => {
-        // Oblicz oszczędności
         state.savings.current = state.income.current - state.expense.current;
         state.savings.target = state.income.target - state.expense.target;
-
         gridEl.innerHTML = '';
 
         ['income', 'savings', 'expense'].forEach(key => {
@@ -279,32 +255,32 @@
 
         const btnHtml = item.editable
             ? `<button type="button" class="action-btn" data-key="${key}">Edytuj Cel</button>`
-            : `<div class="action-btn hidden"></div>`;
+            : `<div style="height: 38px;"></div>`;
 
         const html = `
-                    <div class="dash-card ${highlightClass}">
-                        <div class="chart-container">
-                            <svg class="chart-svg" viewBox="0 0 160 160">
-                                <circle class="chart-bg" cx="80" cy="80" r="${r}"></circle>
-                                <circle class="chart-bar dynamic-chart-bar ${item.colorClass}" cx="80" cy="80" r="${r}" data-c="${c}" data-offset="${offset}"></circle>
-                            </svg>
-                            <div class="chart-label">${percent}<span>%</span></div>
-                        </div>
-                        <div class="card-title">${item.title}</div>
-                        <div class="card-amount">${formatMoney(item.current)}</div>
-                        <div class="card-target"><span>Cel:</span> ${formatMoney(item.target)}</div>
-                        ${btnHtml}
-                    </div>`;
+                        <div class="dash-card ${highlightClass}">
+                            <div class="chart-container">
+                                <svg class="chart-svg" viewBox="0 0 ${r*2+20} ${r*2+20}">
+                                    <circle class="chart-bg" cx="${r+10}" cy="${r+10}" r="${r}"></circle>
+                                    <circle class="chart-bar dynamic-chart-bar ${item.colorClass}" cx="${r+10}" cy="${r+10}" r="${r}" data-c="${c}" data-offset="${offset}"></circle>
+                                </svg>
+                                <div class="chart-label">${percent}<span>%</span></div>
+                            </div>
+                            <div class="card-title">${item.title}</div>
+                            <div class="card-amount">${formatMoney(item.current)}</div>
+                            <div class="card-target"><span>Cel:</span> ${formatMoney(item.target)}</div>
+                            ${btnHtml}
+                        </div>`;
         gridEl.insertAdjacentHTML('beforeend', html);
         });
 
         document.querySelectorAll('.dynamic-chart-bar').forEach(el => {
         el.style.strokeDasharray = el.getAttribute('data-c');
+        setTimeout(() => {
         el.style.strokeDashoffset = el.getAttribute('data-offset');
+        }, 100);
         });
         };
-
-        // === LOGIKA OTWIERANIA MODALA (TUTAJ DZIEJE SIĘ MAGIA ZMIANY NAZWY) ===
 
         gridEl.addEventListener('click', (e) => {
         if (e.target.classList.contains('action-btn')) {
@@ -316,22 +292,13 @@
         const openEdit = (key) => {
         modalTitle.textContent = "Edytuj cel: " + state[key].title;
         modalInput.value = state[key].target;
-
-        // TO JEST TO CZEGO SZUKASZ:
-        // Jeśli kliknąłeś przychód -> input nazywa się "targetIncome"
-        // Jeśli kliknąłeś wydatek -> input nazywa się "targetExpense"
-        if (key === 'income') {
-        modalInput.name = 'targetIncome';
-        } else {
-        modalInput.name = 'targetExpense';
-        }
-
-        modalEl.classList.add('visible');
-        setTimeout(() => modalInput.focus(), 100);
+        modalInput.name = (key === 'income') ? 'targetIncome' : 'targetExpense';
+        modalEl.classList.add('modal-visible');
+        setTimeout(() => modalInput.focus(), 50);
         };
 
         const closeModal = () => {
-        modalEl.classList.remove('visible');
+        modalEl.classList.remove('modal-visible');
         };
 
         document.getElementById('modalCancel').addEventListener('click', closeModal);

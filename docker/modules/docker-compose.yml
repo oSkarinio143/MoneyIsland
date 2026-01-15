@@ -37,6 +37,7 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_USER_FINANCE=${MYSQL_USER_FINANCE}
       - MYSQL_PASSWORD_FINANCE=${MYSQL_PASSWORD_FINANCE}
+      - KAFKA_URL=${KAFKA_URL}
     depends_on:
       shared-installer:
         condition: service_completed_successfully
@@ -70,6 +71,7 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_USER_AUTH=${MYSQL_USER_AUTH}
       - MYSQL_PASSWORD_AUTH=${MYSQL_PASSWORD_AUTH}
+      - KAFKA_URL=${KAFKA_URL}
     depends_on:
       finance:
         condition: service_healthy
