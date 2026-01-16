@@ -39,8 +39,8 @@ services:
       - MYSQL_PASSWORD_FINANCE=${MYSQL_PASSWORD_FINANCE}
       - KAFKA_URL=${KAFKA_URL}
     depends_on:
-      shared-installer:
-        condition: service_completed_successfully
+#      shared-installer:
+#        condition: service_completed_successfully
       mysql:
         condition: service_healthy
       kafka:
@@ -48,7 +48,7 @@ services:
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8083" ]
       interval: 10s
-      retries: 30
+      retries: 10
     networks:
       - moneyisland-network
 
@@ -77,3 +77,8 @@ services:
         condition: service_healthy
     networks:
       - moneyisland-network
+
+networks:
+  moneyisland-network:
+    name: moneyisland-network
+    external: true

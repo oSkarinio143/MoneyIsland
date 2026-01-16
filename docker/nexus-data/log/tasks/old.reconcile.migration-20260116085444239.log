@@ -1,0 +1,7 @@
+2026-01-16 08:54:44,239+0000 INFO  [quartz-14-thread-12]  *TASK com.sonatype.nexus.reconcile.upgrade.ReconcileMigrationTask - Task information:
+2026-01-16 08:54:44,243+0000 INFO  [quartz-14-thread-12]  *TASK com.sonatype.nexus.reconcile.upgrade.ReconcileMigrationTask -  ID: c77423db-15f8-4ab5-91ea-8ecf5a6f7b15
+2026-01-16 08:54:44,244+0000 INFO  [quartz-14-thread-12]  *TASK com.sonatype.nexus.reconcile.upgrade.ReconcileMigrationTask -  Type: old.reconcile.migration
+2026-01-16 08:54:44,245+0000 INFO  [quartz-14-thread-12]  *TASK com.sonatype.nexus.reconcile.upgrade.ReconcileMigrationTask -  Name: Remove old Reconcile Tasks
+2026-01-16 08:54:44,246+0000 INFO  [quartz-14-thread-12]  *TASK com.sonatype.nexus.reconcile.upgrade.ReconcileMigrationTask -  Description: null
+2026-01-16 08:54:44,246+0000 INFO  [quartz-14-thread-12]  *TASK com.sonatype.nexus.reconcile.upgrade.ReconcileMigrationTask - Task configuration: {.updated=2026-01-16T08:54:44.224Z, .name=Remove old Reconcile Tasks, .recoverable=true, .id=c77423db-15f8-4ab5-91ea-8ecf5a6f7b15, .typeName=Remove old Reconcile Tasks, .visible=false, .typeId=old.reconcile.migration, .exposed=false, .created=2026-01-16T08:54:44.224Z}
+2026-01-16 08:54:44,249+0000 INFO  [quartz-14-thread-12]  *TASK com.sonatype.nexus.reconcile.upgrade.ReconcileMigrationTask - Task complete

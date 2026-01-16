@@ -25,6 +25,7 @@
 
     <repositories>
         <repository>
+<!--            host.docker.internal - dla jednego pliku-->
             <id>MoneyIsland-snapshots</id>
             <url>https://host.docker.internal:8444/repository/moneyisland/</url>
             <snapshots>

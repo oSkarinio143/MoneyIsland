@@ -26,7 +26,7 @@ RUN mvn -f modules/finance/pom.xml dependency:resolve-plugins \
 
 COPY /modules/finance/src ./modules/finance/src
 
-RUN mvn -f modules/finance/pom.xml clean package -U -DskipTests \
+RUN mvn -f modules/finance/pom.xml clean package -U -X -DskipTests \
     -Dmaven.resolver.transport=wagon \
     -Dmaven.wagon.http.ssl.insecure=true \
     -Dmaven.wagon.http.ssl.allowall=true

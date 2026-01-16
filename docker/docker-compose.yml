@@ -5,4 +5,4 @@ include:
 networks:
   moneyisland-network:
     name: moneyisland-network
-    driver: bridge
+    external: true

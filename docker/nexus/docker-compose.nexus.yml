@@ -1,0 +1,57 @@
+services:
+#  Warstwa 1
+  nexus:
+    image: sonatype/nexus3
+    container_name: nexus
+    hostname: server-auth
+    restart: unless-stopped
+    ports:
+      - "8444:8444"
+    volumes:
+      - ./nexus-data:/nexus-data
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "-k", "https://localhost:8444/service/rest/v1/status" ]
+      interval: 10s
+      retries: 30
+    networks:
+      - moneyisland-network
+
+# Warstwa 2
+  nexus-creator:
+    image: curlimages/curl:8.4.0
+    container_name: nexus-creator
+    volumes:
+      - ./setup-nexus.sh:/setup-nexus.sh
+      - ./nexus-data:/nexus-data
+    entrypoint: [ "/bin/sh", "/setup-nexus.sh" ]
+    depends_on:
+      nexus:
+        condition: service_healthy
+    networks:
+      - moneyisland-network
+
+# Warstwa 3
+  shared-deployer:
+    image: maven:3.9.9-eclipse-temurin-21
+    container_name: shared-deployer
+    volumes:
+      - ../..:/app
+      - ./settings-docker.xml:/usr/share/maven/conf/settings.xml
+      - ~/.m2/repository:/root/.m2/repository
+    working_dir: /app/modules/shared
+    command: >
+      mvn clean deploy -X -e -DskipTests
+      -Dmaven.resolver.transport=wagon
+      -Dmaven.wagon.http.ssl.insecure=true
+      -Dmaven.wagon.http.ssl.allowall=true
+      -DaltDeploymentRepository=MoneyIsland-snapshots::default::https://nexus:8444/repository/moneyisland/
+    depends_on:
+      nexus-creator:
+        condition: service_completed_successfully
+    networks:
+      - moneyisland-network
+
+networks:
+  moneyisland-network:
+    name: moneyisland-network
+    driver: bridge
