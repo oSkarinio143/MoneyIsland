@@ -1,7 +1,0 @@
-2026-01-16 08:54:44,272+0000 INFO  [quartz-14-thread-13]  *TASK com.sonatype.nexus.repository.content.tasks.CopyBlobSizeTask - Task information:
-2026-01-16 08:54:44,277+0000 INFO  [quartz-14-thread-13]  *TASK com.sonatype.nexus.repository.content.tasks.CopyBlobSizeTask -  ID: 2ebdc69d-d8fb-4de3-9921-2dadbb4adb6b
-2026-01-16 08:54:44,277+0000 INFO  [quartz-14-thread-13]  *TASK com.sonatype.nexus.repository.content.tasks.CopyBlobSizeTask -  Type: repository.metrics.blob.size.copy
-2026-01-16 08:54:44,277+0000 INFO  [quartz-14-thread-13]  *TASK com.sonatype.nexus.repository.content.tasks.CopyBlobSizeTask -  Name: Repository - Copy Blob Size to Asset Table
-2026-01-16 08:54:44,278+0000 INFO  [quartz-14-thread-13]  *TASK com.sonatype.nexus.repository.content.tasks.CopyBlobSizeTask -  Description: populate asset_blob_size column on {format}_asset table
-2026-01-16 08:54:44,278+0000 INFO  [quartz-14-thread-13]  *TASK com.sonatype.nexus.repository.content.tasks.CopyBlobSizeTask - Task configuration: {.updated=2026-01-16T08:54:44.257Z, .name=Repository - Copy Blob Size to Asset Table, .recoverable=false, .message=populate asset_blob_size column on {format}_asset table, .id=2ebdc69d-d8fb-4de3-9921-2dadbb4adb6b, .typeName=Repository - Copy Blob Size to Asset Table, .visible=false, .typeId=repository.metrics.blob.size.copy, .exposed=false, .created=2026-01-16T08:54:44.257Z}
-2026-01-16 08:54:44,279+0000 INFO  [quartz-14-thread-13]  *TASK com.sonatype.nexus.repository.content.tasks.CopyBlobSizeTask - Task complete

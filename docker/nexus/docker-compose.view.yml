@@ -1,0 +1,22 @@
+services:
+  #  Warstwa 1
+  nexus:
+    image: sonatype/nexus3
+    container_name: nexus
+    hostname: server-auth
+    restart: unless-stopped
+    ports:
+      - "8444:8444"
+    volumes:
+      - ./nexus-data:/nexus-data
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "-k", "https://localhost:8444/service/rest/v1/status" ]
+      interval: 10s
+      retries: 30
+    networks:
+      - moneyisland-network
+
+networks:
+  moneyisland-network:
+    name: moneyisland-network
+    driver: bridge
