@@ -37,5 +37,7 @@ build/
 ### Mac OS ###
 .DS_Store
 
-docker/nexus/nexus-data/db_old/
+docker/nexus/nexus-data/blobs/
+docker/nexus/nexus-data/elasticsearch/
 docker/nexus/nexus-data/log/
+docker/nexus/nexus-data/tmp/
