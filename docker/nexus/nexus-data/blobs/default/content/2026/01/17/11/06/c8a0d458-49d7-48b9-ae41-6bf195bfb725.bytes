@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>pl.oskarinio.moneyisland</groupId>
+  <artifactId>shared</artifactId>
+  <versioning>
+    <lastUpdated>20260117110609</lastUpdated>
+    <snapshot>
+      <timestamp>20260117.110609</timestamp>
+      <buildNumber>14</buildNumber>
+    </snapshot>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>0.0.1-20260117.110609-14</value>
+        <updated>20260117110609</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>0.0.1-20260117.110609-14</value>
+        <updated>20260117110609</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+  <version>0.0.1-SNAPSHOT</version>
+</metadata>

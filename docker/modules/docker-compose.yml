@@ -39,8 +39,6 @@ services:
       - MYSQL_PASSWORD_FINANCE=${MYSQL_PASSWORD_FINANCE}
       - KAFKA_URL=${KAFKA_URL}
     depends_on:
-#      shared-installer:
-#        condition: service_completed_successfully
       mysql:
         condition: service_healthy
       kafka:

@@ -2,14 +2,12 @@
        xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
     <style th:attr="nonce=${cspNonce}">
-        /* --- WYMUSZENIE POZYCJONOWANIA NA SIDEBARZE --- */
         .sidebar {
             position: relative !important;
             padding-bottom: 0 !important;
             overflow: visible !important;
         }
 
-        /* --- PRZYCISK ADMINA --- */
         .admin-wrapper {
             width: calc(100% - 30px);
             margin-right: 30px;
@@ -25,7 +23,6 @@
             width: 100%;
             padding: 14px 15px;
 
-            /* DOMYŚLNIE: Ciemna zieleń tło, Złoty tekst */
             background: linear-gradient(145deg, #2b4c3b, #1a3326);
             border: 2px solid #DDA15E;
             border-radius: 16px;
@@ -42,12 +39,11 @@
             box-sizing: border-box;
         }
 
-        /* --- HOVER ADMINA: ZAMIANA KOLORÓW --- */
         .btn-admin-custom:hover {
             transform: translateY(-3px);
-            background: #DDA15E;         /* Tło złote */
-            color: #2b4c3b !important;   /* Tekst zielony */
-            border-color: #2b4c3b;       /* Ramka zielona */
+            background: #DDA15E;
+            color: #2b4c3b !important;
+            border-color: #2b4c3b;
             box-shadow: 0 10px 25px rgba(221, 161, 94, 0.4);
         }
 
@@ -62,21 +58,15 @@
         }
 
 
-        /* --- DOLNA SEKCJA (BEŻOWY PASEK) --- */
         .bottom-profile-full {
             position: absolute;
             bottom: 0;
             left: 0;
-
-            /* Sztywna szerokość sidebara */
             width: 340px !important;
-
             background-color: #F4F1EA;
             border-top: 1px solid #dcdcdc;
-
             padding: 25px 30px;
             box-sizing: border-box;
-
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -106,7 +96,6 @@
             margin: 0;
         }
 
-        /* --- POWIĘKSZONY PRZYCISK WYLOGUJ --- */
         .btn-logout-large {
             font-family: 'Outfit', sans-serif;
             background-color: #ffffff;
@@ -129,15 +118,12 @@
             box-shadow: 0 5px 15px rgba(43, 76, 59, 0.15);
         }
 
-        /* --- PRZYCISK ZALOGUJ (Stylizowany tak samo jak Wyloguj) --- */
         .login-link-btn {
             font-family: 'Outfit', sans-serif;
             display: block;
             width: 100%;
             text-align: center;
             box-sizing: border-box;
-
-            /* Style identyczne jak .btn-logout-large */
             background-color: #ffffff;
             color: #2b4c3b;
             border: 2px solid #2b4c3b;
@@ -159,7 +145,6 @@
         }
     </style>
 
-    <!-- Tytuł / Logo -->
     <div class="brand-header">
         <div class="title">
             <span class="text-dark">Money</span>
@@ -169,7 +154,6 @@
         </div>
     </div>
 
-    <!-- Główne Menu -->
     <nav class="nav-container">
         <a th:href="@{/oskarinio143/moneyisland}" class="nav-btn" th:classappend="${activePage == 'mainPanel'} ? 'active'">
             <span>
@@ -191,7 +175,6 @@
         </a>
     </nav>
 
-    <!-- PRZYCISK ADMINA -->
     <div th:if="${role == 'ROLE_ADMIN'}" class="admin-wrapper">
         <a th:href="@{/oskarinio143/moneyisland/admin}" class="btn-admin-custom" th:classappend="${activePage == 'admin'} ? 'active'">
             <svg width="24" height="24" viewBox="0 0 24 24" style="flex-shrink: 0;">
@@ -201,7 +184,6 @@
         </a>
     </div>
 
-    <!-- DOLNA SEKCJA (BEŻOWY PASEK 340px) -->
     <div class="bottom-profile-full">
         <th:block th:if="${#strings.isEmpty(currentUsername)}">
             <a id="openLoginModalBtn" href="#" class="login-link-btn">Zaloguj się</a>
@@ -212,7 +194,6 @@
                 <span class="user-label" th:text="${currentUsername}">User</span>
                 <span class="user-status">Online</span>
             </div>
-
             <form th:action="@{/oskarinio143/moneyisland/logout}" method="post" class="bottom-profile-form">
                 <button type="submit" class="btn-logout-large">
                     Wyloguj

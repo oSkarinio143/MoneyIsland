@@ -1,5 +1,4 @@
 services:
-  #  Warstwa 1
   nexus:
     image: sonatype/nexus3
     container_name: nexus

@@ -10,7 +10,6 @@
 <div layout:fragment="content">
 
     <style th:attr="nonce=${cspNonce}">
-        /* === WRAPPER I TŁO === */
         .users-wrapper {
             position: relative;
             width: 100%;
@@ -22,11 +21,9 @@
             padding: 40px;
             box-sizing: border-box;
             overflow: hidden;
-            /* Gradient tła pasujący do reszty aplikacji */
             background: linear-gradient(135deg, var(--bg-warm-base) 0%, #e8dcc5 50%, rgba(221, 161, 94, 0.1) 100%);
         }
 
-        /* Dekoracje tła (Blobs) */
         .users-bg-blob {
             position: absolute;
             border-radius: 50%;
@@ -37,7 +34,7 @@
         .users-blob-1 {
             width: 600px;
             height: 600px;
-            background-color: rgba(221, 161, 94, 0.15); /* bg-decor-1 z niskim opacity */
+            background-color: rgba(221, 161, 94, 0.15);
             top: -200px;
             left: -150px;
         }
@@ -45,18 +42,17 @@
         .users-blob-2 {
             width: 500px;
             height: 500px;
-            background-color: rgba(188, 108, 37, 0.1); /* bg-decor-2 z niskim opacity */
+            background-color: rgba(188, 108, 37, 0.1);
             bottom: -150px;
             right: -100px;
         }
 
-        /* === GŁÓWNA KARTA === */
         .users-card {
             position: relative;
             z-index: 1;
             background-color: #ffffff;
             width: 100%;
-            max-width: 1100px; /* Szerokość dopasowana do treści tabeli */
+            max-width: 1100px;
             border-radius: 36px;
             padding: 50px;
             box-shadow: 0 20px 50px rgba(35, 77, 32, 0.1);
@@ -66,7 +62,6 @@
             box-sizing: border-box;
         }
 
-        /* === NAGŁÓWEK === */
         .users-title {
             font-size: 42px;
             font-weight: 900;
@@ -89,10 +84,9 @@
             line-height: 1.5;
         }
 
-        /* === TABELA === */
         .users-table-container {
             width: 100%;
-            overflow-x: auto; /* Zabezpieczenie na małe ekrany */
+            overflow-x: auto;
             margin-bottom: 30px;
             border-radius: 20px;
             border: 1px solid var(--color-sage);
@@ -103,12 +97,11 @@
             border-collapse: collapse;
             font-family: 'Outfit', sans-serif;
             background-color: #fff;
-            min-width: 700px; /* Minimalna szerokość, żeby się nie łamała brzydko */
+            min-width: 700px;
         }
 
-        /* Nagłówek tabeli */
         .users-table thead {
-            background-color: var(--color-hunter); /* Ciemna zieleń */
+            background-color: var(--color-hunter);
             color: #ffffff;
         }
 
@@ -121,7 +114,6 @@
             text-transform: uppercase;
         }
 
-        /* Zaokrąglenie rogów nagłówka */
         .users-table thead th:first-child {
             border-top-left-radius: 18px;
         }
@@ -129,7 +121,6 @@
             border-top-right-radius: 18px;
         }
 
-        /* Wiersze body */
         .users-table tbody tr {
             border-bottom: 1px solid #eee;
             transition: background-color 0.2s;
@@ -140,7 +131,7 @@
         }
 
         .users-table tbody tr:hover {
-            background-color: rgba(156, 175, 136, 0.15); /* Delikatna szałwia przy hoverze */
+            background-color: rgba(156, 175, 136, 0.15);
         }
 
         .users-table td {
@@ -150,13 +141,11 @@
             vertical-align: middle;
         }
 
-        /* Stylizacja ID (pogrubienie) */
         .users-id-cell {
             font-weight: 700;
             color: var(--color-moss);
         }
 
-        /* Stylizacja Ról (Badge/Pastylki) */
         .users-role-badge {
             display: inline-block;
             padding: 4px 10px;
@@ -178,7 +167,6 @@
             color: #555;
         }
 
-        /* Komunikat o braku danych */
         .users-empty-message {
             text-align: center;
             padding: 40px;
@@ -186,7 +174,6 @@
             font-style: italic;
         }
 
-        /* === PRZYCISK POWROTU === */
         .users-back-btn {
             display: inline-flex;
             align-items: center;
@@ -212,11 +199,8 @@
 
     <div class="users-wrapper">
 
-        <!-- Elementy tła -->
         <div class="users-bg-blob users-blob-1"></div>
         <div class="users-bg-blob users-blob-2"></div>
-
-        <!-- Główna karta -->
         <div class="users-card">
 
             <h1 class="users-title">
@@ -240,16 +224,9 @@
                     </thead>
                     <tbody>
                     <tr th:each="user : ${users}">
-                        <!-- ID -->
                         <td class="users-id-cell" th:text="'#' + ${user.id}"></td>
-
-                        <!-- Nazwa -->
                         <td th:text="${user.username}" style="font-weight: 500;"></td>
-
-                        <!-- Email -->
                         <td th:text="${user.email}"></td>
-
-                        <!-- Role (z pętlą dla ładnego formatowania) -->
                         <td>
                             <th:block th:each="role : ${user.roles}">
                                 <span class="users-role-badge"
@@ -258,12 +235,8 @@
                                 </span>
                             </th:block>
                         </td>
-
-                        <!-- Data -->
                         <td th:text="${#temporals.format(user.registrationDate.atZone(T(java.time.ZoneId).systemDefault()), 'dd.MM.yyyy, HH:mm')}"></td>
                     </tr>
-
-                    <!-- Pusty stan -->
                     <tr th:if="${#lists.isEmpty(users)}">
                         <td colspan="5" class="users-empty-message">
                             Nie znaleziono żadnych użytkowników w systemie.
@@ -272,17 +245,12 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- Przycisk powrotu do Admin Panelu -->
             <a th:href="@{/oskarinio143/moneyisland/admin}" class="users-back-btn">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
                 Wróć do Panelu
             </a>
-
         </div>
     </div>
-
 </div>
-
 </body>
 </html>

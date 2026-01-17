@@ -1,19 +1,9 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <body>
-
-<!--
-  ===================================================================
-  === UPIĘKSZONY I SAMODZIELNY FRAGMENT MODALA REJESTRACJI ===
-  ===================================================================
-  - Wszystkie style są zawarte wewnątrz tego fragmentu.
-  - Każda klasa CSS zaczyna się od prefiksu "modal-", aby zachować
-    spójność z modalem logowania.
--->
 <div th:fragment="registerModalFragment">
 
     <style th:attr="nonce=${cspNonce}">
-        /* --- Tło i ogólny kontener modala --- */
         .modal-backdrop {
             display: none;
             position: fixed;
@@ -21,7 +11,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: transparent; /* Tło jest przezroczyste, widoczne jest tylko rozmycie */
+            background-color: transparent;
             z-index: 1000;
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
@@ -44,7 +34,6 @@
             box-sizing: border-box;
         }
 
-        /* --- Przycisk zamykania (X) --- */
         .modal-close-btn {
             position: absolute;
             top: 15px;
@@ -60,7 +49,6 @@
             color: var(--color-dark-green);
         }
 
-        /* --- Ikona w nagłówku --- */
         .modal-icon-wrapper {
             width: 80px;
             height: 80px;
@@ -79,7 +67,6 @@
             color: var(--color-moss);
         }
 
-        /* --- Typografia --- */
         .modal-title {
             font-size: 2rem;
             font-weight: 900;
@@ -96,7 +83,6 @@
             line-height: 1.5;
         }
 
-        /* --- Formularz --- */
         .modal-form {
             display: flex;
             flex-direction: column;
@@ -142,7 +128,6 @@
             box-shadow: 0 0 0 4px rgba(56, 102, 65, 0.15);
         }
 
-        /* --- Przycisk główny --- */
         .modal-submit-btn {
             width: 100%;
             padding: 16px;
@@ -166,7 +151,6 @@
             box-shadow: 0 5px 15px rgba(35, 77, 32, 0.3);
         }
 
-        /* --- Link w stopce modala --- */
         .modal-footer-link {
             text-align: center;
             margin-top: 15px;
@@ -190,7 +174,6 @@
             text-decoration: underline;
         }
 
-        /* --- Komunikat o błędzie --- */
         .modal-error-message {
             background-color: rgba(252, 129, 129, 0.15);
             color: #c53030;
@@ -209,7 +192,6 @@
             <span class="modal-close-btn">&times;</span>
 
             <div class="modal-icon-wrapper">
-                <!-- Ikona "dodaj użytkownika" -->
                 <svg class="modal-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                     <circle cx="8.5" cy="7" r="4"></circle>

@@ -1,5 +1,5 @@
 services:
-#  Warstwa 1
+# Warstwa 1
   nexus:
     image: sonatype/nexus3
     container_name: nexus
@@ -40,7 +40,7 @@ services:
       - ~/.m2/repository:/root/.m2/repository
     working_dir: /app/modules/shared
     command: >
-      mvn clean deploy -X -e -DskipTests
+      mvn clean deploy -DskipTests
       -Dmaven.resolver.transport=wagon
       -Dmaven.wagon.http.ssl.insecure=true
       -Dmaven.wagon.http.ssl.allowall=true

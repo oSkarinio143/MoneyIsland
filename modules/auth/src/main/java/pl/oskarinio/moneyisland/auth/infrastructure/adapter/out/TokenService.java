@@ -20,8 +20,6 @@ import java.util.Date;
 @Slf4j
 @Service
 public class TokenService implements Token {
-//    @Value("${jwt.secret.base64}")
-//    private String secretKeyString;
     private final SecretKey secretKey;
     private final Clock clock;
 

@@ -6,7 +6,6 @@
     <title>Analiza Finansowa</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" th:attr="nonce=${cspNonce}"></script>
     <style layout:fragment="styles" th:attr="nonce=${cspNonce}">
-        /* === GŁÓWNY UKŁAD === */
         .analysis-container {
             width: 100%;
             max-width: 1500px;
@@ -15,15 +14,13 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            gap: 48px; /* Większy odstęp między sekcjami */
+            gap: 48px;
         }
 
-        /* === NAGŁÓWEK === */
         .analysis-header { text-align: center; margin-bottom: 16px; }
         .analysis-header h1 { font-size: 3rem; font-weight: 900; color: var(--color-dark-green); margin: 0 0 12px 0; letter-spacing: -1px; }
         .analysis-header p { font-size: 1.1rem; color: var(--color-hunter); margin: 0; font-weight: 500; }
 
-        /* === STATYSTYKI (KPI) === */
         .summary-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
         .stat-card {
             background-color: #ffffff; border-radius: 24px; padding: 24px;
@@ -39,7 +36,6 @@
         .stat-card__value--expense { color: var(--bg-decor-2); }
         .stat-card__value--savings { color: var(--color-moss); }
 
-        /* === SEKCJIA SALDA (PEŁNA SZEROKOŚĆ) === */
         .main-chart-panel {
             background-color: #ffffff; border-radius: 24px; border: 2px solid var(--card-border);
             box-shadow: 0 10px 30px rgba(35, 77, 32, 0.1); padding: 32px;
@@ -48,7 +44,6 @@
         .main-chart-panel h2 { font-size: 1.5rem; font-weight: 800; color: var(--color-dark-green); margin: 0 0 24px 0; }
         .chart-wrapper-main { position: relative; height: 350px; width: 100%; }
 
-        /* === SEKCJE TEMATYCZNE (DZIELONE NA PÓŁ) === */
         .split-section-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -76,7 +71,6 @@
             width: 100%;
         }
 
-        /* === STYLE FORMULARZY === */
         .form-section-header { margin-bottom: 24px; font-weight: 700; font-size: 1.2rem; }
         .text-income-theme { color: var(--color-fern); }
         .text-expense-theme { color: var(--bg-decor-2); }
@@ -110,14 +104,11 @@
         .monthly-input-tile--current label { color: var(--bg-decor-2); font-weight: 900; }
         .monthly-input-tile--current .monthly-input { border-color: var(--bg-decor-1); background-color: #fff; box-shadow: 0 0 0 2px rgba(221, 161, 94, 0.1); }
 
-
-        /* === DOCELOWY STYL PRZYCISKÓW ZAPISU === */
         .save-button {
             width: 100%;
-            /* ZMIANA: Stan domyślny - zielone tło, jasnożółty tekst */
             background-color: var(--color-moss);
             color: var(--bg-warm-base);
-            border: 2px solid var(--color-moss); /* Ramka w kolorze tła */
+            border: 2px solid var(--color-moss);
             font-family: 'Outfit', sans-serif;
             padding: 16px 20px;
             border-radius: 50px;
@@ -131,14 +122,12 @@
         }
 
         .save-button:hover {
-        /* ZMIANA: Stan po najechaniu - jasnożółte tło, zielony tekst */
             background-color: var(--bg-warm-base);
             color: var(--color-moss);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(35, 77, 32, 0.2);
         }
 
-        /* Responsywność */
         @media (max-width: 1200px) {
             .split-section-row, .summary-stats { grid-template-columns: 1fr; }
             .monthly-inputs-grid { grid-template-columns: repeat(4, 1fr); }
@@ -156,13 +145,11 @@
 
 <div layout:fragment="content">
     <div class="analysis-container">
-        <!-- NAGŁÓWEK -->
         <header class="analysis-header">
             <h1>Analiza Finansowa</h1>
             <p>Zarządzaj swoimi przepływami pieniężnymi i planuj budżet.</p>
         </header>
 
-        <!-- KPI -->
         <section class="summary-stats">
             <div class="stat-card">
                 <span class="stat-card__title">Całkowite Przychody</span>
@@ -178,21 +165,17 @@
             </div>
         </section>
 
-        <!-- SALDO -->
         <section class="main-chart-panel">
             <h2>Saldo Miesięczne</h2>
             <div class="chart-wrapper-main"><canvas id="differenceChart"></canvas></div>
         </section>
 
-        <!-- === SEKCJA PRZYCHODÓW (RZĄD) === -->
         <div class="split-section-row">
-            <!-- LEWA: Wykres -->
             <div class="chart-panel">
                 <h2>Trend Przychodów</h2>
                 <div class="chart-wrapper-small"><canvas id="incomeChart"></canvas></div>
             </div>
 
-            <!-- PRAWA: Formularz -->
             <form id="incomeForm" class="input-panel" th:action="@{/oskarinio143/moneyisland/finance/user/history/income}" method="post">
                 <input type="hidden" name="username" th:value="${currentUsername}"/>
                 <div class="form-section-header text-income-theme">Edycja Przychodów</div>
@@ -209,15 +192,12 @@
             </form>
         </div>
 
-        <!-- === SEKCJA WYDATKÓW (RZĄD) === -->
         <div class="split-section-row">
-            <!-- LEWA: Wykres -->
             <div class="chart-panel">
                 <h2>Trend Wydatków</h2>
                 <div class="chart-wrapper-small"><canvas id="expensesChart"></canvas></div>
             </div>
 
-            <!-- PRAWA: Formularz -->
             <form id="expenseForm" class="input-panel" th:action="@{/oskarinio143/moneyisland/finance/user/history/expense}" method="post">
                 <input type="hidden" name="username" th:value="${currentUsername}"/>
                 <div class="form-section-header text-expense-theme">Edycja Wydatków</div>

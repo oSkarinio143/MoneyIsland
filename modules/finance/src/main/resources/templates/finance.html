@@ -6,18 +6,16 @@
   <title>Finanse</title>
 
   <style layout:fragment="styles" th:attr="nonce=${cspNonce}">
-    /* --- NOWY WRAPPER I ELEMENTY TŁA --- */
     .finance-page-wrapper {
       position: relative;
       width: 100%;
-      overflow: hidden; /* Ukrywa wystające części kształtów */
-      /* Tło jest dziedziczone z layoutu, ale można je tu nadpisać */
+      overflow: hidden;
       background-color: var(--bg-warm-base);
     }
 
     .panel-bg-leaf {
       position: absolute;
-      z-index: 0; /* Tło jest pod treścią */
+      z-index: 0;
       pointer-events: none;
     }
 
@@ -47,7 +45,7 @@
       background-color: var(--bg-decor-1);
       width: 350px;
       height: 350px;
-      top: 5%; /* Pozycjonowanie względem wysokości strony */
+      top: 5%;
       right: -120px;
       border-radius: 50%;
       opacity: 0.15;
@@ -76,7 +74,6 @@
     }
 
 
-    /* --- STYLE DLA UKŁADU NAPRZEMIENNEGO --- */
     .finance-staggered-layout {
       display: flex;
       flex-direction: column;
@@ -86,8 +83,8 @@
       width: 100%;
       max-width: 1400px;
       margin: 0 auto;
-      position: relative; /* Dodane, aby treść była nad tłem */
-      z-index: 1; /* Dodane, aby treść była nad tłem */
+      position: relative;
+      z-index: 1;
     }
 
     .finance-layout-row {
@@ -100,7 +97,6 @@
       flex-direction: row-reverse;
     }
 
-    /* --- BLOK TEKSTOWY --- */
     .finance-text-block {
       flex: 1;
       padding: 0 20px;
@@ -123,7 +119,6 @@
       font-weight: 500;
     }
 
-    /* --- KARTA PRODUKTU --- */
     .finance-product-card {
       flex-basis: 45%;
       background-color: #ffffff;
@@ -148,7 +143,6 @@
       border-color: var(--color-moss);
     }
 
-    /* --- ILUSTRACJA/IKONA W KARCIE --- */
     .finance-card-illustration-wrapper {
       position: relative;
       display: flex;
@@ -184,7 +178,6 @@
       letter-spacing: -0.5px;
     }
 
-    /* --- PRZYCISK --- */
     .finance-action-button {
       display: inline-block;
       text-decoration: none;
@@ -210,7 +203,6 @@
       box-shadow: 0 5px 15px rgba(35, 77, 32, 0.3);
     }
 
-    /* --- RESPONSYWNOŚĆ --- */
     @media (max-width: 950px) {
       .finance-layout-row,
       .finance-layout-row--reverse {
@@ -235,16 +227,13 @@
 
 <div layout:fragment="content">
   <div class="finance-page-wrapper">
-    <!-- Elementy tła -->
     <div class="panel-bg-leaf panel-bg-leaf-1"></div>
     <div class="panel-bg-leaf panel-bg-leaf-2"></div>
     <div class="panel-bg-leaf panel-bg-leaf-3"></div>
     <div class="panel-bg-leaf panel-bg-leaf-4"></div>
     <div class="panel-bg-leaf panel-bg-leaf-5"></div>
 
-    <!-- Główna zawartość strony -->
     <div class="finance-staggered-layout">
-      <!-- WIERSZ 1: Zarządzanie majątkiem -->
       <div class="finance-layout-row">
         <div class="finance-product-card">
           <div class="finance-card-illustration-wrapper">
@@ -267,7 +256,6 @@
         </div>
       </div>
 
-      <!-- WIERSZ 2: Zobowiązania (Reverse) -->
       <div class="finance-layout-row finance-layout-row--reverse">
         <div class="finance-product-card">
           <div class="finance-card-illustration-wrapper">
@@ -290,7 +278,6 @@
         </div>
       </div>
 
-      <!-- WIERSZ 3: Analiza (Left) -->
       <div class="finance-layout-row">
         <div class="finance-product-card">
           <div class="finance-card-illustration-wrapper">
@@ -314,7 +301,6 @@
         </div>
       </div>
 
-      <!-- WIERSZ 4: Cele (Reverse) -->
       <div class="finance-layout-row finance-layout-row--reverse">
         <div class="finance-product-card">
           <div class="finance-card-illustration-wrapper">

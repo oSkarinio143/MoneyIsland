@@ -5,26 +5,17 @@
 <head>
   <title>Witaj w Money Island</title>
   <style th:attr="nonce=${cspNonce}">
-    /*
-     * =======================================================
-     * === MONEY ISLAND: GOLD BG + GREEN TEXT (LARGE BODY) ===
-     * =======================================================
-     */
-
     :root {
-    /* --- TŁO (CIEPŁY BEŻ/ZŁOTO) --- */
       --bg-warm-base: #F0E5D3;
       --bg-decor-1: #DDA15E;
       --bg-decor-2: #BC6C25;
 
-      /* --- TEKSTY (ZIELENIE) --- */
       --color-sage: #9caf88;
       --color-moss: #386641;
       --color-hunter: #2b4c3b;
       --color-fern: #6a994e;
       --color-dark-green: #234d20;
 
-      /* --- KOLORY MONETY I DRZEW --- */
       --tree-trunk: #8D5524;
       --coin-face: #FFB703;
       --coin-edge: #FB8500;
@@ -43,26 +34,23 @@
       overflow: hidden;
     }
 
-    /* --- DEKORACJE TŁA (ZAKTUALIZOWANA SEKCJA) --- */
     .panel-bg-leaf {
       position: absolute;
       z-index: 0;
-      pointer-events: none; /* Zapobiega interakcji z kształtami */
+      pointer-events: none;
     }
 
-    /* 1. Duży, miękki kształt w lewym górnym rogu */
     .panel-bg-leaf-1 {
       background-color: var(--bg-decor-1);
       width: 600px;
       height: 600px;
       top: -250px;
       left: -200px;
-      border-radius: 45% 55% 60% 40%; /* Organiczny, "płynny" kształt */
+      border-radius: 45% 55% 60% 40%;
       opacity: 0.2;
       transform: rotate(-15deg);
     }
 
-    /* 2. Duży, zaokrąglony kształt w prawym dolnym rogu */
     .panel-bg-leaf-2 {
       background-color: var(--bg-decor-2);
       width: 700px;
@@ -74,7 +62,6 @@
       transform: rotate(25deg);
     }
 
-    /* 3. Średniej wielkości koło w prawym górnym rogu */
     .panel-bg-leaf-3 {
       background-color: var(--bg-decor-1);
       width: 350px;
@@ -86,7 +73,6 @@
       transform: rotate(10deg);
     }
 
-    /* 4. Duże, subtelne koło po lewej stronie */
     .panel-bg-leaf-4 {
       background-color: var(--bg-decor-2);
       width: 500px;
@@ -97,7 +83,6 @@
       opacity: 0.1;
     }
 
-    /* 5. Mniejszy, podłużny kształt na środku po prawej */
     .panel-bg-leaf-5 {
       background-color: var(--bg-decor-1);
       width: 250px;
@@ -110,7 +95,6 @@
     }
 
 
-    /* --- KARTA --- */
     .panel-card {
       width: 100%;
       max-width: 1000px;
@@ -127,13 +111,12 @@
       margin: 20px;
     }
 
-    /* LEWA STRONA */
     .panel-left-content {
       flex: 1;
       padding-right: 40px;
       display: flex;
       flex-direction: column;
-      justify-content: center; /* Wyśrodkowanie w pionie */
+      justify-content: center;
     }
 
     .panel-main-title {
@@ -164,7 +147,6 @@
       max-width: 480px;
     }
 
-    /* PRAWA STRONA */
     .panel-right-content {
       flex: 1;
       display: flex;
@@ -229,7 +211,6 @@
 
 <div layout:fragment="content">
   <div class="panel-wrapper">
-    <!-- Tło w odcieniach monety (ciemniejszy beż/złoto) -->
     <div class="panel-bg-leaf panel-bg-leaf-1"></div>
     <div class="panel-bg-leaf panel-bg-leaf-2"></div>
     <div class="panel-bg-leaf panel-bg-leaf-3"></div>
@@ -254,12 +235,10 @@
 
       <div class="panel-right-content">
         <div class="panel-art-island">
-          <!-- Grafika monety i drzew (bez zmian) -->
           <svg class="coin-svg" viewBox="0 0 400 350" xmlns="http://www.w3.org/2000/svg">
 
             <ellipse cx="200" cy="330" rx="140" ry="15" fill="#5D4037" opacity="0.15" />
 
-            <!-- Moneta -->
             <path d="M40,230 Q200,310 360,230 L360,260 Q200,345 40,260 Z" fill="var(--coin-edge)"/>
             <ellipse cx="200" cy="230" rx="160" ry="50" fill="var(--coin-face)"/>
             <ellipse cx="200" cy="230" rx="145" ry="45" fill="none" stroke="#D67000" stroke-width="2" opacity="0.4"/>
@@ -270,7 +249,6 @@
 
             <path d="M100,200 Q200,180 300,200 Q280,230 120,230 Z" fill="var(--coin-shine)" opacity="0.4"/>
 
-            <!-- Roślinność -->
             <g transform="translate(130, 205) scale(0.6)">
               <path d="M0,0 L0,-30" stroke="var(--tree-trunk)" stroke-width="8" stroke-linecap="round"/>
               <circle cx="0" cy="-35" r="25" fill="var(--color-sage)" />

@@ -9,8 +9,6 @@ import pl.oskarinio.moneyisland.shared.config.Route;
 @RequestMapping(Route.MAIN)
 @Controller
 public class RefreshController {
-
-    //Może zrobić aby przkierowanie było na konkretny endpoint na którym miał być user
     @GetMapping(Route.REFRESH)
     public String refreshToken(HttpServletRequest httpServletRequest){
         return Route.REDIRECT;

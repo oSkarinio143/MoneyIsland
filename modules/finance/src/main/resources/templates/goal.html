@@ -101,23 +101,19 @@
         }
         .card-target span { font-weight: 500; color: var(--color-hunter); font-size: 0.9rem; margin-right: 4px; }
 
-        /* === ZMIENIONY STYL PRZYCISKÓW === */
         .action-btn {
-        /* ZMIANA: Zamieniono kolor tła z kolorem tekstu */
             background-color: var(--color-hunter); color: var(--bg-warm-base);
-            border: 2px solid var(--color-hunter); /* ZMIANA: Dodano obramowanie */
+            border: 2px solid var(--color-hunter);
             padding: 10px 24px; border-radius: 50px;
             font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.8rem;
             cursor: pointer; transition: all 0.2s; margin-top: auto;
             text-transform: uppercase; letter-spacing: 0.03em;
         }
         .action-btn:hover {
-        /* ZMIANA: Efekt "odwrócenia" po najechaniu */
             background-color: var(--bg-warm-base);
             color: var(--color-hunter);
         }
 
-        /* === POPRAWIONA LOGIKA I WYGLĄD MODALA === */
         .modal-overlay {
             display: none;
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -159,29 +155,25 @@
         .modal-actions { display: flex; gap: 15px; justify-content: center; }
         .modal-btn {
             padding: 12px 30px; border-radius: 50px;
-            border: 2px solid; /* ZMIANA: Zmieniono z 'none' na '2px solid' */
+            border: 2px solid;
             font-weight: 700;
             cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 0.9rem;
             transition: all 0.2s;
         }
         .modal-btn:hover { transform: translateY(-2px); }
         .btn-save {
-        /* ZMIANA: Zamieniono kolor tła z kolorem tekstu */
             background: var(--bg-warm-base); color: var(--color-moss);
-            border-color: var(--color-moss); /* Dopasowanie obramowania */
+            border-color: var(--color-moss);
             box-shadow: 0 5px 15px rgba(56, 102, 65, 0.2);
         }
         .btn-save:hover {
-        /* ZMIANA: Efekt "wypełnienia" po najechaniu */
             background-color: var(--color-moss); color: var(--bg-warm-base);
         }
         .btn-cancel {
-        /* ZMIANA: Zamieniono kolor tła z kolorem tekstu */
             background-color: #555; color: #e8e8e8;
-            border-color: #555; /* Dopasowanie obramowania */
+            border-color: #555;
         }
         .btn-cancel:hover {
-        /* ZMIANA: Efekt "odwrócenia" po najechaniu */
             background-color: #e8e8e8; color: #555;
             border-color: #e8e8e8;
         }

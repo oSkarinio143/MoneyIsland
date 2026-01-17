@@ -2,17 +2,9 @@
 <html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<!--
-  ================================================================
-  === UPIĘKSZONY I SAMODZIELNY FRAGMENT MODALA LOGOWANIA ===
-  ================================================================
-  - Zastosowano nową, animowaną warstwę przyciemniającą dla
-    maksymalnego i niezawodnego efektu.
--->
 <div th:fragment="loginModalFragment">
 
     <style th:attr="nonce=${cspNonce}">
-        /* --- Tło i ogólny kontener modala --- */
         .modal-backdrop {
             display: none;
             position: fixed;
@@ -23,11 +15,9 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            /* Tło samego kontenera jest teraz przezroczyste */
             background-color: transparent;
         }
 
-        /* === NOWA, ANIMOWANA WARSTWA PRZYCIEMNIAJĄCA === */
         .modal-backdrop::before {
             content: '';
             position: absolute;
@@ -45,12 +35,10 @@
             display: flex;
         }
 
-        /* Kiedy modal staje się widoczny, nasza kurtyna płynnie się ściemnia */
         .modal-backdrop.modal-visible::before {
-            opacity: 0.5; /* 90% czerni - bardzo mocny efekt */
+            opacity: 0.5;
         }
 
-        /* --- Główna karta modala --- */
         .modal-content {
             position: relative;
             background-color: #ffffff;
@@ -63,7 +51,6 @@
             box-shadow: 0 15px 40px rgba(35, 77, 32, 0.2);
             text-align: center;
             box-sizing: border-box;
-            /* Animacja pojawiania się samego okna */
             transform: scale(0.95);
             opacity: 0;
             transition: transform 0.3s ease, opacity 0.3s ease;
@@ -74,7 +61,6 @@
             opacity: 1;
         }
 
-        /* --- Przycisk zamykania (X) --- */
         .modal-close-btn {
             position: absolute;
             top: 15px;
@@ -90,7 +76,6 @@
             color: var(--color-dark-green);
         }
 
-        /* --- Ikona w nagłówku --- */
         .modal-icon-wrapper {
             width: 80px;
             height: 80px;
@@ -109,7 +94,6 @@
             color: var(--color-moss);
         }
 
-        /* --- Typografia --- */
         .modal-title {
             font-size: 2rem;
             font-weight: 900;
@@ -126,7 +110,6 @@
             line-height: 1.5;
         }
 
-        /* --- Formularz --- */
         .modal-form {
             display: flex;
             flex-direction: column;
@@ -172,7 +155,6 @@
             box-shadow: 0 0 0 4px rgba(56, 102, 65, 0.15);
         }
 
-        /* --- Przycisk główny --- */
         .modal-submit-btn {
             width: 100%;
             padding: 16px;
@@ -196,7 +178,6 @@
             box-shadow: 0 5px 15px rgba(35, 77, 32, 0.3);
         }
 
-        /* --- Link w stopce modala --- */
         .modal-footer-link {
             text-align: center;
             margin-top: 15px;
@@ -220,7 +201,6 @@
             text-decoration: underline;
         }
 
-        /* --- Komunikat o błędzie --- */
         .modal-error-message {
             background-color: rgba(252, 129, 129, 0.15);
             color: #c53030;
@@ -249,7 +229,6 @@
 
             <form th:action="@{/oskarinio143/moneyisland/login}" method="post" class="modal-form">
                 <input type="hidden" name="requestUrl" th:value="${requestUrl}"/>
-
                 <p th:if="${param.loginError}" class="modal-error-message">
                     Nieprawidłowa nazwa użytkownika lub hasło.
                 </p>
