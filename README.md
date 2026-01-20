@@ -1,6 +1,6 @@
 
-# MoneyIsland
-Backend oraz cała konfiguracja są tworzone przeze mnie z wspomaganiem się AI. Frontend jest wygenerowany, z moimi małymi poprawkami.
+# 💲 MoneyIsland
+Projekt skupia się na warstwie **Backend oraz DevOps** które są tworzone przeze mnie, czasami wspomagałem się pomocą AI. **Frontend jest wygenerowany**, z moimi małymi poprawkami.
 
 Zarządzanie finansami, podgląd majątku budżetem, historia wydatków, zarządzanie kredytami, ustawianie celów finansowych. W przyszłości planowane jest dodanie bloku w temacie inwestycji.
 
@@ -9,24 +9,44 @@ Zarządzanie finansami, podgląd majątku budżetem, historia wydatków, zarząd
 - 🛠️ **Prezentacja kodu (12 minut):** [Oglądaj tutaj](https://www.youtube.com/watch?v=Pk_RIsDHsBQ)
 
 
-## 🚀 Technologie
+## 🚀 Wykorzystane
 - **Java**
 - **Spring**
-- **SQL**
-- **Microserwisy**
-- **API Gateway**
+- **SQL (Hibernate/JPA)**
+- **Microservices**
+- **Gateway API, Spring Cloud Gateway (Netty)**
+- **Hexagonal + DDD**
+- **Nexus (Zawiera bibliotekę współdzieloną)**
 - **Kafka**
 - **Docker**
-- **Nexus**
-- **Architketura hexagonalna**
+- Dodatkowo podobnie jak w poprzednim projekcie: SpringMVC, SpringJpa, SpringSecurity, TokenyJWT, XSS FIlter, CspNonce Filter
 
 ## ⚡ Uruchomienie
-Projekt gotowy do uruchomienia bez dodatkowej konfiguracji:  
-1. Przejście do foldera docker
+Projekt nie wymaga dodatkowej konfiguracji (Wszystko jest w pliku .env):  
+
+**1. Przejście do folderu docker**
 ```bash
 cd docker
 ```
-2. Uruchomienie skryptu
+**2a. Pełne środowisko** – wszystkie kontenery (~120s)
 ```bash
 .\view.bat
+```
+>Alternatywnie bez wykorzystania skryptu (Skrypt wykorzystuje ponieważ potrzebuje dwóch docker-compose, pierwszy uruchamia nexusa zanim drugi zacznie budować kontenery)
+```bash
+docker-compose -f docker-compose.view.yml up -d --wait
+docker-compose up -d
+```
 
+**2b. Tylko infrastruktura** – serwisy uruchamiane w IDE, nexus lokalnie (~50s)
+```bash
+.\viewFast.bat
+```
+
+**3. URL w przeglądarce** - http://localhost:8080/oskarinio143/moneyisland
+
+Dane konta admina
+```bash
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=1234
+```
